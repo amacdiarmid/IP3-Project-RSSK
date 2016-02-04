@@ -3,12 +3,19 @@ using System.Collections;
 
 public enum PlayerState
 {
+	//green
 	walk,
+	//yellow
 	run, 
-	sprint, 
+	//red
+	sprint,
+	//cyan 
 	jump, 
+	//blue
 	doubleJump,
+	//madgenta
 	falling, 
+	//black
 	slide, 
 	//will add others when needed
 }
@@ -59,10 +66,24 @@ public class PlayerController : MonoBehaviour {
 			{
 				setState(PlayerState.jump);
 			}
-			//else if (canDoubleJump)
-			//{
-			//	switchState(PlayerState.jump);
-			//}
+			else if (canDoubleJump)
+			{
+				setState(PlayerState.doubleJump);
+			}
+		}
+		if (Input.GetButtonUp("Walk"))
+		{
+			if (curState == PlayerState.run || curState == PlayerState.sprint)
+			{
+				setState(PlayerState.walk);
+			}
+		}
+		if (Input.GetButtonUp("Sprint"))
+		{
+			if (curState == PlayerState.walk || curState == PlayerState.run)
+			{
+				setState(PlayerState.sprint);
+			}
 		}
 	}
 
@@ -71,21 +92,30 @@ public class PlayerController : MonoBehaviour {
 		switch (tempState)
 		{
 			case PlayerState.walk:
+				walk();
+				this.GetComponent<MeshRenderer>().material.color = Color.green;
 				break;
 			case PlayerState.run:
 				run();
+				this.GetComponent<MeshRenderer>().material.color = Color.yellow;
 				break;
 			case PlayerState.sprint:
+				sprint();
+				this.GetComponent<MeshRenderer>().material.color = Color.red;
 				break;
 			case PlayerState.jump:
 				jump();
+				this.GetComponent<MeshRenderer>().material.color = Color.cyan;
 				break;
 			case PlayerState.doubleJump:
-				jump();
+				doubleJump();
+				this.GetComponent<MeshRenderer>().material.color = Color.blue;
 				break;
 			case PlayerState.falling:
+				this.GetComponent<MeshRenderer>().material.color = Color.magenta;
 				break;
 			case PlayerState.slide:
+				this.GetComponent<MeshRenderer>().material.color = Color.black;
 				break;
 			default:
 				break;
@@ -100,10 +130,34 @@ public class PlayerController : MonoBehaviour {
 		//curSpeed = fallingSpeed;
 	}
 
+	void doubleJump()
+	{
+		playerRidg.AddForce(transform.up * jumpHeight);
+		canDoubleJump = false;
+		//curSpeed = fallingSpeed;
+	}
+
 	void run()
 	{
 		curState = PlayerState.run;
 		curSpeed = runSpeed;
+	}
+
+	void walk()
+	{
+		curState = PlayerState.walk;
+		curSpeed = walkSpeed;
+	}
+
+	void sprint()
+	{
+		curState = PlayerState.sprint;
+		curSpeed = sprintSpeed;
+	}
+
+	void falling()
+	{
+		curState = PlayerState.falling;
 	}
 
 	void move()
