@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
 public enum PlayerState
@@ -22,7 +23,7 @@ public enum PlayerState
 	//will add others when needed
 }
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : NetworkBehaviour {
 
 	public PlayerState curState;
 
@@ -54,6 +55,8 @@ public class PlayerController : MonoBehaviour {
 		playerTran = this.transform;
 		playerRidg = this.GetComponent<Rigidbody>();
 		playerCam = this.transform.FindChild("camera").gameObject.GetComponent<Camera>();
+        playerCam.enabled = isLocalPlayer;
+        playerCam.GetComponent<AudioListener>().enabled = isLocalPlayer;
 		curSpeed = runSpeed;
 		canJump = true;
 		canDoubleJump = false;
@@ -63,6 +66,9 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+        if (!isLocalPlayer)
+            return;
+
 		if (!lockMovement)
 		{
 			targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
