@@ -23,18 +23,17 @@ public class PlayerCamera : MonoBehaviour {
 
 	void rotateCam()
 	{
-		//if (Input.GetAxis("Mouse X") < 360 && Input.GetAxis("Mouse X") > 270)
-		//{
-		//	playerTran.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * camSensativity, 0), Space.World);
-		//	playerTran.Rotate(new Vector3(-Input.GetAxis("Mouse Y") * camSensativity, 0, 0));
-		//}
-		//else if (Input.GetAxis("Mouse X") > 0 && Input.GetAxis("Mouse X") < 270)
-		//{
-		//	playerTran.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * camSensativity, 0), Space.World);
-		//	playerTran.Rotate(new Vector3(-Input.GetAxis("Mouse Y") * camSensativity, 0, 0));
-		//}
 		playerTran.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * camSensativity, 0), Space.World);
-		playerTran.Rotate(new Vector3(-Input.GetAxis("Mouse Y") * camSensativity, 0, 0));
+		float delta = Input.GetAxis("Mouse Y") * camSensativity;
+		
+		if (playerTran.rotation.eulerAngles.z + delta < lookUpLim || playerTran.rotation.eulerAngles.z + delta > lookDownLim)
+			playerTran.Rotate(new Vector3(0, 0, delta));
+		Debug.Log(playerTran.rotation.eulerAngles.z);
+		
+		//else if (playerTran.rotation.x < lookDownLim)
+		//{
+		//	playerTran.rotation.Set(lookDownLim, playerTran.rotation.y, playerTran.rotation.z, playerTran.rotation.w);
+		//}
 	}
 
 }

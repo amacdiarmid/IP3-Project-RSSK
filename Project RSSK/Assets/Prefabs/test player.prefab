@@ -48,7 +48,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 132168}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
   m_LocalPosition: {x: 0, y: 0.615, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -61,7 +61,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 145808}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 11.8, y: 1.71, z: -8.12}
+  m_LocalPosition: {x: 3.77, y: 2.44, z: 2.5406647}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 410734}
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_MovementTheshold: 0.001
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  m_InterpolateMovement: 0.5
 --- !u!114 &11445826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,6 +248,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camSensativity: 1
+  lookUpLim: 75
+  lookDownLim: 285
 --- !u!124 &12454086
 Behaviour:
   m_ObjectHideFlags: 1
@@ -346,6 +348,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SendInterval
       value: 0.033333335
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lookUpLim
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lookDownLim
+      value: 285
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
