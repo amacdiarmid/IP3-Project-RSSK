@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour {
 	private bool canJump;
 	private bool canDoubleJump;
 	private float curSpeed;
+	private Vector3 targetVelocity;
+	private float curSlideSpeed;
+	private bool lockMovement;
 
 	public float walkSpeed;
 	public float runSpeed;
@@ -37,26 +40,42 @@ public class PlayerController : MonoBehaviour {
 	public float fallingSpeed;
 	public float maxVelocityChange;
 	public float jumpHeight;
-	public float slideSpeed;
+	public float runSlideSpeed;
+	public float sprintSlideSpeed;
+	public float slideDep;
 
 	// Use this for initialization
 	void Start ()
 	{
 		curState = PlayerState.run;
+		this.GetComponent<MeshRenderer>().material.color = Color.yellow;
 		playerTran = this.transform;
 		playerRidg = this.GetComponent<Rigidbody>();
 		playerCam = this.transform.FindChild("camera").gameObject.GetComponent<Camera>();
 		curSpeed = runSpeed;
 		canJump = true;
 		canDoubleJump = false;
+		lockMovement = false;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
+		if(!lockMovement)
+		{
+			targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+			targetVelocity = playerCam.transform.TransformDirection(targetVelocity);
+		}
+
 		checkInput();
-		move();
-		
+		if (curState == PlayerState.slide)
+		{
+			sliding();
+		}
+		else
+		{
+			moving();
+		}
 	}
 
 	void checkInput()
@@ -86,6 +105,14 @@ public class PlayerController : MonoBehaviour {
 				setState(PlayerState.sprint);
 			}
 		}
+		if (Input.GetButtonUp("Slide"))
+		{
+			if (curState == PlayerState.run || curState == PlayerState.sprint)
+			{
+				Debug.Log("can slide");
+				setState(PlayerState.slide);
+			}
+		}
 	}
 
 	void setState(PlayerState tempState)
@@ -94,29 +121,30 @@ public class PlayerController : MonoBehaviour {
 		{
 			case PlayerState.walk:
 				walk();
-				this.GetComponent<MeshRenderer>().material.color = Color.green;
 				break;
 			case PlayerState.run:
 				run();
-				this.GetComponent<MeshRenderer>().material.color = Color.yellow;
 				break;
 			case PlayerState.sprint:
 				sprint();
-				this.GetComponent<MeshRenderer>().material.color = Color.red;
 				break;
 			case PlayerState.jump:
 				jump();
-				this.GetComponent<MeshRenderer>().material.color = Color.cyan;
 				break;
 			case PlayerState.doubleJump:
 				doubleJump();
-				this.GetComponent<MeshRenderer>().material.color = Color.blue;
 				break;
 			case PlayerState.falling:
-				this.GetComponent<MeshRenderer>().material.color = Color.magenta;
 				break;
 			case PlayerState.slide:
-				this.GetComponent<MeshRenderer>().material.color = Color.black;
+				if (curState == PlayerState.run)
+				{
+					runToSlide();
+				}
+				else if(curState == PlayerState.sprint)
+				{
+					sprintToSlide();
+				}
 				break;
 			default:
 				break;
@@ -125,6 +153,7 @@ public class PlayerController : MonoBehaviour {
 
 	void jump()
 	{
+		this.GetComponent<MeshRenderer>().material.color = Color.cyan;
 		curState = PlayerState.jump;
 		playerRidg.AddForce(transform.up * jumpHeight);
 		canJump = false;
@@ -133,6 +162,7 @@ public class PlayerController : MonoBehaviour {
 
 	void doubleJump()
 	{
+		this.GetComponent<MeshRenderer>().material.color = Color.blue;
 		playerRidg.AddForce(transform.up * jumpHeight);
 		canDoubleJump = false;
 		//curSpeed = fallingSpeed;
@@ -140,32 +170,60 @@ public class PlayerController : MonoBehaviour {
 
 	void run()
 	{
+		lockMovement = false;
+		this.GetComponent<MeshRenderer>().material.color = Color.yellow;
 		curState = PlayerState.run;
 		curSpeed = runSpeed;
 	}
 
 	void walk()
 	{
+		this.GetComponent<MeshRenderer>().material.color = Color.green;
 		curState = PlayerState.walk;
 		curSpeed = walkSpeed;
 	}
 
 	void sprint()
 	{
+		this.GetComponent<MeshRenderer>().material.color = Color.red;
 		curState = PlayerState.sprint;
 		curSpeed = sprintSpeed;
 	}
 
 	void falling()
 	{
+		this.GetComponent<MeshRenderer>().material.color = Color.magenta;
 		curState = PlayerState.falling;
 	}
 
-	void move()
+	void runToSlide()
 	{
-		Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-		targetVelocity = playerCam.transform.TransformDirection(targetVelocity);
-		
+		this.GetComponent<MeshRenderer>().material.color = Color.black;
+		curState = PlayerState.slide;
+		lockMovement = true;
+		curSlideSpeed = runSlideSpeed;
+	}
+
+	void sprintToSlide()
+	{
+		this.GetComponent<MeshRenderer>().material.color = Color.black;
+		curState = PlayerState.slide;
+		lockMovement = true;
+		curSlideSpeed = sprintSlideSpeed;
+	}
+
+	void sliding()
+	{
+		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + targetVelocity, curSlideSpeed * Time.deltaTime);
+		curSlideSpeed -= slideDep;
+		if (curSlideSpeed <= 0)
+		{
+			setState(PlayerState.run);
+		}
+	}
+
+	void moving()
+	{	
 		//uncomment for ridgid body movement
 		//targetVelocity *= curSpeed;
 		//var v = playerRidg.velocity;
