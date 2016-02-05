@@ -3,6 +3,8 @@ using System.Collections;
 
 public enum PlayerState
 {
+	//white
+	idle, 
 	//green
 	walk,
 	//yellow
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour {
 	public float runSlideSpeed;
 	public float sprintSlideSpeed;
 	public float slideDep;
+	public float camSensativity;
 
 	// Use this for initialization
 	void Start ()
@@ -61,10 +64,13 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if(!lockMovement)
+		playerTran.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * camSensativity, 0), Space.World);
+		playerTran.Rotate(new Vector3(-Input.GetAxis("Mouse Y") * camSensativity, 0, 0));
+
+		if (!lockMovement)
 		{
 			targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-			targetVelocity = playerCam.transform.TransformDirection(targetVelocity);
+			targetVelocity = playerTran.TransformDirection(targetVelocity);
 		}
 
 		checkInput();
@@ -82,6 +88,7 @@ public class PlayerController : MonoBehaviour {
 	{
 		if (Input.GetButtonUp("Jump"))
 		{
+			Debug.Log(canJump);
 			if (canJump)
 			{
 				setState(PlayerState.jump);
@@ -91,7 +98,7 @@ public class PlayerController : MonoBehaviour {
 				setState(PlayerState.doubleJump);
 			}
 		}
-		if (Input.GetButtonUp("Walk"))
+		else if (Input.GetButtonUp("Walk"))
 		{
 			if (curState == PlayerState.run || curState == PlayerState.sprint)
 			{
@@ -102,7 +109,7 @@ public class PlayerController : MonoBehaviour {
 				setState(PlayerState.run);
 			}
 		}
-		if (Input.GetButtonUp("Sprint"))
+		else if (Input.GetButtonUp("Sprint"))
 		{
 			if (curState == PlayerState.walk || curState == PlayerState.run)
 			{
@@ -113,12 +120,25 @@ public class PlayerController : MonoBehaviour {
 				setState(PlayerState.run);
 			}
 		}
-		if (Input.GetButtonUp("Slide"))
+		else if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical"))
+		{
+			if (curState == PlayerState.idle && curState != PlayerState.run)
+			{
+				setState(PlayerState.run);
+			}
+		}
+		else if (Input.GetButtonUp("Slide"))
 		{
 			if (curState == PlayerState.run || curState == PlayerState.sprint)
 			{
-				Debug.Log("can slide");
 				setState(PlayerState.slide);
+			}
+		}
+		else if (!Input.anyKey)
+		{
+			if ((curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint) && curState != PlayerState.idle)
+			{
+				setState(PlayerState.idle);
 			}
 		}
 	}
@@ -127,6 +147,9 @@ public class PlayerController : MonoBehaviour {
 	{
 		switch (tempState)
 		{
+			case PlayerState.idle:
+				idle();
+				break;
 			case PlayerState.walk:
 				walk();
 				break;
@@ -159,8 +182,16 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void idle()
+	{
+		lockMovement = false;
+		this.GetComponent<MeshRenderer>().material.color = Color.white;
+		curState = PlayerState.idle;
+	}
+
 	void jump()
 	{
+		lockMovement = false;
 		this.GetComponent<MeshRenderer>().material.color = Color.cyan;
 		curState = PlayerState.jump;
 		playerRidg.AddForce(transform.up * jumpHeight);
@@ -170,6 +201,7 @@ public class PlayerController : MonoBehaviour {
 
 	void doubleJump()
 	{
+		lockMovement = false;
 		this.GetComponent<MeshRenderer>().material.color = Color.blue;
 		playerRidg.AddForce(transform.up * jumpHeight);
 		canDoubleJump = false;
@@ -186,6 +218,7 @@ public class PlayerController : MonoBehaviour {
 
 	void walk()
 	{
+		lockMovement = false;
 		this.GetComponent<MeshRenderer>().material.color = Color.green;
 		curState = PlayerState.walk;
 		curSpeed = walkSpeed;
@@ -193,6 +226,7 @@ public class PlayerController : MonoBehaviour {
 
 	void sprint()
 	{
+		lockMovement = false;
 		this.GetComponent<MeshRenderer>().material.color = Color.red;
 		curState = PlayerState.sprint;
 		curSpeed = sprintSpeed;
@@ -200,6 +234,7 @@ public class PlayerController : MonoBehaviour {
 
 	void falling()
 	{
+		lockMovement = false;
 		this.GetComponent<MeshRenderer>().material.color = Color.magenta;
 		curState = PlayerState.falling;
 	}
