@@ -36,15 +36,15 @@ public class PlayerController : NetworkBehaviour {
 	private float curSlideSpeed;
 	private bool lockMovement;
 
-	public float walkSpeed = 10;
-	public float runSpeed;
-	public float sprintSpeed;
-	public float fallingSpeed;
-	public float maxVelocityChange;
-	public float jumpHeight;
-	public float runSlideSpeed;
-	public float sprintSlideSpeed;
-	public float slideDep;
+	public float walkSpeed = 5;
+	public float runSpeed = 10;
+	public float sprintSpeed = 25;
+	public float fallingSpeed = 0;
+	public float maxVelocityChange = 10;
+	public float jumpHeight = 500;
+	public float runSlideSpeed = 30;
+	public float sprintSlideSpeed = 50;
+	public float slideDep = 1;
 
 	// Use this for initialization
 	void Start ()
@@ -53,19 +53,22 @@ public class PlayerController : NetworkBehaviour {
 		this.GetComponent<MeshRenderer>().material.color = Color.yellow;
 		playerTran = this.transform;
 		playerRidg = this.GetComponent<Rigidbody>();
-		this.transform.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
-		this.transform.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
+		
+		//this.transform.FindChild("camera").gameObject.GetComponent<Camera>().enabled = true;    //replacing isLocalPlayer
+		//this.transform.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = true;    //replacing isLocalPlayer
 		curSpeed = runSpeed;
 		canJump = true;
 		canDoubleJump = false;
 		lockMovement = false;
+
+		this.gameObject.SetActive(true);
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!isLocalPlayer)
-			return;
+		//if (!isLocalPlayer) //replacing isLocalPlayer
+		//	return;
 
 		if (!lockMovement)
 		{
