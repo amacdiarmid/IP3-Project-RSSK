@@ -97,12 +97,20 @@ public class PlayerController : MonoBehaviour {
 			{
 				setState(PlayerState.walk);
 			}
+			else if (curState == PlayerState.walk)
+			{
+				setState(PlayerState.run);
+			}
 		}
 		if (Input.GetButtonUp("Sprint"))
 		{
 			if (curState == PlayerState.walk || curState == PlayerState.run)
 			{
 				setState(PlayerState.sprint);
+			}
+			else if (curState == PlayerState.sprint)
+			{
+				setState(PlayerState.run);
 			}
 		}
 		if (Input.GetButtonUp("Slide"))
