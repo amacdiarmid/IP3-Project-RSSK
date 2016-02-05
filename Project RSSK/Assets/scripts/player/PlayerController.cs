@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour {
 	public float fallingSpeed;
 	public float maxVelocityChange;
 	public float jumpHeight;
+	public float slideSpeed;
 
 	// Use this for initialization
 	void Start ()
@@ -162,17 +163,22 @@ public class PlayerController : MonoBehaviour {
 
 	void move()
 	{
-		//ridgedbody movement
 		Vector3 targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
 		targetVelocity = playerCam.transform.TransformDirection(targetVelocity);
-		targetVelocity *= curSpeed;
-		var v = playerRidg.velocity;
-		var velocityChange = (targetVelocity - v);
-		velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-		velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-		velocityChange.y = 0;
+		
+		//uncomment for ridgid body movement
+		//targetVelocity *= curSpeed;
+		//var v = playerRidg.velocity;
+		//var velocityChange = (targetVelocity - v);
+		//velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+		//velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+		//velocityChange.y = 0;
 
-		playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);
+		//ridgedbody movement
+		//playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);
+
+		//translation movement
+		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + targetVelocity, curSpeed*Time.deltaTime);
 	}
 
 	void OnTriggerEnter(Collider col)
