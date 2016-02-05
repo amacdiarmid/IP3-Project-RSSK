@@ -182,7 +182,7 @@ MonoBehaviour:
   m_MovementTheshold: 0.001
   m_SnapThreshold: 5
   m_InterpolateRotation: 1
-  m_InterpolateMovement: 1
+  m_InterpolateMovement: 0.5
 --- !u!114 &11445826
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,6 +248,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camSensativity: 1
+  lookUpLim: 0
+  lookDownLim: 0
 --- !u!124 &12454086
 Behaviour:
   m_ObjectHideFlags: 1
@@ -346,6 +348,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SendInterval
       value: 0.033333335
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_InterpolateMovement
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
