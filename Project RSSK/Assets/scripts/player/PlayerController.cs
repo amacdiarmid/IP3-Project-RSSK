@@ -28,7 +28,6 @@ public class PlayerController : MonoBehaviour {
 
 	private Transform playerTran;
 	private Rigidbody playerRidg;
-	private Camera playerCam;
 	private bool canJump;
 	private bool canDoubleJump;
 	private float curSpeed;
@@ -53,7 +52,6 @@ public class PlayerController : MonoBehaviour {
 		this.GetComponent<MeshRenderer>().material.color = Color.yellow;
 		playerTran = this.transform;
 		playerRidg = this.GetComponent<Rigidbody>();
-		playerCam = this.transform.FindChild("camera").gameObject.GetComponent<Camera>();
 		curSpeed = runSpeed;
 		canJump = true;
 		canDoubleJump = false;
