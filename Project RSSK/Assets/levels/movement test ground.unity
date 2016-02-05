@@ -490,6 +490,7 @@ GameObject:
   - 23: {fileID: 1638064322}
   - 54: {fileID: 1638064321}
   - 114: {fileID: 1638064325}
+  - 114: {fileID: 1638064326}
   m_Layer: 0
   m_Name: test player
   m_TagString: Untagged
@@ -592,4 +593,15 @@ MonoBehaviour:
   runSlideSpeed: 30
   sprintSlideSpeed: 50
   slideDep: 1
+--- !u!114 &1638064326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1638064319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf31d9de6f7d174a847bebc804d9d76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   camSensativity: 1

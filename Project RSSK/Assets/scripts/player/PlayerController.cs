@@ -45,7 +45,6 @@ public class PlayerController : MonoBehaviour {
 	public float runSlideSpeed;
 	public float sprintSlideSpeed;
 	public float slideDep;
-	public float camSensativity;
 
 	// Use this for initialization
 	void Start ()
@@ -64,9 +63,6 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		playerTran.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * camSensativity, 0), Space.World);
-		playerTran.Rotate(new Vector3(-Input.GetAxis("Mouse Y") * camSensativity, 0, 0));
-
 		if (!lockMovement)
 		{
 			targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
