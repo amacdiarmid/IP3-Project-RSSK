@@ -62,10 +62,13 @@ public class PlayerController : NetworkBehaviour {
 		lockMovement = false;
 
 		this.gameObject.SetActive(true);
+
+		//remove when we find out spawn points
+		transform.position = new Vector3(0, 3, 0);
 	}
-	
-	// Update is called once per frame
-	void Update ()
+
+// Update is called once per frame
+void Update ()
 	{
 		//if (!isLocalPlayer) //replacing isLocalPlayer
 		//	return;
