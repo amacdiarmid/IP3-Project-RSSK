@@ -28,7 +28,7 @@ public class PlayerCamera : MonoBehaviour {
 		
 		if (playerTran.rotation.eulerAngles.z + delta < lookUpLim || playerTran.rotation.eulerAngles.z + delta > lookDownLim)
 			playerTran.Rotate(new Vector3(0, 0, delta));
-		Debug.Log(playerTran.rotation.eulerAngles.z);
+		//Debug.Log(playerTran.rotation.eulerAngles.z);
 		
 		//else if (playerTran.rotation.x < lookDownLim)
 		//{

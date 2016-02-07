@@ -72,8 +72,8 @@ public class PlayerController : NetworkBehaviour {
 
 		if (!lockMovement)
 		{
-			targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-			targetVelocity = playerTran.TransformDirection(targetVelocity);
+			targetVelocity = new Vector3(Input.GetAxis("Vertical"), 0, -Input.GetAxis("Horizontal")); 
+			 targetVelocity = playerTran.TransformDirection(targetVelocity);
 		}
 
 		checkInput();
