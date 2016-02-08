@@ -60,7 +60,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 489224}
-  - 114: {fileID: 11456050}
   m_Layer: 0
   m_Name: teat gun
   m_TagString: Untagged
@@ -104,6 +103,7 @@ GameObject:
   - 114: {fileID: 11445826}
   - 114: {fileID: 11440428}
   - 65: {fileID: 6561802}
+  - 114: {fileID: 11469850}
   m_Layer: 0
   m_Name: test player
   m_TagString: Player
@@ -434,7 +434,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  curGun: {fileID: 11456050}
 --- !u!114 &11431254
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -530,33 +529,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &11456050
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 136946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5733d6c0787f3140980e00fba19ce6c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  range: 100
-  maxAmmo: 84
-  spareAmmo: 90
-  rateOfFire: 0.1
-  gunSpread:
-  - {x: 0, y: 0}
-  - {x: 1, y: 1}
-  - {x: 2, y: 2}
-  - {x: 3, y: 3}
-  - {x: 4, y: 4}
-  - {x: 5, y: 5}
-  - {x: 6, y: 6}
-  - {x: 7, y: 7}
-  - {x: 8, y: 8}
-  - {x: 9, y: 9}
-  projectile: {fileID: 187148, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
 --- !u!114 &11462404
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -578,6 +550,33 @@ MonoBehaviour:
   runSlideSpeed: 30
   sprintSlideSpeed: 50
   slideDep: 1
+--- !u!114 &11469850
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 145808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5733d6c0787f3140980e00fba19ce6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 100
+  maxAmmo: 84
+  spareAmmo: 90
+  rateOfFire: 0.1
+  gunSpread:
+  - {x: 0, y: 0}
+  - {x: 1, y: 1}
+  - {x: 2, y: 2}
+  - {x: 3, y: 3}
+  - {x: 4, y: 4}
+  - {x: 5, y: 5}
+  - {x: 6, y: 6}
+  - {x: 7, y: 7}
+  - {x: 8, y: 8}
+  - {x: 9, y: 9}
+  projectile: {fileID: 187148, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
 --- !u!114 &11485746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -765,7 +764,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalPlayerAuthority
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_SendInterval

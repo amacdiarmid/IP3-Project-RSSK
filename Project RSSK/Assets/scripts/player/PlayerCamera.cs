@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class PlayerCamera : MonoBehaviour {
+public class PlayerCamera : NetworkBehaviour {
 
 	private Transform playerTran;
 	public float camSensativity = 1;
@@ -18,7 +19,8 @@ public class PlayerCamera : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		rotateCam();
+		if(isLocalPlayer)
+			rotateCam();
 	}
 
 	void rotateCam()

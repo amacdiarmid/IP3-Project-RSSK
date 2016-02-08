@@ -1,26 +1,28 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.Networking;
 
-public class PlayerStats : MonoBehaviour {
+public class PlayerStats : NetworkBehaviour {
 
 	private float curHealth;
 
 	public float maxHealth = 100;
-	public Gun curGun;
+	Gun curGun;
 
-	// Use this for initialization
-	void Start ()
+	void Start()
 	{
-	
+		curGun = GetComponent<Gun>();
 	}
-	
+
 	// Update is called once per frame
 	void Update ()
 	{
+		if (!isLocalPlayer)
+			return;
+
 		if (Input.GetButton("Fire1"))
 		{
 			Debug.Log("fire 1 down");
-			curGun.shoot();
+			curGun.CmdShoot();
 		}
 
 		if (Input.GetButtonUp("Reload"))
