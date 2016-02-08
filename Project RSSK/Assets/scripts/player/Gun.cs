@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
+using UnityEngine.Networking;
 using System.Collections.Generic;
 
-public class Gun : MonoBehaviour {
+public class Gun : NetworkBehaviour {
 
 	private int curAmmo;
 	private float RoFTime;
@@ -27,7 +26,7 @@ public class Gun : MonoBehaviour {
 		curAmmo = maxAmmo;
 		gunSpreadI = 0;
 		Debug.Log("curammo = " + curAmmo);
-		barrel = transform.FindChild("barrel point").gameObject;
+		barrel = transform.FindChild("teat gun/barrel point").gameObject;
 		canFire = true;
 	}
 	
@@ -43,7 +42,7 @@ public class Gun : MonoBehaviour {
 		}
 	}
 
-	public void shoot()
+	[Command] public void CmdShoot()
 	{
 		if (canFire)
 		{
@@ -75,8 +74,11 @@ public class Gun : MonoBehaviour {
 						//screen to target ray
 						Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
 
+                        //creating the bullet locally
 						GameObject curBull = Instantiate(projectile, barrel.transform.position, Quaternion.identity) as GameObject;
-						curBull.GetComponent<GunProjectile>().setEndPoint(hit.point);
+                        curBull.GetComponent<Rigidbody>().velocity = transform.right * curBull.GetComponent<GunProjectile>().speed;
+                        //telling the server to spawn this bullet for everyone
+                        NetworkServer.Spawn(curBull);
 					}
 				}
 				else
@@ -87,8 +89,11 @@ public class Gun : MonoBehaviour {
 					//screen to target ray
 					Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.red, 10);
 
+                    //creating the bullet locally
 					GameObject curBull = Instantiate(projectile, barrel.transform.position, Quaternion.identity) as GameObject;
-					curBull.GetComponent<GunProjectile>().setEndPoint(ray.GetPoint(range));
+                    curBull.GetComponent<Rigidbody>().velocity = transform.right * curBull.GetComponent<GunProjectile>().speed;
+                    //telling the server to create it for everyone
+                    NetworkServer.Spawn(curBull);
 				}
 			}
 			else

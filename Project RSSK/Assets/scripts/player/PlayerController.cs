@@ -53,9 +53,9 @@ public class PlayerController : NetworkBehaviour {
 		this.GetComponent<MeshRenderer>().material.color = Color.yellow;
 		playerTran = this.transform;
 		playerRidg = this.GetComponent<Rigidbody>();
-		
-		//this.transform.FindChild("camera").gameObject.GetComponent<Camera>().enabled = true;    //replacing isLocalPlayer
-		//this.transform.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = true;    //replacing isLocalPlayer
+
+        this.transform.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
+        this.transform.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
 		curSpeed = runSpeed;
 		canJump = true;
 		canDoubleJump = false;
@@ -67,11 +67,11 @@ public class PlayerController : NetworkBehaviour {
 		transform.position = new Vector3(0, 3, 0);
 	}
 
-// Update is called once per frame
-void Update ()
+    // Update is called once per frame
+    void Update ()
 	{
-		//if (!isLocalPlayer) //replacing isLocalPlayer
-		//	return;
+		if (!isLocalPlayer)
+			return;
 
 		if (!lockMovement)
 		{
