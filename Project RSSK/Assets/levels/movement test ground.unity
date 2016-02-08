@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 308814008}
   - 65: {fileID: 308814009}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: ground collider
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -734,7 +734,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 2044343620}
   - 65: {fileID: 2044343621}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: ground collider
   m_TagString: Ground
   m_Icon: {fileID: 0}

@@ -290,10 +290,10 @@ void Update ()
 
 	void OnTriggerEnter(Collider col)
 	{
-		Debug.Log("enter col");
+		//Debug.Log("enter col");
 		if (col.gameObject.tag == "Ground")
 		{
-			Debug.Log("enter ground");
+			//Debug.Log("enter ground");
 			setState(PlayerState.run);
 			canJump = true;
 			canDoubleJump = false;
@@ -302,10 +302,10 @@ void Update ()
 
 	void OnTriggerExit(Collider col)
 	{
-		Debug.Log("exit col");
+		//Debug.Log("exit col");
 		if (col.gameObject.tag == "Ground")
 		{
-			Debug.Log("exit ground");
+			//Debug.Log("exit ground");
 			setState(PlayerState.falling);
 			canJump = false;
 			canDoubleJump = true;

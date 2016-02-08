@@ -7,8 +7,8 @@ public class Gun : MonoBehaviour {
 
 	private int curAmmo;
 	private float RoFTime;
+	private bool canFire;
 
-	public float damage = 10;
 	public float range = 100;
 	public int maxAmmo = 30;
 	public int spareAmmo = 90;
@@ -28,54 +28,73 @@ public class Gun : MonoBehaviour {
 		gunSpreadI = 0;
 		Debug.Log("curammo = " + curAmmo);
 		barrel = transform.FindChild("barrel point").gameObject;
+		canFire = true;
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-	
+		if (!canFire)
+		{
+			if ((Time.time - RoFTime) >= rateOfFire)
+			{
+				canFire = true;
+			}
+		}
 	}
 
 	public void shoot()
 	{
-		if (curAmmo >= 0)
+		if (canFire)
 		{
-			Debug.Log("fire current ammo " + curAmmo);
-			--curAmmo;
-
-			float targetX = Screen.width / 2 + gunSpread[gunSpreadI].x;
-			float targetY = Screen.height / 2 + gunSpread[gunSpreadI].y;
-			++gunSpreadI;
-			if (gunSpreadI == gunSpread.Count - 1)
+			if (curAmmo >= 0)
 			{
-				gunSpreadI = 0;
-			}
+				RoFTime = Time.time;
+				canFire = false;
 
-			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
-			if (Physics.Raycast(ray, out hit))
-			{
-				if (hit.collider != null)
+				//Debug.Log("fire current ammo " + curAmmo);
+				--curAmmo;
+
+				float targetX = Screen.width / 2 + gunSpread[gunSpreadI].x;
+				float targetY = Screen.height / 2 + gunSpread[gunSpreadI].y;
+				++gunSpreadI;
+				if (gunSpreadI == gunSpread.Count - 1)
 				{
-					Debug.Log("hit");
+					gunSpreadI = 0;
+				}
+
+				RaycastHit hit;
+				Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
+				if (Physics.Raycast(ray, out hit))
+				{
+					if (hit.collider != null)
+					{
+						//Debug.Log("hit");
+						//gun to target ray
+						Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
+						//screen to target ray
+						Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
+
+						GameObject curBull = Instantiate(projectile, barrel.transform.position, Quaternion.identity) as GameObject;
+						curBull.GetComponent<GunProjectile>().setEndPoint(hit.point);
+					}
+				}
+				else
+				{
+					//Debug.Log("no hit");
 					//gun to target ray
-					Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
+					Debug.DrawLine(barrel.transform.position, ray.GetPoint(range), Color.blue, 10);
 					//screen to target ray
-					Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
-				}	
+					Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.red, 10);
+
+					GameObject curBull = Instantiate(projectile, barrel.transform.position, Quaternion.identity) as GameObject;
+					curBull.GetComponent<GunProjectile>().setEndPoint(ray.GetPoint(range));
+				}
 			}
 			else
 			{
-				Debug.Log("no hit");
-				//gun to target ray
-				Debug.DrawLine(barrel.transform.position, ray.GetPoint(range), Color.blue, 10);
-				//screen to target ray
-				Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.red, 10);
+				Debug.Log("reload");
 			}
-		}
-		else
-		{
-			Debug.Log("reload");
 		}
 	}
 

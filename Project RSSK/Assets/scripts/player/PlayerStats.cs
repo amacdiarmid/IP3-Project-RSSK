@@ -29,4 +29,13 @@ public class PlayerStats : MonoBehaviour {
 			curGun.reload();
 		}
 	}
+
+	public void damaged(int dam)
+	{
+		maxHealth -= dam;
+		if (maxHealth <= 0)
+		{
+			Debug.Log(name + " dead");
+		}
+	}
 }
