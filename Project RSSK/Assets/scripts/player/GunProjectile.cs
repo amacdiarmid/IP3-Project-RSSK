@@ -28,5 +28,11 @@ public class GunProjectile : MonoBehaviour {
 			col.gameObject.GetComponent<PlayerStats>().damaged(damage);
 			Destroy(gameObject);
 		}
+		//for the test dummies
+		if (col.gameObject.tag == "TestPlayer")
+		{
+			Debug.Log("hit dummie" + col.gameObject.name);
+			col.gameObject.GetComponent<TestPlayer>().shot();
+		}
 	}
 }
