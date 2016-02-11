@@ -7,10 +7,12 @@ public class PlayerStats : NetworkBehaviour {
 
 	public float maxHealth = 100;
 	Gun curGun;
+	MeleeWeapon curMeleeWep;
 
 	void Start()
 	{
 		curGun = GetComponent<Gun>();
+		curMeleeWep = GetComponent<MeleeWeapon>();
 	}
 
 	// Update is called once per frame
