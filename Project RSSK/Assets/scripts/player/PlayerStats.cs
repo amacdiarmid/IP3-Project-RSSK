@@ -32,6 +32,12 @@ public class PlayerStats : NetworkBehaviour {
 			Debug.Log("reload down");
 			curGun.reload();
 		}
+
+		if (Input.GetButton("Fire2"))
+		{
+			Debug.Log("fire 2 down");
+			curMeleeWep.attack();
+		}
 	}
 
 	public void damaged(int dam)

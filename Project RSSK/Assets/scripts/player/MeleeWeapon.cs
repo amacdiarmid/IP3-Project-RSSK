@@ -22,12 +22,6 @@ public class MeleeWeapon : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetButton("Fire2"))
-		{
-			Debug.Log("fire 2 down");
-			attack();
-		}
-
 		if (!canAttack)
 		{
 			countdownTimer += Time.deltaTime;

@@ -28,6 +28,7 @@ public class Gun : NetworkBehaviour {
 		Debug.Log("curammo = " + curAmmo);
 		barrel = transform.FindChild("teat gun/barrel point").gameObject;
 		canFire = true;
+		RoFTime = 0;
 	}
 	
 	// Update is called once per frame
@@ -35,7 +36,8 @@ public class Gun : NetworkBehaviour {
 	{
 		if (!canFire)
 		{
-			if ((Time.time - RoFTime) >= rateOfFire)
+			RoFTime += Time.deltaTime;
+			if (RoFTime >= rateOfFire)
 			{
 				canFire = true;
 			}
@@ -48,7 +50,7 @@ public class Gun : NetworkBehaviour {
 		{
 			if (curAmmo >= 0)
 			{
-				RoFTime = Time.time;
+				RoFTime = 0;
 				canFire = false;
 
 				//Debug.Log("fire current ammo " + curAmmo);
@@ -61,7 +63,7 @@ public class Gun : NetworkBehaviour {
 				{
 					gunSpreadI = 0;
 				}
-
+				Vector3 bulletSpawn = new Vector3(barrel.transform.position.x + gunSpread[gunSpreadI].x, barrel.transform.position.y + gunSpread[gunSpreadI].y, barrel.transform.position.z);
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
 				if (Physics.Raycast(ray, out hit))
@@ -76,7 +78,13 @@ public class Gun : NetworkBehaviour {
 
 						//creating the bullet locally
 						GameObject curBull = Instantiate(projectile, barrel.transform.position, Quaternion.identity) as GameObject;
-						curBull.GetComponent<Rigidbody>().velocity = transform.right * curBull.GetComponent<GunProjectile>().speed;
+
+						//alex test version
+						curBull.GetComponent<Rigidbody>().velocity = (hit.point - barrel.transform.position).normalized * curBull.GetComponent<GunProjectile>().speed;
+
+						//dan version
+						//curBull.GetComponent<Rigidbody>().velocity = transform.right * curBull.GetComponent<GunProjectile>().speed;
+						
 						//telling the server to spawn this bullet for everyone
 						NetworkServer.Spawn(curBull);
 					}
@@ -91,7 +99,13 @@ public class Gun : NetworkBehaviour {
 
 					//creating the bullet locally
 					GameObject curBull = Instantiate(projectile, barrel.transform.position, Quaternion.identity) as GameObject;
-					curBull.GetComponent<Rigidbody>().velocity = transform.right * curBull.GetComponent<GunProjectile>().speed;
+
+					//alex version
+					curBull.GetComponent<Rigidbody>().velocity = (ray.GetPoint(range) - barrel.transform.position).normalized * curBull.GetComponent<GunProjectile>().speed;
+
+					//dan version
+					//curBull.GetComponent<Rigidbody>().velocity = transform.right * curBull.GetComponent<GunProjectile>().speed;
+					
 					//telling the server to create it for everyone
 					NetworkServer.Spawn(curBull);
 				}

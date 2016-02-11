@@ -33,6 +33,13 @@ public class GunProjectile : MonoBehaviour {
 		{
 			Debug.Log("hit dummie" + col.gameObject.name);
 			col.gameObject.GetComponent<TestPlayer>().shot();
+			Destroy(gameObject);
+		}
+		//for the level walls etc
+		if (col.gameObject.tag == "Obstacle")
+		{
+			Debug.Log("hit Obstacle" + col.gameObject.name);
+			Destroy(gameObject);
 		}
 	}
 }
