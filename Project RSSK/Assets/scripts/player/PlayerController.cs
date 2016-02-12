@@ -83,7 +83,7 @@ public class PlayerController : NetworkBehaviour {
 		if (!lockCamera)
 		{
 			targetVelocity = new Vector3(Input.GetAxis("Vertical"), 0, -Input.GetAxis("Horizontal")); 
-			 targetVelocity = playerTran.TransformDirection(targetVelocity);
+			targetVelocity = playerTran.TransformDirection(targetVelocity);
 		}
 
 		if (!lockMovement)

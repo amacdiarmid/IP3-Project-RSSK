@@ -63,7 +63,7 @@ public class Gun : NetworkBehaviour {
 				{
 					gunSpreadI = 0;
 				}
-				Vector3 bulletSpawn = new Vector3(barrel.transform.position.x + gunSpread[gunSpreadI].x, barrel.transform.position.y + gunSpread[gunSpreadI].y, barrel.transform.position.z);
+				//Vector3 bulletSpawn = new Vector3(barrel.transform.position.x + gunSpread[gunSpreadI].x, barrel.transform.position.y + gunSpread[gunSpreadI].y, barrel.transform.position.z);
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
 				if (Physics.Raycast(ray, out hit))
