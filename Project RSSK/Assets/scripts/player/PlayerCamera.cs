@@ -21,6 +21,12 @@ public class PlayerCamera : NetworkBehaviour {
 	{
 		if(isLocalPlayer)
 			rotateCam();
+
+		if (Input.GetButtonDown("QuickTurn"))
+		{
+			Debug.Log("quck turn down");
+			this.transform.Rotate(new Vector3(0, 180, 0));
+		}
 	}
 
 	void rotateCam()

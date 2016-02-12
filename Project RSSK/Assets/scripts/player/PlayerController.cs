@@ -236,6 +236,7 @@ public class PlayerController : NetworkBehaviour {
 				climb();
 				break;
 			case PlayerState.backEject:
+				backEject();
 				break;
 			default:
 				break;
@@ -272,8 +273,9 @@ public class PlayerController : NetworkBehaviour {
 	{
 		Debug.Log("back eject");
 		lockCamera = false;
+		canDoubleJump = true;
 		this.GetComponent<MeshRenderer>().material.color = Color.blue;
-		playerRidg.AddForce(-transform.forward * backEjectHeight);
+		playerRidg.AddForce(-transform.right * backEjectHeight);
 		canDoubleJump = true;
 	}
 
