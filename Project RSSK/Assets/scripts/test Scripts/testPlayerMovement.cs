@@ -14,7 +14,7 @@ public class testPlayerMovement : MonoBehaviour {
 	void Start()
 	{
 		changepos();
-		Debug.Log(path.Count - 1);
+		//Debug.Log(path.Count - 1);
 	}
 
 	void Update()
@@ -28,13 +28,13 @@ public class testPlayerMovement : MonoBehaviour {
 			{
 				
 				i = 0;
-				Debug.Log(i);
+				//Debug.Log(i);
 			}
 			else
 			{
 				
 				i++;
-				Debug.Log(i);
+				//Debug.Log(i);
 			}
 			changepos();
 		}

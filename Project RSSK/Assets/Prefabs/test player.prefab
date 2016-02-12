@@ -622,6 +622,10 @@ MonoBehaviour:
   runSlideSpeed: 30
   sprintSlideSpeed: 50
   slideDep: 1
+  angleToWallRun: 10
+  climbSpeed: 20
+  climbDep: 1
+  backEjectHeight: 300
 --- !u!114 &11469850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -920,6 +924,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: gunSpread.Array.data[9].y
       value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: climbSpeed
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
