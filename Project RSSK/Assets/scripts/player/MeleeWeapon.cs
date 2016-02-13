@@ -65,6 +65,28 @@ public class MeleeWeapon : MonoBehaviour {
 						swordAni.SetTrigger("attack");
 					}
 				}
+				//need to test with other people 
+				else if (hit.collider.gameObject.tag == "Player")
+				{
+					if (Vector3.Distance(transform.position, hit.point) <= range)
+					{
+						Debug.DrawLine(ray.origin, hit.point, Color.yellow, 10);
+						swordAni.SetTrigger("attack");
+						hit.collider.gameObject.GetComponent<PlayerStats>().damaged(damage);
+					}
+					else if (Vector3.Distance(transform.position, hit.point) <= lungeRange)
+					{
+						Debug.DrawLine(ray.origin, hit.point, Color.black, 10);
+						playerCon.goLunge(hit.point, range);
+						swordAni.SetTrigger("attack");
+						hit.collider.gameObject.GetComponent<PlayerStats>().damaged(damage);
+					}
+					else
+					{
+						Debug.DrawLine(ray.origin, ray.GetPoint(lungeRange), Color.magenta, 10);
+						swordAni.SetTrigger("attack");
+					}
+				}
 			}
 			else
 			{

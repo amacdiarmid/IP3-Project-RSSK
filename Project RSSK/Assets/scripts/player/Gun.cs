@@ -26,7 +26,7 @@ public class Gun : NetworkBehaviour {
 		curAmmo = maxAmmo;
 		gunSpreadI = 0;
 		Debug.Log("curammo = " + curAmmo);
-		barrel = transform.FindChild("teat gun/barrel point").gameObject;
+		barrel = transform.FindChild("camera/teat gun/barrel point").gameObject;
 		canFire = true;
 		RoFTime = 0;
 	}
