@@ -617,6 +617,7 @@ MonoBehaviour:
   sprintSpeed: 20
   fallingSpeed: 5
   lungeSpeed: 50
+  wallRunningSpeed: 25
   maxVelocityChange: 10
   jumpHeight: 500
   runSlideSpeed: 30
@@ -626,6 +627,12 @@ MonoBehaviour:
   climbSpeed: 20
   climbDep: 1
   backEjectHeight: 300
+  runWallSpeed: 10
+  sprintWallSpeed: 15
+  wallHeightDep: 1
+  wallLengthDep: 1
+  wallRunHeight: 10
+  wallRunLength: 5
 --- !u!114 &11469850
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -667,6 +674,7 @@ MonoBehaviour:
   camSensativity: 1
   lookUpLim: 75
   lookDownLim: 285
+  rotationSpeed: 50
 --- !u!114 &11492244
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -928,6 +936,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: climbSpeed
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: runWallSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintWallSpeed
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

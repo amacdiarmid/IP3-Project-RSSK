@@ -66,4 +66,9 @@ public class PlayerCamera : NetworkBehaviour {
 		//}
 	}
 
+	public void setCamera(float angle)
+	{
+		this.transform.Rotate(new Vector3(0, angle, 0));
+	}
+
 }
