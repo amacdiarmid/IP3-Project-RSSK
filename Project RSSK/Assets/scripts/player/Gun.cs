@@ -13,8 +13,10 @@ public class Gun : NetworkBehaviour {
 	public int spareAmmo = 90;
 	public float rateOfFire = 1;
 
-	public List<Vector2> gunSpread = new List<Vector2>();
-	private int gunSpreadI;
+	public float maxSpread = 3;
+	public float spreadAdv = 0.2f;
+	public float spreadDep = 0.1f;
+	private float gunSreadVal;
 
 	public GameObject projectile;
 
@@ -24,7 +26,7 @@ public class Gun : NetworkBehaviour {
 	void Start ()
 	{
 		curAmmo = maxAmmo;
-		gunSpreadI = 0;
+		gunSreadVal = 0;
 		Debug.Log("curammo = " + curAmmo);
 		barrel = transform.FindChild("camera/teat gun/barrel point").gameObject;
 		canFire = true;
@@ -42,6 +44,22 @@ public class Gun : NetworkBehaviour {
 				canFire = true;
 			}
 		}
+
+		if (Input.GetButton("Fire1"))
+		{
+			Debug.Log("fire 1 down");
+			CmdShoot();
+		}
+		else if (Input.GetButtonUp("Reload"))
+		{
+			Debug.Log("reload down");
+			reload();
+		}
+		else if (!Input.GetButton("Fire1"))
+		{
+			//reduce the gun spread
+			gunSreadVal -= gunSreadVal - (spreadDep * Time.deltaTime);
+		}
 	}
 
 	[Command] public void CmdShoot()
@@ -56,13 +74,10 @@ public class Gun : NetworkBehaviour {
 				//Debug.Log("fire current ammo " + curAmmo);
 				--curAmmo;
 
-				float targetX = Screen.width / 2 + gunSpread[gunSpreadI].x;
-				float targetY = Screen.height / 2 + gunSpread[gunSpreadI].y;
-				++gunSpreadI;
-				if (gunSpreadI == gunSpread.Count - 1)
-				{
-					gunSpreadI = 0;
-				}
+				//spread to the current shot
+				float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal);
+				float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal);
+
 				//Vector3 bulletSpawn = new Vector3(barrel.transform.position.x + gunSpread[gunSpreadI].x, barrel.transform.position.y + gunSpread[gunSpreadI].y, barrel.transform.position.z);
 				RaycastHit hit;
 				Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
@@ -109,6 +124,10 @@ public class Gun : NetworkBehaviour {
 					//telling the server to create it for everyone
 					NetworkServer.Spawn(curBull);
 				}
+
+				//add spread to the next shot 
+				gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, maxSpread);
+				Debug.Log(gunSreadVal);
 			}
 			else
 			{
@@ -125,5 +144,6 @@ public class Gun : NetworkBehaviour {
 			++curAmmo;
 			--spareAmmo;
 		}
+		gunSreadVal = 0;
 	}
 }

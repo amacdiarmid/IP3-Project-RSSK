@@ -21,18 +21,6 @@ public class PlayerStats : NetworkBehaviour {
 		if (!isLocalPlayer)
 			return;
 
-		if (Input.GetButton("Fire1"))
-		{
-			Debug.Log("fire 1 down");
-			curGun.CmdShoot();
-		}
-
-		if (Input.GetButtonUp("Reload"))
-		{
-			Debug.Log("reload down");
-			curGun.reload();
-		}
-
 		if (Input.GetButton("Fire2"))
 		{
 			Debug.Log("fire 2 down");

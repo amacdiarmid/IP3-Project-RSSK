@@ -482,7 +482,7 @@ public class PlayerController : NetworkBehaviour {
 		//playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);
 
 		//translation movement
-        //just changed this to the proper version of applying time to the movement 
+		//just changed this to the proper version of applying time to the movement 
 		playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
 	}
 

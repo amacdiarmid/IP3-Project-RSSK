@@ -648,17 +648,9 @@ MonoBehaviour:
   maxAmmo: 84
   spareAmmo: 90
   rateOfFire: 0.1
-  gunSpread:
-  - {x: 0, y: 0}
-  - {x: 1, y: 1}
-  - {x: 2, y: 2}
-  - {x: 3, y: 3}
-  - {x: 4, y: 4}
-  - {x: 5, y: 5}
-  - {x: 6, y: 6}
-  - {x: 7, y: 7}
-  - {x: 8, y: 8}
-  - {x: 9, y: 9}
+  maxSpread: 3
+  spreadAdv: 0.2
+  spreadDep: 0.1
   projectile: {fileID: 187148, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
 --- !u!114 &11485746
 MonoBehaviour:
@@ -948,6 +940,18 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: jumpHeight
       value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spreadAdv
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spreadDep
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxSpread
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
