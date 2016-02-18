@@ -945,6 +945,10 @@ Prefab:
       propertyPath: sprintWallSpeed
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: jumpHeight
+      value: 500
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 145808}

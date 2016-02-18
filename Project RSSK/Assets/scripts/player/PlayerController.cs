@@ -457,7 +457,6 @@ public class PlayerController : NetworkBehaviour {
 	{
 		Vector3 nextWallSpeed = new Vector3(curWallRunLength, curWallRunHeight, 0).normalized;
 		nextWallSpeed = playerTran.TransformDirection(nextWallSpeed);
-		Debug.Log(nextWallSpeed);
 		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + nextWallSpeed, curWallSpeed * Time.deltaTime);
 		curWallRunHeight -= wallHeightDep * Time.deltaTime;
 		//curWallRunLength -= wallLengthDep * Time.deltaTime;
@@ -483,7 +482,8 @@ public class PlayerController : NetworkBehaviour {
 		//playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);
 
 		//translation movement
-		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + targetVelocity, curSpeed*Time.deltaTime);
+        //just changed this to the proper version of applying time to the movement 
+		playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
 	}
 
 	void OnTriggerEnter(Collider col)
