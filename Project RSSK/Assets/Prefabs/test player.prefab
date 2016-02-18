@@ -641,17 +641,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 145808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5733d6c0787f3140980e00fba19ce6c, type: 3}
+  m_Script: {fileID: 11500000, guid: 10d44f9be58152949b415102cdbd6dc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   range: 100
   maxAmmo: 84
   spareAmmo: 90
-  rateOfFire: 0.1
-  maxSpread: 3
+  rateOfFire: 0.5
+  maxSpread: 10
   spreadAdv: 0.2
   spreadDep: 0.1
   projectile: {fileID: 187148, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
+  peletCount: 5
 --- !u!114 &11485746
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -843,7 +844,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: rateOfFire
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: cooldown
@@ -951,7 +952,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxSpread
-      value: 3
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: burstTime
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

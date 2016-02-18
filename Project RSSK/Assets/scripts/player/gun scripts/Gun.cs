@@ -2,11 +2,12 @@
 using UnityEngine.Networking;
 using System.Collections.Generic;
 
+//dont use this for that characters use one of the derived classes
 public class Gun : NetworkBehaviour {
 
-	private int curAmmo;
-	private float RoFTime;
-	private bool canFire;
+	protected int curAmmo;
+	protected float RoFTime;
+	protected bool canFire;
 
 	public float range = 100;
 	public int maxAmmo = 30;
@@ -16,11 +17,11 @@ public class Gun : NetworkBehaviour {
 	public float maxSpread = 3;
 	public float spreadAdv = 0.2f;
 	public float spreadDep = 0.1f;
-	private float gunSreadVal;
+	protected float gunSreadVal;
 
 	public GameObject projectile;
 
-	private GameObject barrel;
+	protected GameObject barrel;
 
 	// Use this for initialization
 	void Start ()
@@ -36,33 +37,15 @@ public class Gun : NetworkBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!canFire)
-		{
-			RoFTime += Time.deltaTime;
-			if (RoFTime >= rateOfFire)
-			{
-				canFire = true;
-			}
-		}
-
-		if (Input.GetButton("Fire1"))
-		{
-			Debug.Log("fire 1 down");
-			CmdShoot();
-		}
-		else if (Input.GetButtonUp("Reload"))
-		{
-			Debug.Log("reload down");
-			reload();
-		}
-		else if (!Input.GetButton("Fire1"))
-		{
-			//reduce the gun spread
-			gunSreadVal -= gunSreadVal - (spreadDep * Time.deltaTime);
-		}
+		checkInput();
 	}
 
-	[Command] public void CmdShoot()
+	public virtual void checkInput()
+	{
+		Debug.Log("dont use this gun class");
+	}
+
+	[Command] public virtual void CmdShoot()
 	{
 		if (canFire)
 		{
