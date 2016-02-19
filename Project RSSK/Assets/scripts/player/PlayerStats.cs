@@ -7,28 +7,24 @@ public class PlayerStats : NetworkBehaviour {
 
 	public float maxHealth = 100;
 	Gun curGun;
+	MeleeWeapon curMeleeWep;
 
-    void Start()
-    {
-        curGun = GetComponent<Gun>();
-    }
+	void Start()
+	{
+		curGun = GetComponent<Gun>();
+		curMeleeWep = GetComponent<MeleeWeapon>();
+	}
 
 	// Update is called once per frame
 	void Update ()
-    {
-        if (!isLocalPlayer)
-            return;
+	{
+		if (!isLocalPlayer)
+			return;
 
-		if (Input.GetButton("Fire1"))
+		if (Input.GetButton("Fire2"))
 		{
-			Debug.Log("fire 1 down");
-			curGun.CmdShoot();
-		}
-
-		if (Input.GetButtonUp("Reload"))
-		{
-			Debug.Log("reload down");
-			curGun.reload();
+			Debug.Log("fire 2 down");
+			curMeleeWep.attack();
 		}
 	}
 

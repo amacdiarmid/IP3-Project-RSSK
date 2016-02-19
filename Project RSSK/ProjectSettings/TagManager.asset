@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ground
+  - TestPlayer
+  - Obstacle
+  - Wall
   layers:
   - Default
   - TransparentFX
