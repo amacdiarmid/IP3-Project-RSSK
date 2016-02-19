@@ -10,7 +10,7 @@ public class BurstFireGun : Gun {
 
 	public override void checkInput()
 	{
-		Debug.Log("over written input");
+		//Debug.Log("over written input");
 		if (!canFire)
 		{
 			RoFTime += Time.deltaTime;

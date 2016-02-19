@@ -308,7 +308,7 @@ public class PlayerController : NetworkBehaviour {
 		lockCamera = false;
 		this.GetComponent<MeshRenderer>().material.color = Color.blue;
 		curState = PlayerState.jump;
-		playerRidg.AddForce(transform.up * jumpHeight);
+		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
 		canJump = false;
 		//curSpeed = fallingSpeed;
 	}
@@ -318,7 +318,7 @@ public class PlayerController : NetworkBehaviour {
 		lockCamera = false;
 		this.GetComponent<MeshRenderer>().material.color = Color.blue;
 		curState = PlayerState.doubleJump;
-		playerRidg.AddForce(transform.up * jumpHeight);
+		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
 		canDoubleJump = false;
 		//curSpeed = fallingSpeed;
 	}
@@ -329,7 +329,7 @@ public class PlayerController : NetworkBehaviour {
 		lockCamera = false;
 		canDoubleJump = true;
 		this.GetComponent<MeshRenderer>().material.color = Color.blue;
-		playerRidg.AddForce(-transform.right * backEjectHeight);
+		playerRidg.AddForce(-transform.right * backEjectHeight, ForceMode.Impulse);
 		canDoubleJump = true;
 	}
 
@@ -338,7 +338,7 @@ public class PlayerController : NetworkBehaviour {
 		lockCamera = false;
 		this.GetComponent<MeshRenderer>().material.color = Color.blue;
 		curState = PlayerState.wallJump;
-		playerRidg.AddForce(transform.up * jumpHeight * 2);
+		playerRidg.AddForce(transform.up * jumpHeight * 2, ForceMode.Impulse);
 		canDoubleJump = false;
 	}
 

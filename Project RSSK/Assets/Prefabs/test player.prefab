@@ -94,14 +94,14 @@ GameObject:
   - 33: {fileID: 3353242}
   - 23: {fileID: 2366776}
   - 54: {fileID: 5478314}
+  - 65: {fileID: 6561802}
   - 114: {fileID: 11462404}
   - 114: {fileID: 11485746}
   - 114: {fileID: 11419400}
-  - 114: {fileID: 11445826}
-  - 114: {fileID: 11440428}
-  - 65: {fileID: 6561802}
   - 114: {fileID: 11469850}
   - 114: {fileID: 11412710}
+  - 114: {fileID: 11440428}
+  - 114: {fileID: 11445826}
   m_Layer: 0
   m_Name: test player
   m_TagString: Player
@@ -619,14 +619,14 @@ MonoBehaviour:
   lungeSpeed: 50
   wallRunningSpeed: 25
   maxVelocityChange: 10
-  jumpHeight: 500
+  jumpHeight: 10
   runSlideSpeed: 30
   sprintSlideSpeed: 50
   slideDep: 1
   angleToWallRun: 10
   climbSpeed: 20
   climbDep: 1
-  backEjectHeight: 300
+  backEjectHeight: 10
   runWallSpeed: 10
   sprintWallSpeed: 15
   wallHeightDep: 1
@@ -941,7 +941,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: jumpHeight
-      value: 500
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: spreadAdv
@@ -961,6 +961,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: range
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: backEjectHeight
       value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
