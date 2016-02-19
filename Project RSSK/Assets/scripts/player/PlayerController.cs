@@ -486,9 +486,8 @@ public class PlayerController : NetworkBehaviour {
 		playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
 	}
 
-	void OnTriggerEnter(Collider col)
-	{
-		//Debug.Log("enter col");
+    void OnCollisionEnter(Collision col)
+    {
 		if (col.gameObject.tag == "Ground")
 		{
 			//Debug.Log("enter ground");
@@ -501,11 +500,15 @@ public class PlayerController : NetworkBehaviour {
 			Debug.Log("can jump");
 			canClimb = true;
 		}
-	}
 
-	void OnTriggerExit(Collider col)
+        /*Vector3 p = col.contacts[0].point;
+        RaycastHit info = new RaycastHit();
+        if(Physics.Raycast(transform.position, p - transform.position, out info))
+            Debug.DrawLine(info.point, info.point + info.normal, Color.cyan, 10);*/
+    }
+
+	void OnCollisionExit(Collision col)
 	{
-		//Debug.Log("exit col");
 		if (col.gameObject.tag == "Ground")
 		{
 			//Debug.Log("exit ground");
