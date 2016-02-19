@@ -8,6 +8,7 @@ TagManager:
   - TestPlayer
   - Obstacle
   - Wall
+  - Bullet
   layers:
   - Default
   - TransparentFX

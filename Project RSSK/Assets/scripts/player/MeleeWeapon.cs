@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 
-public class MeleeWeapon : MonoBehaviour {
-
+public class MeleeWeapon : NetworkBehaviour
+{
 	public float lungeRange = 5;
 	public int damage = 10;
 	public float cooldown = 5;
@@ -12,8 +13,8 @@ public class MeleeWeapon : MonoBehaviour {
 	private float countdownTimer;
 	private PlayerController playerCon;
 	public Animator swordAni;   //todo set up a search to find the correct animator
-	// Use this for initialization
-	void Start ()
+
+    void Start ()
 	{
 		canAttack = true;
 		playerCon = GetComponent<PlayerController>();

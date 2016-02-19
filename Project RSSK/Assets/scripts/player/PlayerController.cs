@@ -499,9 +499,8 @@ public class PlayerController : NetworkBehaviour {
 		playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
 	}
 
-	void OnTriggerEnter(Collider col)
+	void OnCollisionEnter(Collision col)
 	{
-		//Debug.Log("enter col");
 		if (col.gameObject.tag == "Ground" && curState != PlayerState.wallRun)
 		{
 			Debug.Log("enter ground");
@@ -527,11 +526,16 @@ public class PlayerController : NetworkBehaviour {
 			Debug.Log("can jump");
 			canClimb = true;
 		}
+
+		//note: this is for the curved wall running idea by taking the normal of the wall and the plyer will follow that 
+		/*Vector3 p = col.contacts[0].point;
+		RaycastHit info = new RaycastHit();
+		if(Physics.Raycast(transform.position, p - transform.position, out info))
+			Debug.DrawLine(info.point, info.point + info.normal, Color.cyan, 10);*/
 	}
 
-	void OnTriggerExit(Collider col)
+	void OnCollisionExit(Collision col)
 	{
-		//Debug.Log("exit col");
 		if (col.gameObject.tag == "Ground")
 		{
 			//Debug.Log("exit ground");
