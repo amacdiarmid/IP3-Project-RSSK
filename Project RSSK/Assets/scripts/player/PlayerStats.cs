@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 
-public class PlayerStats : NetworkBehaviour {
-
+public class PlayerStats : NetworkBehaviour
+{
+    [SyncVar]
 	private float curHealth;
 
 	public float maxHealth = 100;
