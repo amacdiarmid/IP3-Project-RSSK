@@ -4,29 +4,19 @@ using System.Collections;
 
 public enum PlayerState
 {
-	//white
 	idle, 
-	//green
 	walk,
-	//yellow
 	run, 
-	//red
 	sprint,
-	//cyan 
 	jump, 
-	//blue
 	doubleJump,
-	//madgenta
 	falling, 
-	//black
 	slide, 
-	//gray
 	lunge,
 	climb,
 	backEject,
 	wallRun,
 	wallJump,
-	//will add others when needed
 }
 
 public class PlayerController : NetworkBehaviour {
@@ -296,6 +286,7 @@ public class PlayerController : NetworkBehaviour {
 		}
 	}
 
+	//not doing anything 
 	void idle()
 	{
 		lockCamera = false;
@@ -303,11 +294,14 @@ public class PlayerController : NetworkBehaviour {
 		curState = PlayerState.idle;
 	}
 
+	//one off jumps that add instant force
 	void jump()
 	{
+		Debug.Log("jumping");
 		lockCamera = false;
 		this.GetComponent<MeshRenderer>().material.color = Color.blue;
 		curState = PlayerState.jump;
+		//playerRidg.velocity = transform.up * jumpHeight;
 		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
 		canJump = false;
 		//curSpeed = fallingSpeed;
@@ -342,6 +336,7 @@ public class PlayerController : NetworkBehaviour {
 		canDoubleJump = false;
 	}
 
+	//setting the players current speed
 	void run()
 	{
 		lockCamera = false;
@@ -367,6 +362,15 @@ public class PlayerController : NetworkBehaviour {
 		this.GetComponent<MeshRenderer>().material.color = Color.red;
 		curState = PlayerState.sprint;
 		curSpeed = sprintSpeed;
+	}
+
+	//starts of the state transition
+	public void goLunge(Vector3 pos, float range)
+	{
+		playerTran.position = Vector3.Lerp(playerTran.position, pos, lungeSpeed * Time.deltaTime);
+		lungePos = pos;
+		meleeRange = range;
+		setState(PlayerState.lunge);
 	}
 
 	void lunge()
@@ -441,6 +445,7 @@ public class PlayerController : NetworkBehaviour {
 		curClimbSpeed = climbSpeed;
 	}
 
+	//commands called in the update
 	void climbing()
 	{
 		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + transform.up, curClimbSpeed * Time.deltaTime);
@@ -482,23 +487,27 @@ public class PlayerController : NetworkBehaviour {
 	}
 
 	void moving()
-	{	
-		//uncomment for ridgid body movement
-		//targetVelocity *= curSpeed;
-		//var v = playerRidg.velocity;
-		//var velocityChange = (targetVelocity - v);
-		//velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-		//velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-		//velocityChange.y = 0;
+	{
+		targetVelocity *= curSpeed;
+		var v = playerRidg.velocity;
+		var velocityChange = (targetVelocity - v);
+		velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+		velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+		velocityChange.y = 0;
+		Debug.Log("vel change " + velocityChange);
 
 		//ridgedbody movement
-		//playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);
+		playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);
 
 		//translation movement
 		//just changed this to the proper version of applying time to the movement 
-		playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
+
+		Debug.Log("moving vel");
+		//playerRidg.velocity = targetVelocity.normalized * curSpeed;// * Time.deltaTime;
+		//playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
 	}
 
+	//collisions with wall (will be replaced with raycasts)
 	void OnCollisionEnter(Collision col)
 	{
 		if (col.gameObject.tag == "Ground" && curState != PlayerState.wallRun)
@@ -556,11 +565,4 @@ public class PlayerController : NetworkBehaviour {
 		}
 	}
 
-	public void goLunge(Vector3 pos, float range)
-	{
-		playerTran.position = Vector3.Lerp(playerTran.position, pos, lungeSpeed * Time.deltaTime);
-		lungePos = pos;
-		meleeRange = range;
-		setState(PlayerState.lunge);
-	}
 }

@@ -8,20 +8,21 @@ public class MeleeWeapon : NetworkBehaviour
 	public int damage = 10;
 	public float cooldown = 5;
 	public float range = 10;
+	public float knockback = 5;
 
 	private bool canAttack;
 	private float countdownTimer;
 	private PlayerController playerCon;
 	public Animator swordAni;   //todo set up a search to find the correct animator
 
-    void Start ()
+	void Start()
 	{
 		canAttack = true;
 		playerCon = GetComponent<PlayerController>();
 	}
-	
+
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
 		if (!canAttack)
 		{
@@ -30,6 +31,12 @@ public class MeleeWeapon : NetworkBehaviour
 			{
 				canAttack = true;
 			}
+		}
+
+		if (Input.GetButton("Fire2"))
+		{
+			Debug.Log("fire 2 down");
+			attack();
 		}
 	}
 
@@ -41,7 +48,7 @@ public class MeleeWeapon : NetworkBehaviour
 			countdownTimer = 0;
 
 			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width/ 2, Screen.height/ 2));
+			Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
 			if (Physics.Raycast(ray, out hit))
 			{
 				Debug.Log("hit melee wep " + hit.collider.gameObject.name);
@@ -99,6 +106,22 @@ public class MeleeWeapon : NetworkBehaviour
 
 	public void attackAni()
 	{
-
+		RaycastHit hit;
+		Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
+		if (Physics.Raycast(ray, out hit))
+		{
+			Debug.Log("hit melee wep " + hit.collider.gameObject.name);
+			if (hit.collider.gameObject.tag == "TestPlayer")
+			{
+				hit.collider.GetComponent<Rigidbody>().AddForce(this.transform.right * knockback, ForceMode.Impulse);
+				this.GetComponent<Rigidbody>().AddForce(-this.transform.right * (knockback * 2), ForceMode.Impulse);
+			}
+			//need to test with other people 
+			else if (hit.collider.gameObject.tag == "Player")
+			{
+				hit.collider.GetComponent<Rigidbody>().AddForce(this.transform.right * knockback, ForceMode.Impulse);
+				this.GetComponent<Rigidbody>().AddForce(-this.transform.right * (knockback * 2), ForceMode.Impulse);
+			}
+		}
 	}
 }

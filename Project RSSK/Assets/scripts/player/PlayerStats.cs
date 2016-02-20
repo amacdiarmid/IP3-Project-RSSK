@@ -3,7 +3,7 @@ using UnityEngine.Networking;
 
 public class PlayerStats : NetworkBehaviour
 {
-    [SyncVar]
+	[SyncVar]
 	private float curHealth;
 
 	public float maxHealth = 100;
@@ -21,12 +21,6 @@ public class PlayerStats : NetworkBehaviour
 	{
 		if (!isLocalPlayer)
 			return;
-
-		if (Input.GetButton("Fire2"))
-		{
-			Debug.Log("fire 2 down");
-			curMeleeWep.attack();
-		}
 	}
 
 	public void damaged(int dam)
