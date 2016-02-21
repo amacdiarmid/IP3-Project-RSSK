@@ -567,7 +567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae0343c44bb98a4c83f45f4e6af3064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curState: 1
+  curState: 0
   playerAni: {fileID: 9543318}
   walkSpeed: 5
   runSpeed: 10
@@ -577,8 +577,8 @@ MonoBehaviour:
   wallRunningSpeed: 24.36
   maxVelocityChange: 0.66
   jumpHeight: 10
-  runSlideSpeed: 30
-  sprintSlideSpeed: 50
+  runSlideSpeed: 5
+  sprintSlideSpeed: 9
   slideDep: 1
   angleToWallRun: 10
   climbSpeed: 20
@@ -591,6 +591,8 @@ MonoBehaviour:
   wallRunHeight: 10
   wallRunLength: 5
   maxDistanceToWall: 3
+  rollHeight: 5
+  rollSpeed: 5
 --- !u!114 &11449870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -819,6 +821,22 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: wallRunningSpeed
       value: 24.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rollSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: runSlideSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintSlideSpeed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: curState
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
