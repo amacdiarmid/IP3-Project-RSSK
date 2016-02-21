@@ -63,8 +63,6 @@ public class PlayerController : NetworkBehaviour {
 	public float wallRunHeight = 10;
 	public float wallRunLength = 5;
 	public float maxDistanceToWall = 3;
-	public float rollHeight = 5;
-	public float rollSpeed = 15;
 
 	// Use this for initialization
 	void Start ()
@@ -128,9 +126,9 @@ public class PlayerController : NetworkBehaviour {
 			checkInput();
 			if (curState == PlayerState.roll)
 			{
-				//Rolling();
+				Rolling();
 			}
-			if (curState == PlayerState.climb)
+			else if (curState == PlayerState.climb)
 			{
 				climbing();
 			}
@@ -154,7 +152,7 @@ public class PlayerController : NetworkBehaviour {
 
 	void checkInput()
 	{
-		if (Input.GetButtonDown("Jump"))
+		if (Input.GetButtonUp("Jump"))
 		{
 			if (curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.idle)
 			{
@@ -215,7 +213,7 @@ public class PlayerController : NetworkBehaviour {
 				setState(PlayerState.run);
 			}
 		}
-		else if (Input.GetButtonDown("Roll"))
+		else if (Input.GetButtonUp("Slide"))
 		{
 			if (curState == PlayerState.run || curState == PlayerState.sprint)
 			{
@@ -294,8 +292,6 @@ public class PlayerController : NetworkBehaviour {
 				falling();
 				break;
 			case PlayerState.roll:
-				startRoll();
-				/*
 				if (curState == PlayerState.run)
 				{
 					runToRoll();
@@ -304,7 +300,6 @@ public class PlayerController : NetworkBehaviour {
 				{
 					sprintToRoll();
 				}
-				*/
 				break;
 			case PlayerState.lunge:
 				lunge();
@@ -322,7 +317,7 @@ public class PlayerController : NetworkBehaviour {
 				}
 				else if (curState == PlayerState.sprint)
 				{
-					sprintToWall();
+					sprintToRoll();
 				}
 				else if (curState == PlayerState.wallJump || curState == PlayerState.jump || curState == PlayerState.doubleJump)
 				{
@@ -386,24 +381,6 @@ public class PlayerController : NetworkBehaviour {
 		canDoubleJump = false;
 	}
 
-	void startRoll()
-	{
-		Debug.Log("start roll");
-		playerAni.SetTrigger("startRoll");
-		curState = PlayerState.roll;
-		lockCamera = true;
-
-		playerRidg.AddForce(new Vector3(Input.GetAxis("Vertical"), rollHeight, Input.GetAxis("Horizontal")), ForceMode.Impulse);
-	}
-
-	public void endRoll()
-	{
-		Debug.Log("end roll");
-		playerAni.SetTrigger("startIdle");
-		curState = PlayerState.idle;
-		lockCamera = false;
-	}
-
 	//setting the players current speed
 	void run()
 	{
@@ -456,21 +433,21 @@ public class PlayerController : NetworkBehaviour {
 		curState = PlayerState.falling;
 	}
 
-	//void runToRoll()
-	//{
-	//	playerAni.SetTrigger("startRoll");
-	//	curState = PlayerState.roll;
-	//	lockCamera = true;
-	//	curSlideSpeed = runSlideSpeed;
-	//}
+	void runToRoll()
+	{
+		playerAni.SetTrigger("startRoll");
+		curState = PlayerState.roll;
+		lockCamera = true;
+		curSlideSpeed = runSlideSpeed;
+	}
 
-	//void sprintToRoll()
-	//{
-	//	playerAni.SetTrigger("startRoll");
-	//	curState = PlayerState.roll;
-	//	lockCamera = true;
-	//	curSlideSpeed = sprintSlideSpeed;
-	//}
+	void sprintToRoll()
+	{
+		playerAni.SetTrigger("startRoll");
+		curState = PlayerState.roll;
+		lockCamera = true;
+		curSlideSpeed = sprintSlideSpeed;
+	}
 
 	void runToWall()
 	{
@@ -526,16 +503,16 @@ public class PlayerController : NetworkBehaviour {
 		}
 	}
 
-	//void Rolling()
-	//{
-	//	playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + targetVelocity, curSlideSpeed * Time.deltaTime);
-	//	curSlideSpeed -= slideDep;	//delat time test
-	//	if (curSlideSpeed <= 0)
-	//	{
-	//		setState(PlayerState.run);
-	//		playerAni.SetTrigger("startIdle");
-	//	}
-	//}
+	void Rolling()
+	{
+		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + targetVelocity, curSlideSpeed * Time.deltaTime);
+		curSlideSpeed -= slideDep;	//delat time test
+		if (curSlideSpeed <= 0)
+		{
+			setState(PlayerState.run);
+			playerAni.SetTrigger("startIdle");
+		}
+	}
 
 	void lunging()
 	{
@@ -566,7 +543,7 @@ public class PlayerController : NetworkBehaviour {
 		velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
 		velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
 		velocityChange.y = 0;
-		//Debug.Log("vel change " + velocityChange);
+		Debug.Log("vel change " + velocityChange);
 
 		//ridgedbody movement
 		playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);
