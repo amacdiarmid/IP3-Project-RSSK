@@ -11,7 +11,7 @@ public enum PlayerState
 	jump, 
 	doubleJump,
 	falling, 
-	slide, 
+	roll, 
 	lunge,
 	climb,
 	backEject,
@@ -22,11 +22,11 @@ public enum PlayerState
 public class PlayerController : NetworkBehaviour {
 
 	public PlayerState curState;
+	public Animator playerAni;
 
 	private Transform playerTran;
 	private Rigidbody playerRidg;
 	private PlayerCamera playerCam;
-	private bool canJump;
 	private bool canDoubleJump;
 	private float curSpeed;
 	private Vector3 targetVelocity;
@@ -35,11 +35,11 @@ public class PlayerController : NetworkBehaviour {
 	private bool lockMovement;
 	private Vector3 lungePos;
 	private float meleeRange;
-	private bool canClimb;
 	private float curClimbSpeed;
 	private float curWallSpeed;
 	private float curWallRunHeight;
 	private float curWallRunLength;
+	private float previousGroundDis;
 
 	public float walkSpeed = 5;
 	public float runSpeed = 10;
@@ -62,20 +62,20 @@ public class PlayerController : NetworkBehaviour {
 	public float wallLengthDep = 1;
 	public float wallRunHeight = 10;
 	public float wallRunLength = 5;
+	public float maxDistanceToWall = 3;
 
 	// Use this for initialization
 	void Start ()
 	{
-		curState = PlayerState.run;
-		this.GetComponent<MeshRenderer>().material.color = Color.yellow;
+		curState = PlayerState.idle;
+
 		playerTran = this.transform;
 		playerRidg = this.GetComponent<Rigidbody>();
 		playerCam = this.GetComponent<PlayerCamera>();
 
 		this.transform.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
 		this.transform.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
-		curSpeed = runSpeed;
-		canJump = true;
+
 		canDoubleJump = false;
 		lockCamera = false;
 		lockMovement = false;
@@ -98,12 +98,35 @@ public class PlayerController : NetworkBehaviour {
 			targetVelocity = playerTran.TransformDirection(targetVelocity);
 		}
 
+		if (curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.backEject || curState == PlayerState.wallJump)
+		{
+			if (previousGroundDis > playerTran.position.y)
+			{
+				setState(PlayerState.falling);
+			}
+			else
+			{
+				previousGroundDis = playerTran.position.y;
+			}
+		}
+		else if (curState == PlayerState.falling)
+		{
+			if (previousGroundDis == playerTran.position.y)
+			{
+				setState(PlayerState.idle);
+			}
+			else
+			{
+				previousGroundDis = playerTran.position.y;
+			}
+		}
+
 		if (!lockMovement)
 		{
 			checkInput();
-			if (curState == PlayerState.slide)
+			if (curState == PlayerState.roll)
 			{
-				sliding();
+				Rolling();
 			}
 			else if (curState == PlayerState.climb)
 			{
@@ -131,6 +154,11 @@ public class PlayerController : NetworkBehaviour {
 	{
 		if (Input.GetButtonUp("Jump"))
 		{
+			if (curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.idle)
+			{
+				checkGround();
+			}
+			/*
 			Debug.Log(curState);
 			if (curState == PlayerState.wallRun)
 			{
@@ -154,8 +182,9 @@ public class PlayerController : NetworkBehaviour {
 			{
 				setState(PlayerState.doubleJump);
 			}
+			*/
 		}
-		else if (Input.GetButtonUp("Walk"))
+		else if (Input.GetButtonDown("Walk"))
 		{
 			if (curState == PlayerState.run || curState == PlayerState.sprint)
 			{
@@ -166,7 +195,7 @@ public class PlayerController : NetworkBehaviour {
 				setState(PlayerState.run);
 			}
 		}
-		else if (Input.GetButtonUp("Sprint"))
+		else if (Input.GetButtonDown("Sprint"))
 		{
 			if (curState == PlayerState.walk || curState == PlayerState.run)
 			{
@@ -188,7 +217,7 @@ public class PlayerController : NetworkBehaviour {
 		{
 			if (curState == PlayerState.run || curState == PlayerState.sprint)
 			{
-				setState(PlayerState.slide);
+				setState(PlayerState.roll);
 			}
 		}
 		else if (!Input.anyKey)
@@ -221,6 +250,22 @@ public class PlayerController : NetworkBehaviour {
 		}	
 	}
 
+	void checkGround()
+	{
+		RaycastHit hit;
+		Ray ray = new Ray(transform.position, -transform.up);
+		if (Physics.Raycast(ray, out hit))
+		{
+			Debug.DrawLine(ray.origin, hit.point, Color.blue, 10);
+			Debug.Log("box height "+(this.GetComponent<BoxCollider>().size.y / 2));
+			if (Vector3.Distance(ray.origin, hit.point) <= this.GetComponent<BoxCollider>().size.y/2)
+			{
+				setState(PlayerState.jump);
+				previousGroundDis = playerTran.position.y;
+			}
+		}
+	}
+
 	void setState(PlayerState tempState)
 	{
 		switch (tempState)
@@ -244,15 +289,16 @@ public class PlayerController : NetworkBehaviour {
 			//	doubleJump();
 			//	break;
 			case PlayerState.falling:
+				falling();
 				break;
-			case PlayerState.slide:
+			case PlayerState.roll:
 				if (curState == PlayerState.run)
 				{
-					runToSlide();
+					runToRoll();
 				}
 				else if(curState == PlayerState.sprint)
 				{
-					sprintToSlide();
+					sprintToRoll();
 				}
 				break;
 			case PlayerState.lunge:
@@ -271,7 +317,7 @@ public class PlayerController : NetworkBehaviour {
 				}
 				else if (curState == PlayerState.sprint)
 				{
-					sprintToSlide();
+					sprintToRoll();
 				}
 				else if (curState == PlayerState.wallJump || curState == PlayerState.jump || curState == PlayerState.doubleJump)
 				{
@@ -290,7 +336,7 @@ public class PlayerController : NetworkBehaviour {
 	void idle()
 	{
 		lockCamera = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.white;
+		playerAni.SetTrigger("startIdle");
 		curState = PlayerState.idle;
 	}
 
@@ -299,18 +345,17 @@ public class PlayerController : NetworkBehaviour {
 	{
 		Debug.Log("jumping");
 		lockCamera = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.blue;
+		playerAni.SetTrigger("startJump");
 		curState = PlayerState.jump;
 		//playerRidg.velocity = transform.up * jumpHeight;
 		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
-		canJump = false;
 		//curSpeed = fallingSpeed;
 	}
 
 	void doubleJump()
 	{
 		lockCamera = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.blue;
+		playerAni.SetTrigger("startDoubleJump");
 		curState = PlayerState.doubleJump;
 		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
 		canDoubleJump = false;
@@ -322,7 +367,7 @@ public class PlayerController : NetworkBehaviour {
 		Debug.Log("back eject");
 		lockCamera = false;
 		canDoubleJump = true;
-		this.GetComponent<MeshRenderer>().material.color = Color.blue;
+		playerAni.SetTrigger("startBackEject");
 		playerRidg.AddForce(-transform.right * backEjectHeight, ForceMode.Impulse);
 		canDoubleJump = true;
 	}
@@ -330,7 +375,7 @@ public class PlayerController : NetworkBehaviour {
 	void wallJump()
 	{
 		lockCamera = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.blue;
+		playerAni.SetTrigger("startWallJump");
 		curState = PlayerState.wallJump;
 		playerRidg.AddForce(transform.up * jumpHeight * 2, ForceMode.Impulse);
 		canDoubleJump = false;
@@ -341,7 +386,7 @@ public class PlayerController : NetworkBehaviour {
 	{
 		lockCamera = false;
 		lockMovement = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.yellow;
+		playerAni.SetTrigger("startRun");
 		curState = PlayerState.run;
 		curSpeed = runSpeed;
 	}
@@ -350,7 +395,7 @@ public class PlayerController : NetworkBehaviour {
 	{
 		lockCamera = false;
 		lockMovement = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.green;
+		playerAni.SetTrigger("startWalk");
 		curState = PlayerState.walk;
 		curSpeed = walkSpeed;
 	}
@@ -359,7 +404,7 @@ public class PlayerController : NetworkBehaviour {
 	{
 		lockCamera = false;
 		lockMovement = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.red;
+		playerAni.SetTrigger("startSprint");
 		curState = PlayerState.sprint;
 		curSpeed = sprintSpeed;
 	}
@@ -377,36 +422,36 @@ public class PlayerController : NetworkBehaviour {
 	{
 		lockCamera = true;
 		lockMovement = true;
-		this.GetComponent<MeshRenderer>().material.color = Color.gray;
+		playerAni.SetTrigger("startLunge");
 		curState = PlayerState.lunge;
 	}
 
 	void falling()
 	{
 		lockCamera = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.magenta;
+		playerAni.SetTrigger("startFalling");
 		curState = PlayerState.falling;
 	}
 
-	void runToSlide()
+	void runToRoll()
 	{
-		this.GetComponent<MeshRenderer>().material.color = Color.black;
-		curState = PlayerState.slide;
+		playerAni.SetTrigger("startRoll");
+		curState = PlayerState.roll;
 		lockCamera = true;
 		curSlideSpeed = runSlideSpeed;
 	}
 
-	void sprintToSlide()
+	void sprintToRoll()
 	{
-		this.GetComponent<MeshRenderer>().material.color = Color.black;
-		curState = PlayerState.slide;
+		playerAni.SetTrigger("startRoll");
+		curState = PlayerState.roll;
 		lockCamera = true;
 		curSlideSpeed = sprintSlideSpeed;
 	}
 
 	void runToWall()
 	{
-		this.GetComponent<MeshRenderer>().material.color = Color.black;
+		playerAni.SetTrigger("startWallRun");
 		curState = PlayerState.wallRun;
 		//canJump = false;
 		lockCamera = true;
@@ -418,7 +463,7 @@ public class PlayerController : NetworkBehaviour {
 
 	void sprintToWall()
 	{
-		this.GetComponent<MeshRenderer>().material.color = Color.black;
+		playerAni.SetTrigger("startWallRun");
 		curState = PlayerState.wallRun;
 		lockCamera = true;
 		curWallSpeed = sprintWallSpeed;
@@ -429,7 +474,7 @@ public class PlayerController : NetworkBehaviour {
 
 	void wallToWall()
 	{
-		this.GetComponent<MeshRenderer>().material.color = Color.black;
+		playerAni.SetTrigger("startWallRun");
 		curState = PlayerState.wallRun;
 		lockCamera = true;
 		curWallSpeed = runWallSpeed;
@@ -441,6 +486,7 @@ public class PlayerController : NetworkBehaviour {
 	void climb()
 	{
 		curState = PlayerState.climb;
+		playerAni.SetTrigger("startClimb");
 		lockCamera = true;
 		curClimbSpeed = climbSpeed;
 	}
@@ -453,16 +499,18 @@ public class PlayerController : NetworkBehaviour {
 		if (curClimbSpeed <= 0)
 		{
 			setState(PlayerState.falling);
+			playerAni.SetTrigger("startIdle");
 		}
 	}
 
-	void sliding()
+	void Rolling()
 	{
 		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + targetVelocity, curSlideSpeed * Time.deltaTime);
 		curSlideSpeed -= slideDep;	//delat time test
 		if (curSlideSpeed <= 0)
 		{
 			setState(PlayerState.run);
+			playerAni.SetTrigger("startIdle");
 		}
 	}
 
@@ -472,6 +520,7 @@ public class PlayerController : NetworkBehaviour {
 		if (Vector3.Distance(playerTran.position, lungePos) < meleeRange)
 		{
 			setState(PlayerState.run);
+			playerAni.SetTrigger("startIdle");
 			lockCamera = false;
 			lockMovement = false;
 		}
@@ -510,6 +559,7 @@ public class PlayerController : NetworkBehaviour {
 	//collisions with wall (will be replaced with raycasts)
 	void OnCollisionEnter(Collision col)
 	{
+		/*
 		if (col.gameObject.tag == "Ground" && curState != PlayerState.wallRun)
 		{
 			Debug.Log("enter ground");
@@ -535,6 +585,7 @@ public class PlayerController : NetworkBehaviour {
 			Debug.Log("can jump");
 			canClimb = true;
 		}
+		*/
 
 		//note: this is for the curved wall running idea by taking the normal of the wall and the plyer will follow that 
 		/*Vector3 p = col.contacts[0].point;
@@ -545,6 +596,7 @@ public class PlayerController : NetworkBehaviour {
 
 	void OnCollisionExit(Collision col)
 	{
+		/*
 		if (col.gameObject.tag == "Ground")
 		{
 			//Debug.Log("exit ground");
@@ -563,6 +615,7 @@ public class PlayerController : NetworkBehaviour {
 			Debug.Log("cant jump");
 			canClimb = false;
 		}
+		*/
 	}
 
 }

@@ -36,6 +36,7 @@ GameObject:
   - 114: {fileID: 11429070}
   - 114: {fileID: 11457840}
   - 114: {fileID: 11451834}
+  - 95: {fileID: 9543318}
   m_Layer: 0
   m_Name: test player
   m_TagString: Player
@@ -478,6 +479,23 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &9543318
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146546}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7cd7884f4c70475408018fa62a3843b6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11406238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -550,13 +568,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   curState: 1
+  playerAni: {fileID: 9543318}
   walkSpeed: 5
   runSpeed: 10
   sprintSpeed: 20
   fallingSpeed: 5
   lungeSpeed: 50
-  wallRunningSpeed: 25
-  maxVelocityChange: 10
+  wallRunningSpeed: 24.36
+  maxVelocityChange: 0.66
   jumpHeight: 10
   runSlideSpeed: 30
   sprintSlideSpeed: 50
@@ -571,6 +590,7 @@ MonoBehaviour:
   wallLengthDep: 1
   wallRunHeight: 10
   wallRunLength: 5
+  maxDistanceToWall: 3
 --- !u!114 &11449870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -794,7 +814,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxVelocityChange
-      value: 10
+      value: 0.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: wallRunningSpeed
+      value: 24.36
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
