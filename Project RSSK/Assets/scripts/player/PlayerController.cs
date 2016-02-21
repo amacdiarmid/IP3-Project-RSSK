@@ -152,7 +152,7 @@ public class PlayerController : NetworkBehaviour {
 
 	void checkInput()
 	{
-		if (Input.GetButtonUp("Jump"))
+		if (Input.GetButtonDown("Jump"))
 		{
 			if (curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.idle)
 			{
