@@ -21,41 +21,49 @@ public enum PlayerState
 
 public class PlayerController : NetworkBehaviour {
 
+	//enum and components
 	public PlayerState curState;
 	public Animator playerAni;
-
 	private Transform playerTran;
 	private Rigidbody playerRidg;
 	private PlayerCamera playerCam;
-	private bool canDoubleJump;
-	private float curSpeed;
-	private Vector3 targetVelocity;
-	private float curSlideSpeed;
 	private bool lockCamera;
 	private bool lockMovement;
-	private Vector3 lungePos;
-	private float meleeRange;
-	private float curClimbSpeed;
-	private float curWallSpeed;
-	private float curWallRunHeight;
-	private float curWallRunLength;
-	private float previousGroundDis;
 
+	//jumping
+	private bool canDoubleJump;
+	private float previousGroundDis;
+	public float jumpHeight = 500;
+
+	//moving 
+	private float curSpeed;
+	private Vector3 targetVelocity;
 	public float walkSpeed = 5;
 	public float runSpeed = 10;
 	public float sprintSpeed = 25;
 	public float fallingSpeed = 0;
-	public float lungeSpeed = 25;
-	public float wallRunningSpeed = 25;
 	public float maxVelocityChange = 10;
-	public float jumpHeight = 500;
-	public float runSlideSpeed = 30;
-	public float sprintSlideSpeed = 50;
+
+	//sliding
+	private float curSlideSpeed;
+	public float runRollSpeed = 30;
+	public float sprintRollSpeed = 50;
 	public float slideDep = 1;
+
+	//lunging
+	private Vector3 lungePos;
+	private float meleeRange;
+	public float lungeSpeed = 25;
+
+	//wall climbing
+	private float curClimbSpeed;
+
+	//wall running
+	private float curWallSpeed;
+	private float curWallRunHeight;
+	private float curWallRunLength;
+	public float wallRunningSpeed = 25;
 	public float angleToWallRun = 10;
-	public float climbSpeed = 20;
-	public float climbDep = 1;
-	public float backEjectHeight = 300;
 	public float runWallSpeed = 10;
 	public float sprintWallSpeed = 15;
 	public float wallHeightDep = 1;
@@ -63,6 +71,12 @@ public class PlayerController : NetworkBehaviour {
 	public float wallRunHeight = 10;
 	public float wallRunLength = 5;
 	public float maxDistanceToWall = 3;
+
+	//climbing
+	public float climbSpeed = 20;
+	public float climbDep = 1;
+	public float backEjectHeight = 300;
+	
 
 	// Use this for initialization
 	void Start ()
@@ -154,9 +168,17 @@ public class PlayerController : NetworkBehaviour {
 	{
 		if (Input.GetButtonDown("Jump"))
 		{
-			if (curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.idle)
+			if (checkWall() && (curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.wallJump))
 			{
-				checkGround();
+				checkWallAngle();
+			}
+			else if (curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.idle)
+			{
+				if(checkGround())
+				{
+					setState(PlayerState.jump);
+					previousGroundDis = playerTran.position.y;
+				}
 			}
 			/*
 			Debug.Log(curState);
@@ -236,6 +258,7 @@ public class PlayerController : NetworkBehaviour {
 		if (Physics.Raycast(ray, out hit))
 		{
 			float angleToWall = Mathf.Rad2Deg * Mathf.Acos(Vector2.Dot(new Vector2(ray.direction.x, ray.direction.z), new Vector2(hit.normal.x, hit.normal.z)));
+			Debug.Log(angleToWall);
 			Debug.DrawLine(ray.origin, hit.point, Color.cyan, 10);
 			if (angleToWall > 180 - angleToWallRun)
 			{
@@ -250,7 +273,7 @@ public class PlayerController : NetworkBehaviour {
 		}	
 	}
 
-	void checkGround()
+	bool checkGround()
 	{
 		RaycastHit hit;
 		Ray ray = new Ray(transform.position, -transform.up);
@@ -260,10 +283,43 @@ public class PlayerController : NetworkBehaviour {
 			Debug.Log("box height "+(this.GetComponent<BoxCollider>().size.y / 2));
 			if (Vector3.Distance(ray.origin, hit.point) <= this.GetComponent<BoxCollider>().size.y/2)
 			{
-				setState(PlayerState.jump);
-				previousGroundDis = playerTran.position.y;
+				return true;
 			}
 		}
+		return false;
+	}
+
+	bool checkWall()
+	{
+		RaycastHit hit;
+		Ray ray = new Ray(transform.position, transform.right);
+		if (Physics.Raycast(ray, out hit))
+		{
+			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
+			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
+			{
+				return true;
+			}
+		}
+		ray = new Ray(transform.position, transform.forward);
+		if (Physics.Raycast(ray, out hit))
+		{
+			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
+			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
+			{
+				return true;
+			}
+		}
+		ray = new Ray(transform.position, -transform.forward);
+		if (Physics.Raycast(ray, out hit))
+		{
+			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
+			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	void setState(PlayerState tempState)
@@ -438,7 +494,7 @@ public class PlayerController : NetworkBehaviour {
 		playerAni.SetTrigger("startRoll");
 		curState = PlayerState.roll;
 		lockCamera = true;
-		curSlideSpeed = runSlideSpeed;
+		curSlideSpeed = runRollSpeed;
 	}
 
 	void sprintToRoll()
@@ -446,7 +502,7 @@ public class PlayerController : NetworkBehaviour {
 		playerAni.SetTrigger("startRoll");
 		curState = PlayerState.roll;
 		lockCamera = true;
-		curSlideSpeed = sprintSlideSpeed;
+		curSlideSpeed = sprintRollSpeed;
 	}
 
 	void runToWall()
@@ -532,6 +588,17 @@ public class PlayerController : NetworkBehaviour {
 		nextWallSpeed = playerTran.TransformDirection(nextWallSpeed);
 		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + nextWallSpeed, curWallSpeed * Time.deltaTime);
 		curWallRunHeight -= wallHeightDep * Time.deltaTime;
+
+		if (!checkWall())
+		{
+			setState(PlayerState.wallJump);
+		}
+		else if(checkGround())
+		{
+			setState(PlayerState.falling);
+		}
+
+		//Debug.Log("wall heigher " + curWallRunHeight + nextWallSpeed);
 		//curWallRunLength -= wallLengthDep * Time.deltaTime;
 	}
 
@@ -543,7 +610,7 @@ public class PlayerController : NetworkBehaviour {
 		velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
 		velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
 		velocityChange.y = 0;
-		Debug.Log("vel change " + velocityChange);
+		//Debug.Log("vel change " + velocityChange);
 
 		//ridgedbody movement
 		playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);

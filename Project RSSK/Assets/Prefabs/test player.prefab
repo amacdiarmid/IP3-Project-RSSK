@@ -569,21 +569,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   curState: 1
   playerAni: {fileID: 9543318}
+  jumpHeight: 10
   walkSpeed: 5
   runSpeed: 10
   sprintSpeed: 20
   fallingSpeed: 5
+  maxVelocityChange: 0.66
+  runRollSpeed: 30
+  sprintRollSpeed: 50
+  slideDep: 1
   lungeSpeed: 50
   wallRunningSpeed: 24.36
-  maxVelocityChange: 0.66
-  jumpHeight: 10
-  runSlideSpeed: 30
-  sprintSlideSpeed: 50
-  slideDep: 1
-  angleToWallRun: 10
-  climbSpeed: 20
-  climbDep: 1
-  backEjectHeight: 10
+  angleToWallRun: 45
   runWallSpeed: 10
   sprintWallSpeed: 15
   wallHeightDep: 1
@@ -591,6 +588,9 @@ MonoBehaviour:
   wallRunHeight: 10
   wallRunLength: 5
   maxDistanceToWall: 3
+  climbSpeed: 20
+  climbDep: 1
+  backEjectHeight: 10
 --- !u!114 &11449870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -819,6 +819,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: wallRunningSpeed
       value: 24.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: angleToWallRun
+      value: 45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
