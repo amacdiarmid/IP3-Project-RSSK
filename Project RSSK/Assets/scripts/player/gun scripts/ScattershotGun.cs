@@ -10,14 +10,14 @@ public class ScattershotGun : Gun
 	public override void checkInput()
 	{
 		if (!canFire)
-            canFire = (RoFTime += Time.deltaTime) >= rateOfFire;
-        else if (Input.GetButtonDown("Fire1"))
-            for (int i = 0; i < peletCount; i++)
-                CmdShoot();
+			canFire = (RoFTime += Time.deltaTime) >= rateOfFire;
+		else if (Input.GetButtonDown("Fire1"))
+			for (int i = 0; i < peletCount; i++)
+				CmdShoot();
 
-        if (Input.GetButtonUp("Reload"))
+		if (Input.GetButtonUp("Reload"))
 			reload();
 
-        gunSreadVal -= spreadDep * Time.deltaTime;  //reduce the gun spread
-    }
+		gunSreadVal -= spreadDep * Time.deltaTime;  //reduce the gun spread
+	}
 }

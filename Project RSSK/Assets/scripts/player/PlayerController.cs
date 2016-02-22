@@ -62,6 +62,8 @@ public class PlayerController : NetworkBehaviour {
 	private float curWallSpeed;
 	private float curWallRunHeight;
 	private float curWallRunLength;
+	private bool canWallRun;
+	private float wallRunCooldownTime = 0;
 	public float wallRunningSpeed = 25;
 	public float angleToWallRun = 10;
 	public float runWallSpeed = 10;
@@ -71,6 +73,8 @@ public class PlayerController : NetworkBehaviour {
 	public float wallRunHeight = 10;
 	public float wallRunLength = 5;
 	public float maxDistanceToWall = 3;
+	public float wallRunCooldown = 1;
+	
 
 	//climbing
 	public float climbSpeed = 20;
@@ -93,6 +97,7 @@ public class PlayerController : NetworkBehaviour {
 		canDoubleJump = false;
 		lockCamera = false;
 		lockMovement = false;
+		canWallRun = true;
 
 		this.gameObject.SetActive(true);
 
@@ -112,7 +117,15 @@ public class PlayerController : NetworkBehaviour {
 			targetVelocity = playerTran.TransformDirection(targetVelocity);
 		}
 
-		if (curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.backEject || curState == PlayerState.wallJump)
+		if (curState == PlayerState.wallJump && checkWall() && canWallRun)
+		{
+			setState(PlayerState.wallRun);
+		}
+		else if (!canWallRun)
+		{
+			canWallRun = (wallRunCooldownTime += Time.deltaTime) >= wallRunCooldown;
+		}
+		else if (curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.backEject || curState == PlayerState.wallJump)
 		{
 			if (previousGroundDis > playerTran.position.y)
 			{
@@ -168,7 +181,11 @@ public class PlayerController : NetworkBehaviour {
 	{
 		if (Input.GetButtonDown("Jump"))
 		{
-			if (checkWall() && (curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.wallJump))
+			if (curState == PlayerState.wallRun)
+			{
+				setState(PlayerState.wallJump);
+			}
+			else if (checkWall() && (curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.wallJump))
 			{
 				checkWallAngle();
 			}
@@ -435,6 +452,8 @@ public class PlayerController : NetworkBehaviour {
 		curState = PlayerState.wallJump;
 		playerRidg.AddForce(transform.up * jumpHeight * 2, ForceMode.Impulse);
 		canDoubleJump = false;
+		canWallRun = false;
+		wallRunCooldownTime = 0;
 	}
 
 	//setting the players current speed
