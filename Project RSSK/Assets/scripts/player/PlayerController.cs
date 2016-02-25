@@ -652,6 +652,7 @@ public class PlayerController : NetworkBehaviour {
 		//playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
 	}
 
+	/*
 	//collisions with wall (will be replaced with raycasts)
 	void OnCollisionEnter(Collision col)
 	{
@@ -681,13 +682,13 @@ public class PlayerController : NetworkBehaviour {
 			Debug.Log("can jump");
 			canClimb = true;
 		}
-		*/
+		
 
 		//note: this is for the curved wall running idea by taking the normal of the wall and the plyer will follow that 
 		/*Vector3 p = col.contacts[0].point;
 		RaycastHit info = new RaycastHit();
 		if(Physics.Raycast(transform.position, p - transform.position, out info))
-			Debug.DrawLine(info.point, info.point + info.normal, Color.cyan, 10);*/
+			Debug.DrawLine(info.point, info.point + info.normal, Color.cyan, 10);
 	}
 
 	void OnCollisionExit(Collision col)
@@ -711,7 +712,7 @@ public class PlayerController : NetworkBehaviour {
 			Debug.Log("cant jump");
 			canClimb = false;
 		}
-		*/
+		
 	}
-
+	*/
 }
