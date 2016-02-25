@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MeleeWeapon : NetworkBehaviour
 {
@@ -14,6 +15,9 @@ public class MeleeWeapon : NetworkBehaviour
 	private float countdownTimer;
 	private PlayerController playerCon;
 	public Animator swordAni;   //todo set up a search to find the correct animator
+
+	public List<AudioClip> attackAudio;
+	public AudioSource audioSource;
 
 	void Start()
 	{
@@ -57,20 +61,17 @@ public class MeleeWeapon : NetworkBehaviour
 					if (Vector3.Distance(transform.position, hit.point) <= range)
 					{
 						Debug.DrawLine(ray.origin, hit.point, Color.yellow, 10);
-						swordAni.SetTrigger("attack");
 						hit.collider.gameObject.GetComponent<TestPlayer>().hit();
 					}
 					else if (Vector3.Distance(transform.position, hit.point) <= lungeRange)
 					{
 						Debug.DrawLine(ray.origin, hit.point, Color.black, 10);
 						playerCon.goLunge(hit.point, range);
-						swordAni.SetTrigger("attack");
 						hit.collider.gameObject.GetComponent<TestPlayer>().hit();
 					}
 					else
 					{
 						Debug.DrawLine(ray.origin, ray.GetPoint(lungeRange), Color.magenta, 10);
-						swordAni.SetTrigger("attack");
 					}
 				}
 				//need to test with other people 
@@ -79,28 +80,26 @@ public class MeleeWeapon : NetworkBehaviour
 					if (Vector3.Distance(transform.position, hit.point) <= range)
 					{
 						Debug.DrawLine(ray.origin, hit.point, Color.yellow, 10);
-						swordAni.SetTrigger("attack");
 						hit.collider.gameObject.GetComponent<PlayerStats>().damaged(damage);
 					}
 					else if (Vector3.Distance(transform.position, hit.point) <= lungeRange)
 					{
 						Debug.DrawLine(ray.origin, hit.point, Color.black, 10);
 						playerCon.goLunge(hit.point, range);
-						swordAni.SetTrigger("attack");
 						hit.collider.gameObject.GetComponent<PlayerStats>().damaged(damage);
 					}
 					else
 					{
 						Debug.DrawLine(ray.origin, ray.GetPoint(lungeRange), Color.magenta, 10);
-						swordAni.SetTrigger("attack");
 					}
 				}
 			}
 			else
 			{
 				Debug.DrawLine(ray.origin, ray.GetPoint(lungeRange), Color.magenta, 10);
-				swordAni.SetTrigger("attack");
 			}
+			audioSource.PlayOneShot(attackAudio[Random.Range(0, attackAudio.Count - 1)]);
+			swordAni.SetTrigger("attack");
 		}
 	}
 

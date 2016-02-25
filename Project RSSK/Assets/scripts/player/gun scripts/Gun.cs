@@ -22,10 +22,16 @@ public class Gun : NetworkBehaviour {
 	
 	public GameObject projectile;
 
+	public AudioClip fireAudio;
+	public AudioClip outOfAmmoAudio;
+	public AudioClip reloadAudio;
+	public AudioSource audioSource;
+
 	void Start ()
 	{
 		curAmmo = maxAmmo;
 		barrel = transform.FindChild("camera/teat gun/barrel point");
+		//audioSource = GetComponent<AudioSource>();
 	}
 	
 	void Update ()
@@ -60,6 +66,9 @@ public class Gun : NetworkBehaviour {
 
 			//telling the server to spawn this bullet for everyone
 			NetworkServer.Spawn(curBull);
+
+			//audio call
+			audioSource.PlayOneShot(fireAudio);
 					
 			//add spread to the next shot 
 			gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, maxSpread);
@@ -67,6 +76,7 @@ public class Gun : NetworkBehaviour {
 		else
 		{
 			Debug.Log("reload");
+			audioSource.PlayOneShot(outOfAmmoAudio);
 		}
 	}
 
@@ -77,7 +87,8 @@ public class Gun : NetworkBehaviour {
 		{
 			++curAmmo;
 			--spareAmmo;
-		}
+			audioSource.PlayOneShot(reloadAudio);
+		}	
 		gunSreadVal = 0;
 	}
 }

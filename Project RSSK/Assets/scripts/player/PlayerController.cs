@@ -27,6 +27,7 @@ public class PlayerController : NetworkBehaviour {
 	private Transform playerTran;
 	private Rigidbody playerRidg;
 	private PlayerCamera playerCam;
+	private PlayerAudioController playerAudio;
 	private bool lockCamera;
 	private bool lockMovement;
 
@@ -90,6 +91,7 @@ public class PlayerController : NetworkBehaviour {
 		playerTran = this.transform;
 		playerRidg = this.GetComponent<Rigidbody>();
 		playerCam = this.GetComponent<PlayerCamera>();
+		playerAudio = this.GetComponent<PlayerAudioController>();
 
 		this.transform.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
 		this.transform.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
@@ -411,6 +413,7 @@ public class PlayerController : NetworkBehaviour {
 		lockCamera = false;
 		playerAni.SetTrigger("startIdle");
 		curState = PlayerState.idle;
+		playerAudio.setAudio(PlayerState.idle);
 	}
 
 	//one off jumps that add instant force
@@ -423,6 +426,7 @@ public class PlayerController : NetworkBehaviour {
 		//playerRidg.velocity = transform.up * jumpHeight;
 		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
 		//curSpeed = fallingSpeed;
+		playerAudio.setAudio(PlayerState.jump);
 	}
 
 	void doubleJump()
@@ -433,6 +437,7 @@ public class PlayerController : NetworkBehaviour {
 		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
 		canDoubleJump = false;
 		//curSpeed = fallingSpeed;
+		playerAudio.setAudio(PlayerState.jump);
 	}
 
 	void backEject()
@@ -443,6 +448,7 @@ public class PlayerController : NetworkBehaviour {
 		playerAni.SetTrigger("startBackEject");
 		playerRidg.AddForce(-transform.right * backEjectHeight, ForceMode.Impulse);
 		canDoubleJump = true;
+		playerAudio.setAudio(PlayerState.jump);
 	}
 
 	void wallJump()
@@ -454,6 +460,7 @@ public class PlayerController : NetworkBehaviour {
 		canDoubleJump = false;
 		canWallRun = false;
 		wallRunCooldownTime = 0;
+		playerAudio.setAudio(PlayerState.jump);
 	}
 
 	//setting the players current speed
@@ -464,6 +471,7 @@ public class PlayerController : NetworkBehaviour {
 		playerAni.SetTrigger("startRun");
 		curState = PlayerState.run;
 		curSpeed = runSpeed;
+		playerAudio.setAudio(PlayerState.run);
 	}
 
 	void walk()
@@ -473,6 +481,7 @@ public class PlayerController : NetworkBehaviour {
 		playerAni.SetTrigger("startWalk");
 		curState = PlayerState.walk;
 		curSpeed = walkSpeed;
+		playerAudio.setAudio(PlayerState.walk);
 	}
 
 	void sprint()
@@ -482,6 +491,7 @@ public class PlayerController : NetworkBehaviour {
 		playerAni.SetTrigger("startSprint");
 		curState = PlayerState.sprint;
 		curSpeed = sprintSpeed;
+		playerAudio.setAudio(PlayerState.sprint);
 	}
 
 	//starts of the state transition
