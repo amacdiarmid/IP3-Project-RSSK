@@ -193,6 +193,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 491568}
   - 82: {fileID: 8273886}
+  - 108: {fileID: 10821514}
+  - 95: {fileID: 9590372}
   m_Layer: 0
   m_Name: teat gun
   m_TagString: Untagged
@@ -234,6 +236,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.615, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 498940}
   - {fileID: 491568}
   m_Father: {fileID: 457912}
   m_RootOrder: 0
@@ -277,7 +280,7 @@ Transform:
   m_LocalScale: {x: 3, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 491568}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!4 &491568
 Transform:
   m_ObjectHideFlags: 1
@@ -288,11 +291,10 @@ Transform:
   m_LocalPosition: {x: 0.8926643, y: -0.57299995, z: 2.6799996}
   m_LocalScale: {x: 0.2197381, y: 0.21973807, z: 0.2197381}
   m_Children:
-  - {fileID: 498940}
   - {fileID: 478730}
   - {fileID: 492966}
   m_Father: {fileID: 446000}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &492966
 Transform:
   m_ObjectHideFlags: 1
@@ -304,18 +306,18 @@ Transform:
   m_LocalScale: {x: 1, y: 2.1, z: 1}
   m_Children: []
   m_Father: {fileID: 491568}
-  m_RootOrder: 2
+  m_RootOrder: 1
 --- !u!4 &498940
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 158408}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.24, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071067}
+  m_LocalPosition: {x: 0.89266413, y: -0.57299995, z: 3.1722124}
+  m_LocalScale: {x: 0.2197381, y: 0.21973807, z: 0.2197381}
   m_Children: []
-  m_Father: {fileID: 491568}
+  m_Father: {fileID: 446000}
   m_RootOrder: 0
 --- !u!20 &2014410
 Camera:
@@ -861,6 +863,56 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!95 &9590372
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199566}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7e01864f82c60714d96de4af05af74a6, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+--- !u!108 &10821514
+Light:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 199566}
+  m_Enabled: 0
+  serializedVersion: 6
+  m_Type: 2
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 0
+    m_Resolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_BounceIntensity: 1
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+  m_AreaSize: {x: 1, y: 1}
 --- !u!114 &11406238
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1106,6 +1158,7 @@ MonoBehaviour:
   spreadAdv: 0.2
   spreadDep: 0.1
   projectile: {fileID: 187148, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
+  gunAni: {fileID: 9590372}
   fireAudio: {fileID: 8300000, guid: ff7309d4dd64c144d890f04b8c7cf094, type: 3}
   outOfAmmoAudio: {fileID: 8300000, guid: 8175182f91a2a4241a15124f861f53e3, type: 3}
   reloadAudio: {fileID: 8300000, guid: 40b77c48c79852a43925586bd81f50b7, type: 3}

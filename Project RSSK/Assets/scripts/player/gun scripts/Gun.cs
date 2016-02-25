@@ -22,6 +22,8 @@ public class Gun : NetworkBehaviour {
 	
 	public GameObject projectile;
 
+	public Animator gunAni;   //todo set up a search to find the correct animator
+
 	public AudioClip fireAudio;
 	public AudioClip outOfAmmoAudio;
 	public AudioClip reloadAudio;
@@ -30,7 +32,7 @@ public class Gun : NetworkBehaviour {
 	void Start ()
 	{
 		curAmmo = maxAmmo;
-		barrel = transform.FindChild("camera/teat gun/barrel point");
+		barrel = transform.FindChild("camera/barrel point");
 		//audioSource = GetComponent<AudioSource>();
 	}
 	
@@ -67,8 +69,9 @@ public class Gun : NetworkBehaviour {
 			//telling the server to spawn this bullet for everyone
 			NetworkServer.Spawn(curBull);
 
-			//audio call
+			//audio/ani call
 			audioSource.PlayOneShot(fireAudio);
+			gunAni.SetTrigger("fire");
 					
 			//add spread to the next shot 
 			gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, maxSpread);
@@ -83,6 +86,10 @@ public class Gun : NetworkBehaviour {
 	public void reload()
 	{
 		//this could be alot better
+		if (curAmmo != maxAmmo && spareAmmo > 0)
+		{
+			gunAni.SetTrigger("reload");
+		}
 		while (curAmmo != maxAmmo && spareAmmo > 0)
 		{
 			++curAmmo;

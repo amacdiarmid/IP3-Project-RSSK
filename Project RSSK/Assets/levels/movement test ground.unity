@@ -600,7 +600,40 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
---- !u!1001 &875708047
+--- !u!1 &921797329
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 921797330}
+  m_Layer: 0
+  m_Name: ramp
+  m_TagString: Obstacle
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &921797330
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 921797329}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.0592873, y: 1.17, z: -2.39}
+  m_LocalScale: {x: 2.3789015, y: 2.3789005, z: 2.3789005}
+  m_Children:
+  - {fileID: 1656576637}
+  - {fileID: 195644332}
+  - {fileID: 461579870}
+  - {fileID: 1171364744}
+  - {fileID: 1409707141}
+  - {fileID: 1981596883}
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+--- !u!1001 &928468668
 Prefab:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -646,39 +679,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c08925c981dc1cd4db3eb1b320b65b13, type: 2}
   m_IsPrefabParent: 0
---- !u!1 &921797329
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 921797330}
-  m_Layer: 0
-  m_Name: ramp
-  m_TagString: Obstacle
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &921797330
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 921797329}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.0592873, y: 1.17, z: -2.39}
-  m_LocalScale: {x: 2.3789015, y: 2.3789005, z: 2.3789005}
-  m_Children:
-  - {fileID: 1656576637}
-  - {fileID: 195644332}
-  - {fileID: 461579870}
-  - {fileID: 1171364744}
-  - {fileID: 1409707141}
-  - {fileID: 1981596883}
-  m_Father: {fileID: 0}
-  m_RootOrder: 10
 --- !u!1001 &943900821
 Prefab:
   m_ObjectHideFlags: 0
