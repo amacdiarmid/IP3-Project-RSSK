@@ -103783,7 +103783,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &195644332
 Transform:
@@ -103898,7 +103898,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &229781416
 MonoBehaviour:
@@ -103986,7 +103986,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &461579870
 Transform:
@@ -104135,7 +104135,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &572730662
 MonoBehaviour:
@@ -104399,6 +104399,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 149774, guid: 5a94e37d3ab528c4cbfc2087df7b6ce1, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a94e37d3ab528c4cbfc2087df7b6ce1, type: 2}
   m_IsPrefabParent: 0
@@ -104419,7 +104423,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &953106242
 MonoBehaviour:
@@ -104596,7 +104600,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1171364744
 Transform:
@@ -104710,6 +104714,10 @@ Prefab:
       propertyPath: m_Name
       value: test dummie (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 149774, guid: 5a94e37d3ab528c4cbfc2087df7b6ce1, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a94e37d3ab528c4cbfc2087df7b6ce1, type: 2}
   m_IsPrefabParent: 0
@@ -104792,7 +104800,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1409707141
 Transform:
@@ -104880,7 +104888,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1493426100
 MonoBehaviour:
@@ -104965,7 +104973,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!108 &1533455015
 Light:
@@ -105054,6 +105062,10 @@ Prefab:
     - target: {fileID: 149774, guid: 5a94e37d3ab528c4cbfc2087df7b6ce1, type: 2}
       propertyPath: m_Name
       value: test dummie (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 149774, guid: 5a94e37d3ab528c4cbfc2087df7b6ce1, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a94e37d3ab528c4cbfc2087df7b6ce1, type: 2}
@@ -105184,7 +105196,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1656576637
 Transform:
@@ -105294,6 +105306,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 187148, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
   m_IsPrefabParent: 0
@@ -105314,7 +105330,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1744391925
 MonoBehaviour:
@@ -105402,7 +105418,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1832092889
 MonoBehaviour:
@@ -105565,7 +105581,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1895841804
 MonoBehaviour:
@@ -105653,7 +105669,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!114 &1913619312
 MonoBehaviour:
@@ -105741,7 +105757,7 @@ GameObject:
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1981596883
 Transform:
@@ -105998,6 +106014,10 @@ Prefab:
     - target: {fileID: 149774, guid: 5a94e37d3ab528c4cbfc2087df7b6ce1, type: 2}
       propertyPath: m_Name
       value: test dummie (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 149774, guid: 5a94e37d3ab528c4cbfc2087df7b6ce1, type: 2}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5a94e37d3ab528c4cbfc2087df7b6ce1, type: 2}
