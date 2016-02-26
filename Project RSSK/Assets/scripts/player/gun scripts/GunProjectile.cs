@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GunProjectile : MonoBehaviour {
-
+public class GunProjectile : MonoBehaviour
+{
 	public int damage = 10;
 	public float speed = 10;
-
-	float startTime;
 
 	void Start ()
 	{
@@ -16,7 +14,7 @@ public class GunProjectile : MonoBehaviour {
 	void OnTriggerEnter(Collider col)
 	{
 		if (col.gameObject.tag == "Player")
-			col.gameObject.GetComponent<PlayerStats>().damaged(damage);
+			col.gameObject.GetComponent<PlayerStats>().CmdDamage(damage);
 		
 		if (col.gameObject.tag == "TestPlayer")
 			col.gameObject.GetComponent<TestPlayer>().shot();

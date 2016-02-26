@@ -32,16 +32,11 @@ public class MeleeWeapon : NetworkBehaviour
 		{
 			countdownTimer += Time.deltaTime;
 			if (countdownTimer >= cooldown)
-			{
 				canAttack = true;
-			}
 		}
 
 		if (Input.GetButton("Fire2"))
-		{
-			Debug.Log("fire 2 down");
 			attack();
-		}
 	}
 
 	public void attack()
@@ -80,13 +75,13 @@ public class MeleeWeapon : NetworkBehaviour
 					if (Vector3.Distance(transform.position, hit.point) <= range)
 					{
 						Debug.DrawLine(ray.origin, hit.point, Color.yellow, 10);
-						hit.collider.gameObject.GetComponent<PlayerStats>().damaged(damage);
+						hit.collider.gameObject.GetComponent<PlayerStats>().CmdDamage(damage);
 					}
 					else if (Vector3.Distance(transform.position, hit.point) <= lungeRange)
 					{
 						Debug.DrawLine(ray.origin, hit.point, Color.black, 10);
 						playerCon.goLunge(hit.point, range);
-						hit.collider.gameObject.GetComponent<PlayerStats>().damaged(damage);
+						hit.collider.gameObject.GetComponent<PlayerStats>().CmdDamage(damage);
 					}
 					else
 					{
@@ -107,7 +102,7 @@ public class MeleeWeapon : NetworkBehaviour
 	{
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-		if (Physics.Raycast(ray, out hit))
+		if (Physics.Raycast(ray, out hit, 10))
 		{
 			Debug.Log("hit melee wep " + hit.collider.gameObject.name);
 			if (hit.collider.gameObject.tag == "TestPlayer")

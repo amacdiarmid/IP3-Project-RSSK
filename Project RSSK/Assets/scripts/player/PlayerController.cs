@@ -26,13 +26,11 @@ public class PlayerController : NetworkBehaviour {
 	public Animator playerAni;
 	private Transform playerTran;
 	private Rigidbody playerRidg;
-	private PlayerCamera playerCam;
 	private PlayerAudioController playerAudio;
-	private bool lockCamera;
-	private bool lockMovement;
+    private bool lockCamera = false;
+	private bool lockMovement = false;
 
 	//jumping
-	private bool canDoubleJump;
 	private float previousGroundDis;
 	public float jumpHeight = 500;
 
@@ -63,7 +61,7 @@ public class PlayerController : NetworkBehaviour {
 	private float curWallSpeed;
 	private float curWallRunHeight;
 	private float curWallRunLength;
-	private bool canWallRun;
+	private bool canWallRun = true;
 	private float wallRunCooldownTime = 0;
 	public float wallRunningSpeed = 25;
 	public float angleToWallRun = 10;
@@ -88,20 +86,14 @@ public class PlayerController : NetworkBehaviour {
 	{
 		curState = PlayerState.idle;
 
-		playerTran = this.transform;
-		playerRidg = this.GetComponent<Rigidbody>();
-		playerCam = this.GetComponent<PlayerCamera>();
-		playerAudio = this.GetComponent<PlayerAudioController>();
+		playerTran = transform;
+		playerRidg = GetComponent<Rigidbody>();
+		playerAudio = GetComponent<PlayerAudioController>();
 
-		this.transform.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
-		this.transform.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
+		transform.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
+		transform.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
 
-		canDoubleJump = false;
-		lockCamera = false;
-		lockMovement = false;
-		canWallRun = true;
-
-		this.gameObject.SetActive(true);
+		gameObject.SetActive(true);
 
 		//remove when we find out spawn points
 		transform.position = new Vector3(0, 3, 0);
@@ -115,68 +107,43 @@ public class PlayerController : NetworkBehaviour {
 
 		if (!lockCamera)
 		{
-			targetVelocity = new Vector3(Input.GetAxis("Vertical"), 0, -Input.GetAxis("Horizontal")); 
+			targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")); 
 			targetVelocity = playerTran.TransformDirection(targetVelocity);
 		}
 
 		if (curState == PlayerState.wallJump && checkWall() && canWallRun)
-		{
 			setState(PlayerState.wallRun);
-		}
 		else if (!canWallRun)
-		{
 			canWallRun = (wallRunCooldownTime += Time.deltaTime) >= wallRunCooldown;
-		}
 		else if (curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.backEject || curState == PlayerState.wallJump)
 		{
 			if (previousGroundDis > playerTran.position.y)
-			{
 				setState(PlayerState.falling);
-			}
 			else
-			{
 				previousGroundDis = playerTran.position.y;
-			}
 		}
 		else if (curState == PlayerState.falling)
 		{
 			if (previousGroundDis == playerTran.position.y)
-			{
 				setState(PlayerState.idle);
-			}
 			else
-			{
 				previousGroundDis = playerTran.position.y;
-			}
 		}
 
 		if (!lockMovement)
 		{
 			checkInput();
 			if (curState == PlayerState.roll)
-			{
 				Rolling();
-			}
 			else if (curState == PlayerState.climb)
-			{
 				climbing();
-			}
 			else if (curState == PlayerState.wallRun)
-			{
 				wallRunning();
-			}
 			else
-			{
 				moving();
-			}	
 		}
-		else
-		{
-			if (curState == PlayerState.lunge)
-			{
-				lunging();
-			}
-		}
+		else if (curState == PlayerState.lunge)
+			lunging();
 	}
 
 	void checkInput()
@@ -184,13 +151,9 @@ public class PlayerController : NetworkBehaviour {
 		if (Input.GetButtonDown("Jump"))
 		{
 			if (curState == PlayerState.wallRun)
-			{
 				setState(PlayerState.wallJump);
-			}
 			else if (checkWall() && (curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.wallJump))
-			{
 				checkWallAngle();
-			}
 			else if (curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.idle)
 			{
 				if(checkGround())
@@ -199,74 +162,35 @@ public class PlayerController : NetworkBehaviour {
 					previousGroundDis = playerTran.position.y;
 				}
 			}
-			/*
-			Debug.Log(curState);
-			if (curState == PlayerState.wallRun)
-			{
-				Debug.Log("set wall jump");
-				setState(PlayerState.wallJump);
-			}
-			else if (curState == PlayerState.climb)
-			{
-				Debug.Log("set backEject");
-				setState(PlayerState.backEject);
-			}
-			else if (canClimb && curState != PlayerState.idle && Input.GetAxis("Vertical") == 1)
-			{
-				checkWallAngle();
-			}
-			else if (canJump)
-			{
-				setState(PlayerState.jump);
-			}
-			else if (canDoubleJump)
-			{
-				setState(PlayerState.doubleJump);
-			}
-			*/
 		}
 		else if (Input.GetButtonDown("Walk"))
 		{
 			if (curState == PlayerState.run || curState == PlayerState.sprint)
-			{
 				setState(PlayerState.walk);
-			}
 			else if (curState == PlayerState.walk)
-			{
 				setState(PlayerState.run);
-			}
 		}
 		else if (Input.GetButtonDown("Sprint"))
 		{
 			if (curState == PlayerState.walk || curState == PlayerState.run)
-			{
 				setState(PlayerState.sprint);
-			}
 			else if (curState == PlayerState.sprint)
-			{
 				setState(PlayerState.run);
-			}
 		}
 		else if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical"))
 		{
 			if (curState == PlayerState.idle && curState != PlayerState.run)
-			{
 				setState(PlayerState.run);
-			}
 		}
 		else if (Input.GetButtonUp("Slide"))
 		{
 			if (curState == PlayerState.run || curState == PlayerState.sprint)
-			{
 				setState(PlayerState.roll);
-			}
 		}
 		else if (!Input.anyKey)
 		{
 			if ((curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint) && curState != PlayerState.idle)
-			{
 				setState(PlayerState.idle);
-			}
 		}
 	}
 
@@ -280,15 +204,9 @@ public class PlayerController : NetworkBehaviour {
 			Debug.Log(angleToWall);
 			Debug.DrawLine(ray.origin, hit.point, Color.cyan, 10);
 			if (angleToWall > 180 - angleToWallRun)
-			{
-				Debug.Log("climb");
 				setState(PlayerState.climb);
-			}
-			else// if (curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.wallJump)
-			{
-				Debug.Log("wall Run");
+			else
 				setState(PlayerState.wallRun);
-			}
 		}	
 	}
 
@@ -301,42 +219,35 @@ public class PlayerController : NetworkBehaviour {
 			Debug.DrawLine(ray.origin, hit.point, Color.blue, 10);
 			Debug.Log("box height "+(this.GetComponent<BoxCollider>().size.y / 2));
 			if (Vector3.Distance(ray.origin, hit.point) <= this.GetComponent<BoxCollider>().size.y/2)
-			{
 				return true;
-			}
 		}
 		return false;
 	}
 
 	bool checkWall()
 	{
-		RaycastHit hit;
+#warning Redo this using the OverlapSphere
+        RaycastHit hit;
 		Ray ray = new Ray(transform.position, transform.right);
 		if (Physics.Raycast(ray, out hit))
 		{
 			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
 			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
-			{
 				return true;
-			}
 		}
 		ray = new Ray(transform.position, transform.forward);
 		if (Physics.Raycast(ray, out hit))
 		{
 			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
 			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
-			{
 				return true;
-			}
 		}
 		ray = new Ray(transform.position, -transform.forward);
 		if (Physics.Raycast(ray, out hit))
 		{
 			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
 			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
-			{
 				return true;
-			}
 		}
 		return false;
 	}
@@ -360,9 +271,6 @@ public class PlayerController : NetworkBehaviour {
 			case PlayerState.jump:
 				jump();
 				break;
-			//case PlayerState.doubleJump:
-			//	doubleJump();
-			//	break;
 			case PlayerState.falling:
 				falling();
 				break;
@@ -435,7 +343,6 @@ public class PlayerController : NetworkBehaviour {
 		playerAni.SetTrigger("startDoubleJump");
 		curState = PlayerState.doubleJump;
 		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
-		canDoubleJump = false;
 		//curSpeed = fallingSpeed;
 		playerAudio.setAudio(PlayerState.jump);
 	}
@@ -444,10 +351,8 @@ public class PlayerController : NetworkBehaviour {
 	{
 		Debug.Log("back eject");
 		lockCamera = false;
-		canDoubleJump = true;
 		playerAni.SetTrigger("startBackEject");
 		playerRidg.AddForce(-transform.right * backEjectHeight, ForceMode.Impulse);
-		canDoubleJump = true;
 		playerAudio.setAudio(PlayerState.jump);
 	}
 
@@ -457,7 +362,6 @@ public class PlayerController : NetworkBehaviour {
 		playerAni.SetTrigger("startWallJump");
 		curState = PlayerState.wallJump;
 		playerRidg.AddForce(transform.up * jumpHeight * 2, ForceMode.Impulse);
-		canDoubleJump = false;
 		canWallRun = false;
 		wallRunCooldownTime = 0;
 		playerAudio.setAudio(PlayerState.jump);

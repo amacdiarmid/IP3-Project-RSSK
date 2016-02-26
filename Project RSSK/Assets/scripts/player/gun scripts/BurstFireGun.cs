@@ -20,7 +20,7 @@ public class BurstFireGun : Gun
 			reload();
 		
 		gunSreadVal -= gunSreadVal - (spreadDep * Time.deltaTime);  //reduce the gun spread
-		}
+	}
 
 	IEnumerator burstFire()
 	{
