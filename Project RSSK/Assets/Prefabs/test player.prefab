@@ -1147,13 +1147,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 146546}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d7a1636477f88044aab3976917ca166, type: 3}
+  m_Script: {fileID: 11500000, guid: fc8698f8304dd4547ab16caabb3ebbd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   range: 10
-  maxAmmo: 84
+  maxAmmo: 10
   spareAmmo: 90
-  rateOfFire: 0.5
+  rateOfFire: 1
   maxSpread: 10
   spreadAdv: 0.2
   spreadDep: 0.1
@@ -1163,8 +1163,6 @@ MonoBehaviour:
   outOfAmmoAudio: {fileID: 8300000, guid: 8175182f91a2a4241a15124f861f53e3, type: 3}
   reloadAudio: {fileID: 8300000, guid: 40b77c48c79852a43925586bd81f50b7, type: 3}
   audioSource: {fileID: 8273886}
-  burstCount: 3
-  burstTime: 0.1
 --- !u!114 &11499978
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1286,6 +1284,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: angleToWallRun
       value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxAmmo
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rateOfFire
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
