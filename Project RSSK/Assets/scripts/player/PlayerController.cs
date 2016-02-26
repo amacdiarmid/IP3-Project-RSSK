@@ -112,7 +112,7 @@ public class PlayerController : NetworkBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		Debug.Log("current force " + Vector3.Magnitude(playerRidg.velocity));
+		//Debug.Log("current force " + Vector3.Magnitude(playerRidg.velocity));
 
 		if (Vector3.Magnitude(playerRidg.velocity) > maxVelocity)
 		{
@@ -123,7 +123,7 @@ public class PlayerController : NetworkBehaviour {
 
 			playerRidg.AddForce(-breakVelocity * 2);
 
-			Debug.Log("breaked force " + Vector3.Magnitude(playerRidg.velocity));
+			//Debug.Log("breaked force " + Vector3.Magnitude(playerRidg.velocity));
 		}
 
 		if (!isLocalPlayer)

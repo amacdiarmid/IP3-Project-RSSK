@@ -37,7 +37,7 @@ public class MeleeWeapon : NetworkBehaviour
 			}
 		}
 
-		if (Input.GetButton("Fire2"))
+		if (Input.GetButtonDown("Fire2"))
 		{
 			Debug.Log("fire 2 down");
 			attack();
@@ -48,7 +48,7 @@ public class MeleeWeapon : NetworkBehaviour
 	{
 		if (canAttack)
 		{
-			canAttack = false;
+			//canAttack = false;
 			countdownTimer = 0;
 
 			RaycastHit hit;
@@ -107,20 +107,25 @@ public class MeleeWeapon : NetworkBehaviour
 	{
 		RaycastHit hit;
 		Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-		if (Physics.Raycast(ray, out hit))
+		if (Physics.Raycast(ray, out hit, lungeRange))
 		{
 			Debug.Log("hit melee wep " + hit.collider.gameObject.name);
 			if (hit.collider.gameObject.tag == "TestPlayer")
 			{
-				hit.collider.GetComponent<Rigidbody>().AddForce(this.transform.right * knockback, ForceMode.Impulse);
-				this.GetComponent<Rigidbody>().AddForce(-this.transform.right * (knockback * 2), ForceMode.Impulse);
+				hit.collider.GetComponent<Rigidbody>().AddForce(this.transform.right * (knockback * 2), ForceMode.Impulse);
+				this.GetComponent<Rigidbody>().AddForce(-this.transform.right * knockback, ForceMode.Impulse);
 			}
 			//need to test with other people 
 			else if (hit.collider.gameObject.tag == "Player")
 			{
-				hit.collider.GetComponent<Rigidbody>().AddForce(this.transform.right * knockback, ForceMode.Impulse);
-				this.GetComponent<Rigidbody>().AddForce(-this.transform.right * (knockback * 2), ForceMode.Impulse);
+				hit.collider.GetComponent<Rigidbody>().AddForce(this.transform.right * (knockback * 2), ForceMode.Impulse);
+				this.GetComponent<Rigidbody>().AddForce(-this.transform.right * knockback, ForceMode.Impulse);
 			}
 		}
+	}
+
+	public void endCombo()
+	{
+		canAttack = false;
 	}
 }
