@@ -6,14 +6,14 @@ public class SemiAutoGun : Gun
 {
 	public override void checkInput()
 	{
-        if (!canFire)
-            canFire = (RoFTime += Time.deltaTime) >= rateOfFire;
-        else if (Input.GetButtonDown("Fire1"))
-            CmdShoot();
+		if (!canFire)
+			canFire = (RoFTime += Time.deltaTime) >= rateOfFire;
+		else if (Input.GetButtonUp("Fire1"))
+			CmdShoot();
 
-        if (Input.GetButtonUp("Reload"))
+		if (Input.GetButtonUp("Reload"))
 			reload();
 
-        gunSreadVal -= gunSreadVal - (spreadDep * Time.deltaTime);
-    }
+		gunSreadVal -= gunSreadVal - (spreadDep * Time.deltaTime);
+	}
 }

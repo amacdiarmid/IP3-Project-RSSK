@@ -73,6 +73,8 @@ public class PlayerController : NetworkBehaviour {
 	public float wallRunLength = 5;
 	public float maxDistanceToWall = 3;
 	public float wallRunCooldown = 1;
+
+	public float maxVelocity = 10;
 	
 
 	//climbing
@@ -102,6 +104,20 @@ public class PlayerController : NetworkBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
+		//Debug.Log("current force " + Vector3.Magnitude(playerRidg.velocity));
+
+		if (Vector3.Magnitude(playerRidg.velocity) > maxVelocity)
+		{
+			float breakSpeed = Vector3.Magnitude(playerRidg.velocity) - maxVelocity;
+
+			Vector3 normalizedVelocity = playerRidg.velocity.normalized;
+			Vector3 breakVelocity = normalizedVelocity * breakSpeed;
+
+			playerRidg.AddForce(-breakVelocity * 2);
+
+			//Debug.Log("breaked force " + Vector3.Magnitude(playerRidg.velocity));
+		}
+
 		if (!isLocalPlayer)
 			return;
 
