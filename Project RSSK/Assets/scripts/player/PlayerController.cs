@@ -121,7 +121,7 @@ public class PlayerController : NetworkBehaviour {
 			Vector3 normalizedVelocity = playerRidg.velocity.normalized;
 			Vector3 breakVelocity = normalizedVelocity * breakSpeed;
 
-			playerRidg.AddForce(-breakVelocity);
+			playerRidg.AddForce(-breakVelocity * 2);
 
 			Debug.Log("breaked force " + Vector3.Magnitude(playerRidg.velocity));
 		}
