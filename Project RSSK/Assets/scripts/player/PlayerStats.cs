@@ -3,8 +3,10 @@ using UnityEngine.Networking;
 
 public class PlayerStats : NetworkBehaviour
 {
-    [SyncVar]
+	[SyncVar]
 	private float curHealth;
+
+	private PlayerAudioController playerAudio;
 
 	public float maxHealth = 100;
 	Gun curGun;
@@ -14,6 +16,9 @@ public class PlayerStats : NetworkBehaviour
 	{
 		curGun = GetComponent<Gun>();
 		curMeleeWep = GetComponent<MeleeWeapon>();
+		playerAudio = GetComponent<PlayerAudioController>();
+
+		playerAudio.spawn();
 	}
 
 	// Update is called once per frame
@@ -21,12 +26,6 @@ public class PlayerStats : NetworkBehaviour
 	{
 		if (!isLocalPlayer)
 			return;
-
-		if (Input.GetButton("Fire2"))
-		{
-			Debug.Log("fire 2 down");
-			curMeleeWep.attack();
-		}
 	}
 
 	public void damaged(int dam)
@@ -35,6 +34,9 @@ public class PlayerStats : NetworkBehaviour
 		if (maxHealth <= 0)
 		{
 			Debug.Log(name + " dead");
+			playerAudio.dead();
 		}
+		else
+			playerAudio.damaged();
 	}
 }

@@ -8,10 +8,10 @@ public class Gun : NetworkBehaviour {
 	protected int curAmmo;
 	protected float RoFTime = 0;
 	protected bool canFire = true;
-    protected float gunSreadVal = 0;
-    protected Transform barrel;
+	protected float gunSreadVal = 0;
+	protected Transform barrel;
 
-    public float range = 100;
+	public float range = 100;
 	public int maxAmmo = 30;
 	public int spareAmmo = 90;
 	public float rateOfFire = 1;
@@ -22,10 +22,18 @@ public class Gun : NetworkBehaviour {
 	
 	public GameObject projectile;
 
+	public Animator gunAni;   //todo set up a search to find the correct animator
+
+	public AudioClip fireAudio;
+	public AudioClip outOfAmmoAudio;
+	public AudioClip reloadAudio;
+	public AudioSource audioSource;
+
 	void Start ()
 	{
 		curAmmo = maxAmmo;
-		barrel = transform.FindChild("camera/teat gun/barrel point");
+		barrel = transform.FindChild("camera/barrel point");
+		//audioSource = GetComponent<AudioSource>();
 	}
 	
 	void Update ()
@@ -35,7 +43,7 @@ public class Gun : NetworkBehaviour {
 
 	public virtual void checkInput()
 	{
-        Debug.LogError("Don't use the base class!", gameObject);
+		Debug.LogError("Don't use the base class!", gameObject);
 	}
 
 	[Command] public virtual void CmdShoot()
@@ -54,12 +62,16 @@ public class Gun : NetworkBehaviour {
 			//alex test version
 			//curBull.GetComponent<Rigidbody>().velocity = (hit.point - barrel.transform.position).normalized * curBull.GetComponent<GunProjectile>().speed;
 
-            //dan version
-            Vector3 velocity = barrel.right + Random.insideUnitSphere * gunSreadVal;
-            curBull.GetComponent<Rigidbody>().velocity = velocity.normalized * curBull.GetComponent<GunProjectile>().speed;
+			//dan version
+			Vector3 velocity = barrel.right + Random.insideUnitSphere * gunSreadVal;
+			curBull.GetComponent<Rigidbody>().velocity = velocity.normalized * curBull.GetComponent<GunProjectile>().speed;
 
-            //telling the server to spawn this bullet for everyone
-            NetworkServer.Spawn(curBull);
+			//telling the server to spawn this bullet for everyone
+			NetworkServer.Spawn(curBull);
+
+			//audio/ani call
+			audioSource.PlayOneShot(fireAudio);
+			gunAni.SetTrigger("fire");
 					
 			//add spread to the next shot 
 			gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, maxSpread);
@@ -67,17 +79,23 @@ public class Gun : NetworkBehaviour {
 		else
 		{
 			Debug.Log("reload");
+			audioSource.PlayOneShot(outOfAmmoAudio);
 		}
 	}
 
 	public void reload()
 	{
 		//this could be alot better
+		if (curAmmo != maxAmmo && spareAmmo > 0)
+		{
+			gunAni.SetTrigger("reload");
+		}
 		while (curAmmo != maxAmmo && spareAmmo > 0)
 		{
 			++curAmmo;
 			--spareAmmo;
-		}
+			audioSource.PlayOneShot(reloadAudio);
+		}	
 		gunSreadVal = 0;
 	}
 }

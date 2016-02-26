@@ -10,7 +10,7 @@ public class GunProjectile : MonoBehaviour {
 
 	void Start ()
 	{
-        Destroy(gameObject, Time.time + 5);
+		Destroy(gameObject, Time.time + 5);
 	}
 	
 	void OnTriggerEnter(Collider col)
@@ -21,7 +21,7 @@ public class GunProjectile : MonoBehaviour {
 		if (col.gameObject.tag == "TestPlayer")
 			col.gameObject.GetComponent<TestPlayer>().shot();
 
-        if(col.gameObject.tag != "Bullet")
-            Destroy(gameObject);
-    }
+		if(col.gameObject.tag != "Bullet" || col.gameObject.GetComponent<BoxCollider>().isTrigger != true)
+			Destroy(gameObject);
+	}
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MeleeWeapon : NetworkBehaviour
 {
@@ -8,20 +9,24 @@ public class MeleeWeapon : NetworkBehaviour
 	public int damage = 10;
 	public float cooldown = 5;
 	public float range = 10;
+	public float knockback = 5;
 
 	private bool canAttack;
 	private float countdownTimer;
 	private PlayerController playerCon;
 	public Animator swordAni;   //todo set up a search to find the correct animator
 
-    void Start ()
+	public List<AudioClip> attackAudio;
+	public AudioSource audioSource;
+
+	void Start()
 	{
 		canAttack = true;
 		playerCon = GetComponent<PlayerController>();
 	}
-	
+
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
 		if (!canAttack)
 		{
@@ -30,6 +35,12 @@ public class MeleeWeapon : NetworkBehaviour
 			{
 				canAttack = true;
 			}
+		}
+
+		if (Input.GetButton("Fire2"))
+		{
+			Debug.Log("fire 2 down");
+			attack();
 		}
 	}
 
@@ -41,7 +52,7 @@ public class MeleeWeapon : NetworkBehaviour
 			countdownTimer = 0;
 
 			RaycastHit hit;
-			Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width/ 2, Screen.height/ 2));
+			Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
 			if (Physics.Raycast(ray, out hit))
 			{
 				Debug.Log("hit melee wep " + hit.collider.gameObject.name);
@@ -50,20 +61,17 @@ public class MeleeWeapon : NetworkBehaviour
 					if (Vector3.Distance(transform.position, hit.point) <= range)
 					{
 						Debug.DrawLine(ray.origin, hit.point, Color.yellow, 10);
-						swordAni.SetTrigger("attack");
 						hit.collider.gameObject.GetComponent<TestPlayer>().hit();
 					}
 					else if (Vector3.Distance(transform.position, hit.point) <= lungeRange)
 					{
 						Debug.DrawLine(ray.origin, hit.point, Color.black, 10);
 						playerCon.goLunge(hit.point, range);
-						swordAni.SetTrigger("attack");
 						hit.collider.gameObject.GetComponent<TestPlayer>().hit();
 					}
 					else
 					{
 						Debug.DrawLine(ray.origin, ray.GetPoint(lungeRange), Color.magenta, 10);
-						swordAni.SetTrigger("attack");
 					}
 				}
 				//need to test with other people 
@@ -72,33 +80,47 @@ public class MeleeWeapon : NetworkBehaviour
 					if (Vector3.Distance(transform.position, hit.point) <= range)
 					{
 						Debug.DrawLine(ray.origin, hit.point, Color.yellow, 10);
-						swordAni.SetTrigger("attack");
 						hit.collider.gameObject.GetComponent<PlayerStats>().damaged(damage);
 					}
 					else if (Vector3.Distance(transform.position, hit.point) <= lungeRange)
 					{
 						Debug.DrawLine(ray.origin, hit.point, Color.black, 10);
 						playerCon.goLunge(hit.point, range);
-						swordAni.SetTrigger("attack");
 						hit.collider.gameObject.GetComponent<PlayerStats>().damaged(damage);
 					}
 					else
 					{
 						Debug.DrawLine(ray.origin, ray.GetPoint(lungeRange), Color.magenta, 10);
-						swordAni.SetTrigger("attack");
 					}
 				}
 			}
 			else
 			{
 				Debug.DrawLine(ray.origin, ray.GetPoint(lungeRange), Color.magenta, 10);
-				swordAni.SetTrigger("attack");
 			}
+			audioSource.PlayOneShot(attackAudio[Random.Range(0, attackAudio.Count - 1)]);
+			swordAni.SetTrigger("attack");
 		}
 	}
 
 	public void attackAni()
 	{
-
+		RaycastHit hit;
+		Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
+		if (Physics.Raycast(ray, out hit))
+		{
+			Debug.Log("hit melee wep " + hit.collider.gameObject.name);
+			if (hit.collider.gameObject.tag == "TestPlayer")
+			{
+				hit.collider.GetComponent<Rigidbody>().AddForce(this.transform.right * knockback, ForceMode.Impulse);
+				this.GetComponent<Rigidbody>().AddForce(-this.transform.right * (knockback * 2), ForceMode.Impulse);
+			}
+			//need to test with other people 
+			else if (hit.collider.gameObject.tag == "Player")
+			{
+				hit.collider.GetComponent<Rigidbody>().AddForce(this.transform.right * knockback, ForceMode.Impulse);
+				this.GetComponent<Rigidbody>().AddForce(-this.transform.right * (knockback * 2), ForceMode.Impulse);
+			}
+		}
 	}
 }

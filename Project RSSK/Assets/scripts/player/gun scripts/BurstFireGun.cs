@@ -10,23 +10,24 @@ public class BurstFireGun : Gun
 
 	public override void checkInput()
 	{
+		//Debug.Log("over written input");
 		if (!canFire)
-            canFire = (RoFTime += Time.deltaTime) >= rateOfFire;
+			canFire = (RoFTime += Time.deltaTime) >= rateOfFire;
 		else if (Input.GetButtonDown("Fire1"))
 			StartCoroutine(burstFire());
 
-        if (Input.GetButtonUp("Reload"))
+		if (Input.GetButtonUp("Reload"))
 			reload();
 		
-	    gunSreadVal -= gunSreadVal - (spreadDep * Time.deltaTime);  //reduce the gun spread
-	}
+		gunSreadVal -= gunSreadVal - (spreadDep * Time.deltaTime);  //reduce the gun spread
+		}
 
 	IEnumerator burstFire()
 	{
-		for (int i = 0; i < burstCount; i++)
-		{
-			CmdShoot();
-			yield return new WaitForSeconds(burstTime);
+			for (int i = 0; i < burstCount; i++)
+			{
+				CmdShoot();
+				yield return new WaitForSeconds(burstTime);
+			}
 		}
 	}
-}

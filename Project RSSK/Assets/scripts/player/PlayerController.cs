@@ -4,91 +4,102 @@ using System.Collections;
 
 public enum PlayerState
 {
-	//white
 	idle, 
-	//green
 	walk,
-	//yellow
 	run, 
-	//red
 	sprint,
-	//cyan 
 	jump, 
-	//blue
 	doubleJump,
-	//madgenta
 	falling, 
-	//black
-	slide, 
-	//gray
+	roll, 
 	lunge,
 	climb,
 	backEject,
 	wallRun,
 	wallJump,
-	//will add others when needed
 }
 
 public class PlayerController : NetworkBehaviour {
 
+	//enum and components
 	public PlayerState curState;
-
+	public Animator playerAni;
 	private Transform playerTran;
 	private Rigidbody playerRidg;
 	private PlayerCamera playerCam;
-	private bool canJump;
-	private bool canDoubleJump;
-	private float curSpeed;
-	private Vector3 targetVelocity;
-	private float curSlideSpeed;
+	private PlayerAudioController playerAudio;
 	private bool lockCamera;
 	private bool lockMovement;
-	private Vector3 lungePos;
-	private float meleeRange;
-	private bool canClimb;
-	private float curClimbSpeed;
-	private float curWallSpeed;
-	private float curWallRunHeight;
-	private float curWallRunLength;
 
+	//jumping
+	private bool canDoubleJump;
+	private float previousGroundDis;
+	public float jumpHeight = 500;
+
+	//moving 
+	private float curSpeed;
+	private Vector3 targetVelocity;
 	public float walkSpeed = 5;
 	public float runSpeed = 10;
 	public float sprintSpeed = 25;
 	public float fallingSpeed = 0;
-	public float lungeSpeed = 25;
-	public float wallRunningSpeed = 25;
 	public float maxVelocityChange = 10;
-	public float jumpHeight = 500;
-	public float runSlideSpeed = 30;
-	public float sprintSlideSpeed = 50;
+
+	//sliding
+	private float curSlideSpeed;
+	public float runRollSpeed = 30;
+	public float sprintRollSpeed = 50;
 	public float slideDep = 1;
+
+	//lunging
+	private Vector3 lungePos;
+	private float meleeRange;
+	public float lungeSpeed = 25;
+
+	//wall climbing
+	private float curClimbSpeed;
+
+	//wall running
+	private float curWallSpeed;
+	private float curWallRunHeight;
+	private float curWallRunLength;
+	private bool canWallRun;
+	private float wallRunCooldownTime = 0;
+	public float wallRunningSpeed = 25;
 	public float angleToWallRun = 10;
-	public float climbSpeed = 20;
-	public float climbDep = 1;
-	public float backEjectHeight = 300;
 	public float runWallSpeed = 10;
 	public float sprintWallSpeed = 15;
 	public float wallHeightDep = 1;
 	public float wallLengthDep = 1;
 	public float wallRunHeight = 10;
 	public float wallRunLength = 5;
+	public float maxDistanceToWall = 3;
+	public float wallRunCooldown = 1;
+	
+
+	//climbing
+	public float climbSpeed = 20;
+	public float climbDep = 1;
+	public float backEjectHeight = 300;
+	
 
 	// Use this for initialization
 	void Start ()
 	{
-		curState = PlayerState.run;
-		this.GetComponent<MeshRenderer>().material.color = Color.yellow;
+		curState = PlayerState.idle;
+
 		playerTran = this.transform;
 		playerRidg = this.GetComponent<Rigidbody>();
 		playerCam = this.GetComponent<PlayerCamera>();
+		playerAudio = this.GetComponent<PlayerAudioController>();
 
 		this.transform.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
 		this.transform.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
-		curSpeed = runSpeed;
-		canJump = true;
+
 		canDoubleJump = false;
 		lockCamera = false;
 		lockMovement = false;
+		canWallRun = true;
 
 		this.gameObject.SetActive(true);
 
@@ -108,12 +119,43 @@ public class PlayerController : NetworkBehaviour {
 			targetVelocity = playerTran.TransformDirection(targetVelocity);
 		}
 
+		if (curState == PlayerState.wallJump && checkWall() && canWallRun)
+		{
+			setState(PlayerState.wallRun);
+		}
+		else if (!canWallRun)
+		{
+			canWallRun = (wallRunCooldownTime += Time.deltaTime) >= wallRunCooldown;
+		}
+		else if (curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.backEject || curState == PlayerState.wallJump)
+		{
+			if (previousGroundDis > playerTran.position.y)
+			{
+				setState(PlayerState.falling);
+			}
+			else
+			{
+				previousGroundDis = playerTran.position.y;
+			}
+		}
+		else if (curState == PlayerState.falling)
+		{
+			if (previousGroundDis == playerTran.position.y)
+			{
+				setState(PlayerState.idle);
+			}
+			else
+			{
+				previousGroundDis = playerTran.position.y;
+			}
+		}
+
 		if (!lockMovement)
 		{
 			checkInput();
-			if (curState == PlayerState.slide)
+			if (curState == PlayerState.roll)
 			{
-				sliding();
+				Rolling();
 			}
 			else if (curState == PlayerState.climb)
 			{
@@ -139,8 +181,25 @@ public class PlayerController : NetworkBehaviour {
 
 	void checkInput()
 	{
-		if (Input.GetButtonUp("Jump"))
+		if (Input.GetButtonDown("Jump"))
 		{
+			if (curState == PlayerState.wallRun)
+			{
+				setState(PlayerState.wallJump);
+			}
+			else if (checkWall() && (curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.wallJump))
+			{
+				checkWallAngle();
+			}
+			else if (curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.idle)
+			{
+				if(checkGround())
+				{
+					setState(PlayerState.jump);
+					previousGroundDis = playerTran.position.y;
+				}
+			}
+			/*
 			Debug.Log(curState);
 			if (curState == PlayerState.wallRun)
 			{
@@ -164,8 +223,9 @@ public class PlayerController : NetworkBehaviour {
 			{
 				setState(PlayerState.doubleJump);
 			}
+			*/
 		}
-		else if (Input.GetButtonUp("Walk"))
+		else if (Input.GetButtonDown("Walk"))
 		{
 			if (curState == PlayerState.run || curState == PlayerState.sprint)
 			{
@@ -176,7 +236,7 @@ public class PlayerController : NetworkBehaviour {
 				setState(PlayerState.run);
 			}
 		}
-		else if (Input.GetButtonUp("Sprint"))
+		else if (Input.GetButtonDown("Sprint"))
 		{
 			if (curState == PlayerState.walk || curState == PlayerState.run)
 			{
@@ -198,7 +258,7 @@ public class PlayerController : NetworkBehaviour {
 		{
 			if (curState == PlayerState.run || curState == PlayerState.sprint)
 			{
-				setState(PlayerState.slide);
+				setState(PlayerState.roll);
 			}
 		}
 		else if (!Input.anyKey)
@@ -217,6 +277,7 @@ public class PlayerController : NetworkBehaviour {
 		if (Physics.Raycast(ray, out hit))
 		{
 			float angleToWall = Mathf.Rad2Deg * Mathf.Acos(Vector2.Dot(new Vector2(ray.direction.x, ray.direction.z), new Vector2(hit.normal.x, hit.normal.z)));
+			Debug.Log(angleToWall);
 			Debug.DrawLine(ray.origin, hit.point, Color.cyan, 10);
 			if (angleToWall > 180 - angleToWallRun)
 			{
@@ -229,6 +290,55 @@ public class PlayerController : NetworkBehaviour {
 				setState(PlayerState.wallRun);
 			}
 		}	
+	}
+
+	bool checkGround()
+	{
+		RaycastHit hit;
+		Ray ray = new Ray(transform.position, -transform.up);
+		if (Physics.Raycast(ray, out hit))
+		{
+			Debug.DrawLine(ray.origin, hit.point, Color.blue, 10);
+			Debug.Log("box height "+(this.GetComponent<BoxCollider>().size.y / 2));
+			if (Vector3.Distance(ray.origin, hit.point) <= this.GetComponent<BoxCollider>().size.y/2)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool checkWall()
+	{
+		RaycastHit hit;
+		Ray ray = new Ray(transform.position, transform.right);
+		if (Physics.Raycast(ray, out hit))
+		{
+			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
+			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
+			{
+				return true;
+			}
+		}
+		ray = new Ray(transform.position, transform.forward);
+		if (Physics.Raycast(ray, out hit))
+		{
+			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
+			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
+			{
+				return true;
+			}
+		}
+		ray = new Ray(transform.position, -transform.forward);
+		if (Physics.Raycast(ray, out hit))
+		{
+			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
+			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	void setState(PlayerState tempState)
@@ -254,15 +364,16 @@ public class PlayerController : NetworkBehaviour {
 			//	doubleJump();
 			//	break;
 			case PlayerState.falling:
+				falling();
 				break;
-			case PlayerState.slide:
+			case PlayerState.roll:
 				if (curState == PlayerState.run)
 				{
-					runToSlide();
+					runToRoll();
 				}
 				else if(curState == PlayerState.sprint)
 				{
-					sprintToSlide();
+					sprintToRoll();
 				}
 				break;
 			case PlayerState.lunge:
@@ -281,7 +392,7 @@ public class PlayerController : NetworkBehaviour {
 				}
 				else if (curState == PlayerState.sprint)
 				{
-					sprintToSlide();
+					sprintToRoll();
 				}
 				else if (curState == PlayerState.wallJump || curState == PlayerState.jump || curState == PlayerState.doubleJump)
 				{
@@ -296,31 +407,37 @@ public class PlayerController : NetworkBehaviour {
 		}
 	}
 
+	//not doing anything 
 	void idle()
 	{
 		lockCamera = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.white;
+		playerAni.SetTrigger("startIdle");
 		curState = PlayerState.idle;
+		playerAudio.setAudio(PlayerState.idle);
 	}
 
+	//one off jumps that add instant force
 	void jump()
 	{
+		Debug.Log("jumping");
 		lockCamera = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.blue;
+		playerAni.SetTrigger("startJump");
 		curState = PlayerState.jump;
-		playerRidg.AddForce(transform.up * jumpHeight);
-		canJump = false;
+		//playerRidg.velocity = transform.up * jumpHeight;
+		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
 		//curSpeed = fallingSpeed;
+		playerAudio.setAudio(PlayerState.jump);
 	}
 
 	void doubleJump()
 	{
 		lockCamera = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.blue;
+		playerAni.SetTrigger("startDoubleJump");
 		curState = PlayerState.doubleJump;
-		playerRidg.AddForce(transform.up * jumpHeight);
+		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
 		canDoubleJump = false;
 		//curSpeed = fallingSpeed;
+		playerAudio.setAudio(PlayerState.jump);
 	}
 
 	void backEject()
@@ -328,81 +445,98 @@ public class PlayerController : NetworkBehaviour {
 		Debug.Log("back eject");
 		lockCamera = false;
 		canDoubleJump = true;
-		this.GetComponent<MeshRenderer>().material.color = Color.blue;
-		playerRidg.AddForce(-transform.right * backEjectHeight);
+		playerAni.SetTrigger("startBackEject");
+		playerRidg.AddForce(-transform.right * backEjectHeight, ForceMode.Impulse);
 		canDoubleJump = true;
+		playerAudio.setAudio(PlayerState.jump);
 	}
 
 	void wallJump()
 	{
 		lockCamera = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.blue;
+		playerAni.SetTrigger("startWallJump");
 		curState = PlayerState.wallJump;
-		playerRidg.AddForce(transform.up * jumpHeight * 2);
+		playerRidg.AddForce(transform.up * jumpHeight * 2, ForceMode.Impulse);
 		canDoubleJump = false;
+		canWallRun = false;
+		wallRunCooldownTime = 0;
+		playerAudio.setAudio(PlayerState.jump);
 	}
 
+	//setting the players current speed
 	void run()
 	{
 		lockCamera = false;
 		lockMovement = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.yellow;
+		playerAni.SetTrigger("startRun");
 		curState = PlayerState.run;
 		curSpeed = runSpeed;
+		playerAudio.setAudio(PlayerState.run);
 	}
 
 	void walk()
 	{
 		lockCamera = false;
 		lockMovement = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.green;
+		playerAni.SetTrigger("startWalk");
 		curState = PlayerState.walk;
 		curSpeed = walkSpeed;
+		playerAudio.setAudio(PlayerState.walk);
 	}
 
 	void sprint()
 	{
 		lockCamera = false;
 		lockMovement = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.red;
+		playerAni.SetTrigger("startSprint");
 		curState = PlayerState.sprint;
 		curSpeed = sprintSpeed;
+		playerAudio.setAudio(PlayerState.sprint);
+	}
+
+	//starts of the state transition
+	public void goLunge(Vector3 pos, float range)
+	{
+		playerTran.position = Vector3.Lerp(playerTran.position, pos, lungeSpeed * Time.deltaTime);
+		lungePos = pos;
+		meleeRange = range;
+		setState(PlayerState.lunge);
 	}
 
 	void lunge()
 	{
 		lockCamera = true;
 		lockMovement = true;
-		this.GetComponent<MeshRenderer>().material.color = Color.gray;
+		playerAni.SetTrigger("startLunge");
 		curState = PlayerState.lunge;
 	}
 
 	void falling()
 	{
 		lockCamera = false;
-		this.GetComponent<MeshRenderer>().material.color = Color.magenta;
+		playerAni.SetTrigger("startFalling");
 		curState = PlayerState.falling;
 	}
 
-	void runToSlide()
+	void runToRoll()
 	{
-		this.GetComponent<MeshRenderer>().material.color = Color.black;
-		curState = PlayerState.slide;
+		playerAni.SetTrigger("startRoll");
+		curState = PlayerState.roll;
 		lockCamera = true;
-		curSlideSpeed = runSlideSpeed;
+		curSlideSpeed = runRollSpeed;
 	}
 
-	void sprintToSlide()
+	void sprintToRoll()
 	{
-		this.GetComponent<MeshRenderer>().material.color = Color.black;
-		curState = PlayerState.slide;
+		playerAni.SetTrigger("startRoll");
+		curState = PlayerState.roll;
 		lockCamera = true;
-		curSlideSpeed = sprintSlideSpeed;
+		curSlideSpeed = sprintRollSpeed;
 	}
 
 	void runToWall()
 	{
-		this.GetComponent<MeshRenderer>().material.color = Color.black;
+		playerAni.SetTrigger("startWallRun");
 		curState = PlayerState.wallRun;
 		//canJump = false;
 		lockCamera = true;
@@ -414,7 +548,7 @@ public class PlayerController : NetworkBehaviour {
 
 	void sprintToWall()
 	{
-		this.GetComponent<MeshRenderer>().material.color = Color.black;
+		playerAni.SetTrigger("startWallRun");
 		curState = PlayerState.wallRun;
 		lockCamera = true;
 		curWallSpeed = sprintWallSpeed;
@@ -425,7 +559,7 @@ public class PlayerController : NetworkBehaviour {
 
 	void wallToWall()
 	{
-		this.GetComponent<MeshRenderer>().material.color = Color.black;
+		playerAni.SetTrigger("startWallRun");
 		curState = PlayerState.wallRun;
 		lockCamera = true;
 		curWallSpeed = runWallSpeed;
@@ -437,10 +571,12 @@ public class PlayerController : NetworkBehaviour {
 	void climb()
 	{
 		curState = PlayerState.climb;
+		playerAni.SetTrigger("startClimb");
 		lockCamera = true;
 		curClimbSpeed = climbSpeed;
 	}
 
+	//commands called in the update
 	void climbing()
 	{
 		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + transform.up, curClimbSpeed * Time.deltaTime);
@@ -448,16 +584,18 @@ public class PlayerController : NetworkBehaviour {
 		if (curClimbSpeed <= 0)
 		{
 			setState(PlayerState.falling);
+			playerAni.SetTrigger("startIdle");
 		}
 	}
 
-	void sliding()
+	void Rolling()
 	{
 		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + targetVelocity, curSlideSpeed * Time.deltaTime);
 		curSlideSpeed -= slideDep;	//delat time test
 		if (curSlideSpeed <= 0)
 		{
 			setState(PlayerState.run);
+			playerAni.SetTrigger("startIdle");
 		}
 	}
 
@@ -467,6 +605,7 @@ public class PlayerController : NetworkBehaviour {
 		if (Vector3.Distance(playerTran.position, lungePos) < meleeRange)
 		{
 			setState(PlayerState.run);
+			playerAni.SetTrigger("startIdle");
 			lockCamera = false;
 			lockMovement = false;
 		}
@@ -478,29 +617,46 @@ public class PlayerController : NetworkBehaviour {
 		nextWallSpeed = playerTran.TransformDirection(nextWallSpeed);
 		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + nextWallSpeed, curWallSpeed * Time.deltaTime);
 		curWallRunHeight -= wallHeightDep * Time.deltaTime;
+
+		if (!checkWall())
+		{
+			setState(PlayerState.wallJump);
+		}
+		else if(checkGround())
+		{
+			setState(PlayerState.falling);
+		}
+
+		//Debug.Log("wall heigher " + curWallRunHeight + nextWallSpeed);
 		//curWallRunLength -= wallLengthDep * Time.deltaTime;
 	}
 
 	void moving()
-	{	
-		//uncomment for ridgid body movement
-		//targetVelocity *= curSpeed;
-		//var v = playerRidg.velocity;
-		//var velocityChange = (targetVelocity - v);
-		//velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-		//velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-		//velocityChange.y = 0;
+	{
+		targetVelocity *= curSpeed;
+		var v = playerRidg.velocity;
+		var velocityChange = (targetVelocity - v);
+		velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
+		velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
+		velocityChange.y = 0;
+		//Debug.Log("vel change " + velocityChange);
 
 		//ridgedbody movement
-		//playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);
+		playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);
 
 		//translation movement
 		//just changed this to the proper version of applying time to the movement 
-		playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
+
+		Debug.Log("moving vel");
+		//playerRidg.velocity = targetVelocity.normalized * curSpeed;// * Time.deltaTime;
+		//playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
 	}
 
-    void OnCollisionEnter(Collision col)
-    {
+	/*
+	//collisions with wall (will be replaced with raycasts)
+	void OnCollisionEnter(Collision col)
+	{
+		/*
 		if (col.gameObject.tag == "Ground" && curState != PlayerState.wallRun)
 		{
 			Debug.Log("enter ground");
@@ -526,15 +682,18 @@ public class PlayerController : NetworkBehaviour {
 			Debug.Log("can jump");
 			canClimb = true;
 		}
+		
 
-        /*Vector3 p = col.contacts[0].point;
-        RaycastHit info = new RaycastHit();
-        if(Physics.Raycast(transform.position, p - transform.position, out info))
-            Debug.DrawLine(info.point, info.point + info.normal, Color.cyan, 10);*/
-    }
+		//note: this is for the curved wall running idea by taking the normal of the wall and the plyer will follow that 
+		/*Vector3 p = col.contacts[0].point;
+		RaycastHit info = new RaycastHit();
+		if(Physics.Raycast(transform.position, p - transform.position, out info))
+			Debug.DrawLine(info.point, info.point + info.normal, Color.cyan, 10);
+	}
 
 	void OnCollisionExit(Collision col)
 	{
+		/*
 		if (col.gameObject.tag == "Ground")
 		{
 			//Debug.Log("exit ground");
@@ -553,13 +712,7 @@ public class PlayerController : NetworkBehaviour {
 			Debug.Log("cant jump");
 			canClimb = false;
 		}
+		
 	}
-
-	public void goLunge(Vector3 pos, float range)
-	{
-		playerTran.position = Vector3.Lerp(playerTran.position, pos, lungeSpeed * Time.deltaTime);
-		lungePos = pos;
-		meleeRange = range;
-		setState(PlayerState.lunge);
-	}
+	*/
 }
