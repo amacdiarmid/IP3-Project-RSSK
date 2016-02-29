@@ -998,6 +998,7 @@ MonoBehaviour:
   wallRunLength: 5
   maxDistanceToWall: 3
   wallRunCooldown: 1
+  maxVelocity: 10
   climbSpeed: 20
   climbDep: 1
   backEjectHeight: 10
@@ -1319,7 +1320,15 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 176964}
