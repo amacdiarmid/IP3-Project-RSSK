@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GunProjectile : MonoBehaviour {
-
+public class GunProjectile : MonoBehaviour
+{
 	public int damage = 10;
 	public float speed = 10;
 
@@ -20,7 +20,7 @@ public class GunProjectile : MonoBehaviour {
 	{
 		if (col.gameObject.tag == "Player")
 		{
-			col.gameObject.GetComponent<PlayerStats>().damaged(damage);
+			col.gameObject.GetComponent<PlayerStats>().CmdDamage(damage);	
 			canHitTargets--;
 			damage = (int)(damage * damageReduction);
 			if (canHitTargets == 0)
