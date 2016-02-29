@@ -976,8 +976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae0343c44bb98a4c83f45f4e6af3064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curState: 1
-  playerAni: {fileID: 9558022}
+  team: 0
   jumpHeight: 10
   walkSpeed: 5
   runSpeed: 10
@@ -1328,6 +1327,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: team
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

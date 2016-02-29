@@ -21,17 +21,19 @@ public enum PlayerState
 
 public class PlayerController : NetworkBehaviour {
 
-	//enum and components
-	public PlayerState curState;
-	public Animator playerAni;
-	private Transform playerTran;
-	private Rigidbody playerRidg;
-	private PlayerAudioController playerAudio;
-    private bool lockCamera = false;
-	private bool lockMovement = false;
+    [Range(0, 1)] public int team = 0;
+
+    //enum and components
+    PlayerState curState;
+    Animator playerAni;
+	Transform playerTran;
+	Rigidbody playerRidg;
+	PlayerAudioController playerAudio;
+    bool lockCamera = false;
+	bool lockMovement = false;
 
 	//jumping
-	private float previousGroundDis;
+	float previousGroundDis;
 	public float jumpHeight = 500;
 
 	//moving 
@@ -89,6 +91,7 @@ public class PlayerController : NetworkBehaviour {
 		curState = PlayerState.idle;
 
 		playerTran = transform;
+        playerAni = GetComponent<Animator>();
 		playerRidg = GetComponent<Rigidbody>();
 		playerAudio = GetComponent<PlayerAudioController>();
 
@@ -567,7 +570,6 @@ public class PlayerController : NetworkBehaviour {
 		//translation movement
 		//just changed this to the proper version of applying time to the movement 
 
-		Debug.Log("moving vel");
 		//playerRidg.velocity = targetVelocity.normalized * curSpeed;// * Time.deltaTime;
 		//playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
 	}
