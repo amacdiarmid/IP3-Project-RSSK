@@ -1,42 +1,36 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class PlayerStats : NetworkBehaviour
 {
-	[SyncVar]
-	private float curHealth;
+	PlayerAudioController playerAudio;
+    Text text;
 
-	private PlayerAudioController playerAudio;
-
-	public float maxHealth = 100;
-	Gun curGun;
-	MeleeWeapon curMeleeWep;
+    [SyncVar]
+    public float maxHealth = 100;
 
 	void Start()
 	{
-		curGun = GetComponent<Gun>();
-		curMeleeWep = GetComponent<MeleeWeapon>();
 		playerAudio = GetComponent<PlayerAudioController>();
-
-		playerAudio.spawn();
+        text = GetComponentInChildren<Text>();
 	}
 
-	// Update is called once per frame
-	void Update ()
+    [Command]
+	public void CmdDamage(int dmg)
 	{
-		if (!isLocalPlayer)
-			return;
-	}
+        if (!isServer)
+            return;
 
-	public void damaged(int dam)
-	{
-		maxHealth -= dam;
+		maxHealth -= dmg;
 		if (maxHealth <= 0)
 		{
-			Debug.Log(name + " dead");
 			playerAudio.dead();
+            Destroy(gameObject, playerAudio.deathAudio[0].length);
 		}
 		else
 			playerAudio.damaged();
+
+        text.text = "Health: " + maxHealth;
 	}
 }
