@@ -4,637 +4,353 @@ using System.Collections;
 
 public enum PlayerState
 {
-	idle, 
-	walk,
-	run, 
-	sprint,
-	jump, 
-	doubleJump,
+	idle,
+	run,
+	jump,
 	falling, 
-	roll, 
-	lunge,
+	roll,
 	climb,
-	backEject,
-	wallRun,
-	wallJump,
+	wallRun
 }
 
-public class PlayerController : NetworkBehaviour {
-
+public class PlayerController : NetworkBehaviour
+{
     [Range(0, 1)] public int team = 0;
 
     //enum and components
-    PlayerState curState;
+    PlayerState curState = PlayerState.idle;
     Animator playerAni;
 	Transform playerTran;
-	Rigidbody playerRidg;
+    CharacterController charContr;
 	PlayerAudioController playerAudio;
-    bool lockCamera = false;
-	bool lockMovement = false;
+    float timer;
+    Vector3 inputHeading;
+    Vector3 curVel = Vector3.zero;
+    Vector3 curPos;
 
-	//jumping
-	float previousGroundDis;
-	public float jumpHeight = 500;
+    //general state info
+    bool touchingWall;
+    bool canDoubleJump;
+    bool transitioned;
+    Vector3 wallNormal = Vector3.zero;
+
+    //jumping
+    public float jumpHeight = 10;
 
 	//moving 
-	private float curSpeed;
-	private Vector3 targetVelocity;
-	public float walkSpeed = 5;
-	public float runSpeed = 10;
-	public float sprintSpeed = 25;
-	public float fallingSpeed = 0;
-	public float maxVelocityChange = 10;
+	public float runSpeed = 5;
+	public float sprintSpeed = 10;
+    public float airStrafe = 10;
+    public float decelRate = 4;
 
-	//sliding
-	private float curSlideSpeed;
-	public float runRollSpeed = 30;
-	public float sprintRollSpeed = 50;
-	public float slideDep = 1;
-
-	//lunging
-	private Vector3 lungePos;
-	private float meleeRange;
-	public float lungeSpeed = 25;
-
-	//wall climbing
-	private float curClimbSpeed;
+    //rolling
+    public float rollTimer = 1;
+	public float rollSpeed = 5;
 
 	//wall running
-	private float curWallSpeed;
-	private float curWallRunHeight;
-	private float curWallRunLength;
-	private bool canWallRun = true;
-	private float wallRunCooldownTime = 0;
-	public float wallRunningSpeed = 25;
-	public float angleToWallRun = 10;
-	public float runWallSpeed = 10;
-	public float sprintWallSpeed = 15;
-	public float wallHeightDep = 1;
-	public float wallLengthDep = 1;
-	public float wallRunHeight = 10;
-	public float wallRunLength = 5;
-	public float maxDistanceToWall = 3;
-	public float wallRunCooldown = 1;
-
-	public float maxVelocity = 10;
+	public float wallrunSpeed = 10;
+	public float angleToWallrun = 10;
+	public float maxDistanceToWall = 2;
 	
-
 	//climbing
-	public float climbSpeed = 20;
-	public float climbDep = 1;
-	public float backEjectHeight = 300;
-	
+	public float climbSpeed = 5;
+    public float climbTimer = 2;
 
 	// Use this for initialization
 	void Start ()
 	{
-		curState = PlayerState.idle;
-
 		playerTran = transform;
         playerAni = GetComponent<Animator>();
-		playerRidg = GetComponent<Rigidbody>();
+		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 
-		transform.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
-		transform.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
+        playerTran.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
+        playerTran.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = false;
 
-		gameObject.SetActive(true);
-
-		//remove when we find out spawn points
-		transform.position = new Vector3(0, 3, 0);
+        //remove when we find out spawn points
+        playerTran.position = new Vector3(0, 3, 0);
 	}
 
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
-		//Debug.Log("current force " + Vector3.Magnitude(playerRidg.velocity));
-
-		if (Vector3.Magnitude(playerRidg.velocity) > maxVelocity)
-		{
-			float breakSpeed = Vector3.Magnitude(playerRidg.velocity) - maxVelocity;
-
-			Vector3 normalizedVelocity = playerRidg.velocity.normalized;
-			Vector3 breakVelocity = normalizedVelocity * breakSpeed;
-
-			playerRidg.AddForce(-breakVelocity * 2);
-
-			//Debug.Log("breaked force " + Vector3.Magnitude(playerRidg.velocity));
-		}
-
 		if (!isLocalPlayer)
 			return;
 
-		if (!lockCamera)
-		{
-			targetVelocity = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")); 
-			targetVelocity = playerTran.TransformDirection(targetVelocity);
-		}
+        //Debug.LogWarning(curState);
+        //collecting general info required for state decision making
+        curPos = transform.TransformPoint(charContr.center);
+        transitioned = false;
+        inputHeading = playerTran.right * Input.GetAxisRaw("Horizontal") + playerTran.forward * Input.GetAxisRaw("Vertical");
+        inputHeading.Normalize();
+        touchingWall = checkWall();
+        if (charContr.isGrounded) //reset double jump on ground touch
+        {
+            canDoubleJump = true;
+            curVel.y = 0;
+        }
 
-		if (curState == PlayerState.wallJump && checkWall() && canWallRun)
-			setState(PlayerState.wallRun);
-		else if (!canWallRun)
-			canWallRun = (wallRunCooldownTime += Time.deltaTime) >= wallRunCooldown;
-		else if (curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.backEject || curState == PlayerState.wallJump)
-		{
-			if (previousGroundDis > playerTran.position.y)
-				setState(PlayerState.falling);
-			else
-				previousGroundDis = playerTran.position.y;
-		}
-		else if (curState == PlayerState.falling)
-		{
-			if (previousGroundDis == playerTran.position.y)
-				setState(PlayerState.idle);
-			else
-				previousGroundDis = playerTran.position.y;
-		}
+        setState(curState);
+        curVel += Physics.gravity * Time.deltaTime;
+        if(inputHeading == Vector3.zero)
+        {
+            Vector3 curVelXZ = new Vector3(curVel.x, 0, curVel.z);
+            curVel -= curVelXZ.normalized * decelRate;
+        }
+        charContr.Move(curVel * Time.deltaTime);
+    }
 
-		if (!lockMovement)
-		{
-			checkInput();
-			if (curState == PlayerState.roll)
-				Rolling();
-			else if (curState == PlayerState.climb)
-				climbing();
-			else if (curState == PlayerState.wallRun)
-				wallRunning();
-			else
-				moving();
-		}
-		else if (curState == PlayerState.lunge)
-			lunging();
-	}
-
-	void checkInput()
+	bool checkWallAngleForClimb()
 	{
-		if (Input.GetButtonDown("Jump"))
-		{
-			if (curState == PlayerState.wallRun)
-				setState(PlayerState.wallJump);
-			else if (checkWall() && (curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.jump || curState == PlayerState.doubleJump || curState == PlayerState.wallJump))
-				checkWallAngle();
-			else if (curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint || curState == PlayerState.idle)
-			{
-				if(checkGround())
-				{
-					setState(PlayerState.jump);
-					previousGroundDis = playerTran.position.y;
-				}
-			}
-		}
-		else if (Input.GetButtonDown("Walk"))
-		{
-			if (curState == PlayerState.run || curState == PlayerState.sprint)
-				setState(PlayerState.walk);
-			else if (curState == PlayerState.walk)
-				setState(PlayerState.run);
-		}
-		else if (Input.GetButtonDown("Sprint"))
-		{
-			if (curState == PlayerState.walk || curState == PlayerState.run)
-				setState(PlayerState.sprint);
-			else if (curState == PlayerState.sprint)
-				setState(PlayerState.run);
-		}
-		else if (Input.GetButtonDown("Horizontal") || Input.GetButtonDown("Vertical"))
-		{
-			if (curState == PlayerState.idle && curState != PlayerState.run)
-				setState(PlayerState.run);
-		}
-		else if (Input.GetButtonUp("Slide"))
-		{
-			if (curState == PlayerState.run || curState == PlayerState.sprint)
-				setState(PlayerState.roll);
-		}
-		else if (!Input.anyKey)
-		{
-			if ((curState == PlayerState.walk || curState == PlayerState.run || curState == PlayerState.sprint) && curState != PlayerState.idle)
-				setState(PlayerState.idle);
-		}
+        Vector2 lookDir = new Vector2(playerTran.forward.x, playerTran.forward.z);
+        float angleToWall = Mathf.Rad2Deg * Mathf.Acos(Vector2.Dot(lookDir, wallNormal));
+		Debug.Log(angleToWall);
+        return angleToWall > 180 - angleToWallrun;
 	}
-
-	void checkWallAngle()
-	{
-		RaycastHit hit;
-		Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-		if (Physics.Raycast(ray, out hit))
-		{
-			float angleToWall = Mathf.Rad2Deg * Mathf.Acos(Vector2.Dot(new Vector2(ray.direction.x, ray.direction.z), new Vector2(hit.normal.x, hit.normal.z)));
-			Debug.Log(angleToWall);
-			Debug.DrawLine(ray.origin, hit.point, Color.cyan, 10);
-			if (angleToWall > 180 - angleToWallRun)
-				setState(PlayerState.climb);
-			else
-				setState(PlayerState.wallRun);
-		}	
-	}
-
-	bool checkGround()
-	{
-		RaycastHit hit;
-		Ray ray = new Ray(transform.position, -transform.up);
-		if (Physics.Raycast(ray, out hit))
-		{
-			Debug.DrawLine(ray.origin, hit.point, Color.blue, 10);
-			Debug.Log("box height "+(this.GetComponent<BoxCollider>().size.y / 2));
-			if (Vector3.Distance(ray.origin, hit.point) <= this.GetComponent<BoxCollider>().size.y/2)
-				return true;
-		}
-		return false;
-	}
-
+    
 	bool checkWall()
 	{
 #warning Redo this using the OverlapSphere
         RaycastHit hit;
-		Ray ray = new Ray(transform.position, transform.right);
-		if (Physics.Raycast(ray, out hit))
+        Ray ray = new Ray(curPos, playerTran.forward);
+        if (Physics.Raycast(ray, out hit, maxDistanceToWall))
+        {
+            Debug.DrawLine(curPos, hit.point, Color.magenta, 15);
+            Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+            Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
+            Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
+            wallNormal = hit.normal;
+            return true;
+        }
+        ray = new Ray(curPos, playerTran.right);
+		if (Physics.Raycast(ray, out hit, maxDistanceToWall))
 		{
-			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
-			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
-				return true;
+            Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
+            Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+            wallNormal = hit.normal;
+			return true;
 		}
-		ray = new Ray(transform.position, transform.forward);
-		if (Physics.Raycast(ray, out hit))
+		ray = new Ray(curPos, -playerTran.right);
+		if (Physics.Raycast(ray, out hit, maxDistanceToWall))
 		{
-			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
-			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
-				return true;
+            Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
+            Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+            wallNormal = hit.normal;
+			return true;
 		}
-		ray = new Ray(transform.position, -transform.forward);
-		if (Physics.Raycast(ray, out hit))
-		{
-			Debug.DrawLine(ray.origin, ray.GetPoint(maxDistanceToWall), Color.black, 10);
-			if (Vector3.Distance(ray.origin, hit.point) <= maxDistanceToWall)
-				return true;
-		}
+        wallNormal = Vector3.zero;
 		return false;
 	}
 
 	void setState(PlayerState tempState)
 	{
+        if (tempState != curState) //can only transition once
+        {
+            if (!transitioned)
+                transitioned = true;
+            else
+                return;
+        }
+        
 		switch (tempState)
 		{
 			case PlayerState.idle:
-				idle();
-				break;
-			case PlayerState.walk:
-				walk();
+				Idle();
 				break;
 			case PlayerState.run:
-				run();
-				break;
-			case PlayerState.sprint:
-				sprint();
+				Run();
 				break;
 			case PlayerState.jump:
-				jump();
+				Jump();
 				break;
 			case PlayerState.falling:
-				falling();
+				Falling();
 				break;
 			case PlayerState.roll:
-				if (curState == PlayerState.run)
-				{
-					runToRoll();
-				}
-				else if(curState == PlayerState.sprint)
-				{
-					sprintToRoll();
-				}
-				break;
-			case PlayerState.lunge:
-				lunge();
+                Roll();
 				break;
 			case PlayerState.climb:
-				climb();
-				break;
-			case PlayerState.backEject:
-				backEject();
+				Climb();
 				break;
 			case PlayerState.wallRun:
-				if (curState == PlayerState.run)
-				{
-					runToWall();
-				}
-				else if (curState == PlayerState.sprint)
-				{
-					sprintToRoll();
-				}
-				else if (curState == PlayerState.wallJump || curState == PlayerState.jump || curState == PlayerState.doubleJump)
-				{
-					wallToWall();
-				}
-				break;
-			case PlayerState.wallJump:
-				wallJump();
+                Wallrun();
 				break;
 			default:
 				break;
 		}
 	}
 
-	//not doing anything 
-	void idle()
-	{
-		lockCamera = false;
-		playerAni.SetTrigger("startIdle");
-		curState = PlayerState.idle;
-		playerAudio.setAudio(PlayerState.idle);
-	}
+    //not doing anything 
+    void Idle()
+    {
+        if (curState != PlayerState.idle)
+        {
+            playerAni.SetTrigger("startIdle");
+            curState = PlayerState.idle;
+            playerAudio.setAudio(PlayerState.idle);
+        }
 
-	//one off jumps that add instant force
-	void jump()
-	{
-		Debug.Log("jumping");
-		lockCamera = false;
-		playerAni.SetTrigger("startJump");
-		curState = PlayerState.jump;
-		//playerRidg.velocity = transform.up * jumpHeight;
-		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
-		//curSpeed = fallingSpeed;
-		playerAudio.setAudio(PlayerState.jump);
-	}
+        curVel = new Vector3(0, curVel.y, 0);
 
-	void doubleJump()
-	{
-		lockCamera = false;
-		playerAni.SetTrigger("startDoubleJump");
-		curState = PlayerState.doubleJump;
-		playerRidg.AddForce(transform.up * jumpHeight, ForceMode.Impulse);
-		//curSpeed = fallingSpeed;
-		playerAudio.setAudio(PlayerState.jump);
-	}
+        if (inputHeading != Vector3.zero)
+            setState(PlayerState.run);
+        if (Input.GetButtonDown("Jump"))
+            setState(PlayerState.jump);
+        if (Input.GetButtonDown("Slide"))
+            setState(PlayerState.roll);
+    }
 
-	void backEject()
+	//one off jumps that add instant force - transitionary state
+	void Jump()
 	{
-		Debug.Log("back eject");
-		lockCamera = false;
-		playerAni.SetTrigger("startBackEject");
-		playerRidg.AddForce(-transform.right * backEjectHeight, ForceMode.Impulse);
-		playerAudio.setAudio(PlayerState.jump);
-	}
+        if(curState != PlayerState.jump)
+        {
+            playerAni.SetTrigger("startJump");
+            curVel.y = jumpHeight;
+            playerAudio.setAudio(PlayerState.jump);
+            curState = PlayerState.jump;
+        }
 
-	void wallJump()
-	{
-		lockCamera = false;
-		playerAni.SetTrigger("startWallJump");
-		curState = PlayerState.wallJump;
-		playerRidg.AddForce(transform.up * jumpHeight * 2, ForceMode.Impulse);
-		canWallRun = false;
-		wallRunCooldownTime = 0;
-		playerAudio.setAudio(PlayerState.jump);
+        //if there's a wall next to us
+        if(Input.GetButton("Sprint") && touchingWall)
+        {
+            if (checkWallAngleForClimb()) //then if we're looking at it - climb it
+                setState(PlayerState.climb);
+            else // else start wall running
+                setState(PlayerState.wallRun);
+        }
+        else //otherwise, transition to falling
+            setState(PlayerState.falling);
 	}
 
 	//setting the players current speed
-	void run()
+	void Run()
 	{
-		lockCamera = false;
-		lockMovement = false;
-		playerAni.SetTrigger("startRun");
-		curState = PlayerState.run;
-		curSpeed = runSpeed;
-		playerAudio.setAudio(PlayerState.run);
+        //transitioning in
+        if(curState != PlayerState.run)
+        {
+            playerAni.SetTrigger(Input.GetButton("Sprint") ? "startSprint" : "startRun");
+            curState = PlayerState.run;
+            playerAudio.setAudio(PlayerState.run);
+        }
+
+        float speed = Input.GetButton("Sprint") ? sprintSpeed : runSpeed;
+        float yVel = curVel.y;
+        curVel = inputHeading * speed;
+        curVel.y = yVel;
+
+        //transitioning out
+        if (inputHeading == Vector3.zero)
+            setState(PlayerState.idle);
+        else if (Input.GetButtonDown("Slide"))
+            setState(PlayerState.roll);
+        else if (Input.GetButtonDown("Jump"))
+            setState(PlayerState.jump);
+        else if (!charContr.isGrounded)
+            setState(PlayerState.falling);
+    }
+
+	void Falling()
+	{
+        if(curState != PlayerState.falling)
+        {
+            playerAni.SetTrigger("startFalling");
+            curState = PlayerState.falling;
+        }
+
+        float yVel = curVel.y;
+        curVel = Vector3.Lerp(curVel, inputHeading * airStrafe, 0.5f);
+        curVel.y = yVel;
+
+        //keep falling until we double jump or land
+        if (canDoubleJump && Input.GetButtonDown("Jump"))
+        {
+            setState(PlayerState.jump);
+            canDoubleJump = false;
+        }
+        else if (charContr.isGrounded)
+        {
+            if (inputHeading != Vector3.zero)
+                setState(PlayerState.run);
+            else
+                setState(PlayerState.idle);
+        }
+        else if (touchingWall && Input.GetButton("Sprint"))
+            setState(PlayerState.wallRun);
 	}
 
-	void walk()
+	void Roll()
 	{
-		lockCamera = false;
-		lockMovement = false;
-		playerAni.SetTrigger("startWalk");
-		curState = PlayerState.walk;
-		curSpeed = walkSpeed;
-		playerAudio.setAudio(PlayerState.walk);
-	}
+        //transitioning in
+        if (curState != PlayerState.roll)
+        {
+            playerAni.SetTrigger("startRoll");
+            curState = PlayerState.roll;
+            timer = rollTimer;
+            curVel = inputHeading * rollSpeed;
+        }
 
-	void sprint()
+        Debug.LogWarning("Roll");
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+            setState(PlayerState.idle);
+        else if (!charContr.isGrounded)
+            setState(PlayerState.falling);
+    }
+
+    void Wallrun()
 	{
-		lockCamera = false;
-		lockMovement = false;
-		playerAni.SetTrigger("startSprint");
-		curState = PlayerState.sprint;
-		curSpeed = sprintSpeed;
-		playerAudio.setAudio(PlayerState.sprint);
-	}
+        if(curState != PlayerState.wallRun)
+        {
+            playerAni.SetTrigger("startWallRun");
+            curState = PlayerState.wallRun;
+            if(curVel.y < 0)
+                curVel.y = 0; //lose the fall speed
+        }
 
-	//starts of the state transition
-	public void goLunge(Vector3 pos, float range)
+        Vector3 dir1 = Vector3.Cross(Vector3.up, wallNormal); //dir1 and dir2 are both orthogonal to the normal
+        Vector3 dir2 = Vector3.Cross(wallNormal, Vector3.up); //but we need to pick one which is the closest to our forward
+        float mag1 = (dir1 - playerTran.forward).sqrMagnitude; //we do it by comparing their differences
+        float mag2 = (dir2 - playerTran.forward).sqrMagnitude; //the one with a smaller difference is our new "forward"
+        Vector3 wallrunDir = mag1 < mag2 ? dir1 : dir2;
+        float yVel = curVel.y;
+        curVel = wallrunDir * wallrunSpeed;
+        curVel.y = yVel;
+        Debug.DrawLine(curPos, curPos + wallrunDir, Color.green, 10);
+
+        if (charContr.isGrounded)
+        {
+            if (inputHeading == Vector3.zero)
+                setState(PlayerState.idle);
+            else
+                setState(PlayerState.run);
+        }
+        else if (Input.GetButtonDown("Jump"))
+        {
+            curVel = wallNormal * jumpHeight / 2;
+            setState(PlayerState.jump);
+        }
+        else if (!Input.GetButton("Sprint") || !touchingWall || Input.GetAxisRaw("Horizontal") != 0)
+            setState(PlayerState.falling);
+    }
+
+	void Climb()
 	{
-		playerTran.position = Vector3.Lerp(playerTran.position, pos, lungeSpeed * Time.deltaTime);
-		lungePos = pos;
-		meleeRange = range;
-		setState(PlayerState.lunge);
-	}
+        if(curState != PlayerState.climb)
+        {
+            curState = PlayerState.climb;
+            playerAni.SetTrigger("startClimb");
+            timer = climbTimer;
+        }
 
-	void lunge()
-	{
-		lockCamera = true;
-		lockMovement = true;
-		playerAni.SetTrigger("startLunge");
-		curState = PlayerState.lunge;
-	}
-
-	void falling()
-	{
-		lockCamera = false;
-		playerAni.SetTrigger("startFalling");
-		curState = PlayerState.falling;
-	}
-
-	void runToRoll()
-	{
-		playerAni.SetTrigger("startRoll");
-		curState = PlayerState.roll;
-		lockCamera = true;
-		curSlideSpeed = runRollSpeed;
-	}
-
-	void sprintToRoll()
-	{
-		playerAni.SetTrigger("startRoll");
-		curState = PlayerState.roll;
-		lockCamera = true;
-		curSlideSpeed = sprintRollSpeed;
-	}
-
-	void runToWall()
-	{
-		playerAni.SetTrigger("startWallRun");
-		curState = PlayerState.wallRun;
-		//canJump = false;
-		lockCamera = true;
-		curWallSpeed = runWallSpeed;
-		curWallRunHeight = wallRunHeight;
-		curWallRunLength = wallRunLength;
-		//Debug.Log(curWallSpeed + " " + curWallRunHeight + " " + curWallRunLength);
-	}
-
-	void sprintToWall()
-	{
-		playerAni.SetTrigger("startWallRun");
-		curState = PlayerState.wallRun;
-		lockCamera = true;
-		curWallSpeed = sprintWallSpeed;
-		curWallRunHeight = wallRunHeight;
-		curWallRunLength = wallRunLength;
-		//Debug.Log(curWallSpeed + " " + curWallRunHeight + " " + curWallRunLength);
-	}
-
-	void wallToWall()
-	{
-		playerAni.SetTrigger("startWallRun");
-		curState = PlayerState.wallRun;
-		lockCamera = true;
-		curWallSpeed = runWallSpeed;
-		curWallRunHeight = wallRunHeight;
-		curWallRunLength = wallRunLength;
-		Debug.Log(curWallSpeed + " " + curWallRunHeight + " " + curWallRunLength);
-	}
-
-	void climb()
-	{
-		curState = PlayerState.climb;
-		playerAni.SetTrigger("startClimb");
-		lockCamera = true;
-		curClimbSpeed = climbSpeed;
-	}
-
-	//commands called in the update
-	void climbing()
-	{
-		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + transform.up, curClimbSpeed * Time.deltaTime);
-		curClimbSpeed -= climbDep;
-		if (curClimbSpeed <= 0)
-		{
-			setState(PlayerState.falling);
-			playerAni.SetTrigger("startIdle");
-		}
-	}
-
-	void Rolling()
-	{
-		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + targetVelocity, curSlideSpeed * Time.deltaTime);
-		curSlideSpeed -= slideDep;	//delat time test
-		if (curSlideSpeed <= 0)
-		{
-			setState(PlayerState.run);
-			playerAni.SetTrigger("startIdle");
-		}
-	}
-
-	void lunging()
-	{
-		playerTran.position = Vector3.Lerp(playerTran.position, lungePos, lungeSpeed * Time.deltaTime);
-		if (Vector3.Distance(playerTran.position, lungePos) < meleeRange)
-		{
-			setState(PlayerState.run);
-			playerAni.SetTrigger("startIdle");
-			lockCamera = false;
-			lockMovement = false;
-		}
-	}
-
-	void wallRunning()
-	{
-		Vector3 nextWallSpeed = new Vector3(curWallRunLength, curWallRunHeight, 0).normalized;
-		nextWallSpeed = playerTran.TransformDirection(nextWallSpeed);
-		playerTran.position = Vector3.Lerp(playerTran.position, playerTran.position + nextWallSpeed, curWallSpeed * Time.deltaTime);
-		curWallRunHeight -= wallHeightDep * Time.deltaTime;
-
-		if (!checkWall())
-		{
-			setState(PlayerState.wallJump);
-		}
-		else if(checkGround())
-		{
-			setState(PlayerState.falling);
-		}
-
-		//Debug.Log("wall heigher " + curWallRunHeight + nextWallSpeed);
-		//curWallRunLength -= wallLengthDep * Time.deltaTime;
-	}
-
-	void moving()
-	{
-		targetVelocity *= curSpeed;
-		var v = playerRidg.velocity;
-		var velocityChange = (targetVelocity - v);
-		velocityChange.x = Mathf.Clamp(velocityChange.x, -maxVelocityChange, maxVelocityChange);
-		velocityChange.z = Mathf.Clamp(velocityChange.z, -maxVelocityChange, maxVelocityChange);
-		velocityChange.y = 0;
-		//Debug.Log("vel change " + velocityChange);
-
-		//ridgedbody movement
-		playerRidg.AddForce(velocityChange, ForceMode.VelocityChange);
-
-		//translation movement
-		//just changed this to the proper version of applying time to the movement 
-
-		//playerRidg.velocity = targetVelocity.normalized * curSpeed;// * Time.deltaTime;
-		//playerTran.position = playerTran.position + targetVelocity * curSpeed * Time.deltaTime;
-	}
-
-	/*
-	//collisions with wall (will be replaced with raycasts)
-	void OnCollisionEnter(Collision col)
-	{
-		/*
-		if (col.gameObject.tag == "Ground" && curState != PlayerState.wallRun)
-		{
-			Debug.Log("enter ground");
-			setState(PlayerState.idle);
-			canJump = true;
-			canDoubleJump = false;
-		}
-		else if (col.gameObject.tag == "Ground" && curState == PlayerState.wallRun)
-		{
-			Debug.Log("exit wall run");
-			setState(PlayerState.idle);
-			canJump = true;
-			canDoubleJump = false;
-			lockCamera = false;
-		}
-		if (col.gameObject.tag == "Wall" && (curState == PlayerState.wallJump || curState == PlayerState.jump || curState == PlayerState.doubleJump))
-		{
-			Debug.Log("wall to wall start");
-			checkWallAngle();
-		}
-		else if (col.gameObject.tag == "Wall")
-		{
-			Debug.Log("can jump");
-			canClimb = true;
-		}
-		
-
-		//note: this is for the curved wall running idea by taking the normal of the wall and the plyer will follow that 
-		/*Vector3 p = col.contacts[0].point;
-		RaycastHit info = new RaycastHit();
-		if(Physics.Raycast(transform.position, p - transform.position, out info))
-			Debug.DrawLine(info.point, info.point + info.normal, Color.cyan, 10);
-	}
-
-	void OnCollisionExit(Collision col)
-	{
-		/*
-		if (col.gameObject.tag == "Ground")
-		{
-			//Debug.Log("exit ground");
-			//setState(PlayerState.falling);
-			canJump = false;
-			canDoubleJump = true;
-		}
-		if (col.gameObject.tag == "Wall" && curState == PlayerState.wallRun)
-		{
-			Debug.Log("falling");
-			setState(PlayerState.falling);
-			canClimb = false;
-		}
-		else if (col.gameObject.tag == "Wall")
-		{
-			Debug.Log("cant jump");
-			canClimb = false;
-		}
-		
-	}
-	*/
+        curVel = playerTran.up * climbSpeed * timer / climbTimer;
+        timer -= Time.deltaTime;
+        if (Input.GetButton("Sprint") || timer < 0 || Input.GetAxisRaw("Vertical") < 0)
+            setState(PlayerState.falling);
+        else if (Input.GetButtonDown("Jump"))
+        {
+            curVel = wallNormal * jumpHeight / 2;
+            setState(PlayerState.jump);
+        }
+    }
 }

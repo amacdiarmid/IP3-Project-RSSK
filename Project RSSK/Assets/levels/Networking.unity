@@ -159,7 +159,7 @@ GameObject:
   - 65: {fileID: 262503325}
   - 23: {fileID: 262503324}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Wall
   m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
