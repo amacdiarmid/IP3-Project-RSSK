@@ -168,8 +168,7 @@ GameObject:
   - 4: {fileID: 451378}
   - 33: {fileID: 3380396}
   - 23: {fileID: 2397558}
-  - 54: {fileID: 5494714}
-  - 65: {fileID: 6594576}
+  - 143: {fileID: 14328942}
   - 114: {fileID: 11411808}
   - 114: {fileID: 11437808}
   - 114: {fileID: 11408342}
@@ -261,7 +260,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 30.80358, y: -1, z: 1.5021048}
+  m_LocalPosition: {x: 17.157291, y: 0.74, z: 2.4915438}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 484534}
@@ -455,7 +454,7 @@ MeshRenderer:
   m_GameObject: {fileID: 176964}
   m_Enabled: 1
   m_CastShadows: 1
-  m_ReceiveShadows: 1
+  m_ReceiveShadows: 0
   m_Materials:
   - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_SubsetIndices: 
@@ -501,33 +500,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 173036}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!54 &5494714
-Rigidbody:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176964}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 112
-  m_CollisionDetection: 0
---- !u!65 &6594576
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 176964}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 2, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!81 &8198158
 AudioListener:
   m_ObjectHideFlags: 1
@@ -978,29 +950,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 0
   jumpHeight: 10
-  walkSpeed: 5
-  runSpeed: 10
-  sprintSpeed: 20
-  fallingSpeed: 5
-  maxVelocityChange: 0.66
-  runRollSpeed: 30
-  sprintRollSpeed: 50
-  slideDep: 1
-  lungeSpeed: 50
-  wallRunningSpeed: 24.36
-  angleToWallRun: 45
-  runWallSpeed: 10
-  sprintWallSpeed: 15
-  wallHeightDep: 1
-  wallLengthDep: 1
-  wallRunHeight: 10
-  wallRunLength: 5
-  maxDistanceToWall: 3
-  wallRunCooldown: 1
-  maxVelocity: 10
-  climbSpeed: 20
-  climbDep: 1
-  backEjectHeight: 10
+  runSpeed: 5
+  sprintSpeed: 10
+  airStrafe: 5
+  decelRate: 4
+  rollTimer: 0.5
+  rollSpeed: 10
+  wallrunSpeed: 10
+  angleToWallrun: 10
+  maxDistanceToWall: 2
+  climbSpeed: 10
+  climbTimer: 3
 --- !u!114 &11423464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1012,7 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TransformSyncMode: 3
+  m_TransformSyncMode: 4
   m_SendInterval: 0.033333335
   m_SyncRotationAxis: 7
   m_RotationSyncCompression: 0
@@ -1186,7 +1146,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b0009c27645c5448faa8d76a9ef946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lungeRange: 3
   damage: 10
   cooldown: 1
   range: 1
@@ -1230,6 +1189,23 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 169594}
   m_Enabled: 1
+--- !u!143 &14328942
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 176964}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.1
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!222 &22237608
 CanvasRenderer:
   m_ObjectHideFlags: 1
@@ -1331,6 +1307,62 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: team
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: airStrafe
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: runSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rollSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rollTimer
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_TransformSyncMode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: climbSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: jumpHeight
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxDistanceToWall
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_MinMoveDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SkinWidth
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
