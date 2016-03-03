@@ -23,15 +23,7 @@ public class PlayerAudioController : MonoBehaviour {
     {
         switch (state)
         {
-            case PlayerState.walk:
-                if (!source.isPlaying) //loop the walking audio
-                    source.PlayOneShot(movingAudio[Random.Range(0, movingAudio.Count - 1)]);
-                break;
             case PlayerState.run:
-                if (!source.isPlaying)
-                    source.PlayOneShot(movingAudio[Random.Range(0, movingAudio.Count - 1)]);
-                break;
-            case PlayerState.sprint:
                 if (!source.isPlaying)
                     source.PlayOneShot(movingAudio[Random.Range(0, movingAudio.Count - 1)]);
                 break;
