@@ -685,6 +685,14 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11437808, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+      propertyPath: idleSway.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 11437808, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+      propertyPath: idleSway.y
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
   m_IsPrefabParent: 0

@@ -1028,6 +1028,13 @@ MonoBehaviour:
   lookUpLim: 75
   lookDownLim: 285
   rotationSpeed: 50
+  idleSway: {x: 0.5, y: 0.5}
+  runSway: {x: 1, y: 1}
+  jumpSway: {x: 1.5, y: 1.5}
+  fallingSway: {x: 1.5, y: 1.5}
+  rollSway: {x: 1.5, y: 1.5}
+  climbSway: {x: 1, y: 1}
+  wallRunSway: {x: 1.5, y: 1.5}
 --- !u!114 &11445550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1368,6 +1375,62 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: comboCoolDown
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: idleSway.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: idleSway.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: runSway.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: runSway.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: jumpSway.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: jumpSway.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: fallingSway.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: fallingSway.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rollSway.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rollSway.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: climbSway.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: climbSway.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: wallRunSway.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: wallRunSway.y
+      value: 1.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
