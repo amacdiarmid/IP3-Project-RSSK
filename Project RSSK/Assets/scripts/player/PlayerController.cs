@@ -353,4 +353,12 @@ public class PlayerController : NetworkBehaviour
             setState(PlayerState.jump);
         }
     }
+
+    [ClientRpc]
+    public void RpcSpawned(Vector3 pos, int team)
+    {
+        this.team = team;
+        transform.position = pos;
+        GetComponent<MeshRenderer>().material.color = (team == 0 ? Color.yellow : Color.blue);
+    }
 }
