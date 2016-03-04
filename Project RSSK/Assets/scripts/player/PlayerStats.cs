@@ -5,32 +5,35 @@ using UnityEngine.UI;
 public class PlayerStats : NetworkBehaviour
 {
 	PlayerAudioController playerAudio;
-    Text text;
+	Text text;
 
-    [SyncVar]
-    public float maxHealth = 100;
+	[SyncVar]
+	public float maxHealth = 100;
 
 	void Start()
 	{
 		playerAudio = GetComponent<PlayerAudioController>();
-        text = GetComponentInChildren<Text>();
+		text = GetComponentInChildren<Text>();
+
+		//cursor locking
+		Cursor.lockState = CursorLockMode.Locked;
 	}
 
-    [Command]
+	[Command]
 	public void CmdDamage(int dmg)
 	{
-        if (!isServer)
-            return;
+		if (!isServer)
+			return;
 
 		maxHealth -= dmg;
 		if (maxHealth <= 0)
 		{
 			playerAudio.dead();
-            Destroy(gameObject, playerAudio.deathAudio[0].length);
+			Destroy(gameObject, playerAudio.deathAudio[0].length);
 		}
 		else
 			playerAudio.damaged();
 
-        text.text = "Health: " + maxHealth;
+		text.text = "Health: " + maxHealth;
 	}
 }

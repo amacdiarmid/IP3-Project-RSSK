@@ -41,7 +41,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 6
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_LightmapsMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -244,32 +244,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ae0343c44bb98a4c83f45f4e6af3064, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curState: 1
-  playerAni: {fileID: 0}
+  team: 0
   jumpHeight: 500
-  walkSpeed: 5
   runSpeed: 10
   sprintSpeed: 20
-  fallingSpeed: 5
-  maxVelocityChange: 10
-  runRollSpeed: 30
-  sprintRollSpeed: 50
-  slideDep: 1
-  lungeSpeed: 25
-  wallRunningSpeed: 25
-  angleToWallRun: 10
-  runWallSpeed: 10
-  sprintWallSpeed: 15
-  wallHeightDep: 1
-  wallLengthDep: 1
-  wallRunHeight: 10
-  wallRunLength: 5
+  airStrafe: 10
+  decelRate: 4
+  rollTimer: 1
+  rollSpeed: 5
+  wallrunSpeed: 10
+  angleToWallrun: 10
   maxDistanceToWall: 3
-  wallRunCooldown: 1
-  maxVelocity: 10
   climbSpeed: 20
-  climbDep: 1
-  backEjectHeight: 300
+  climbTimer: 2
 --- !u!54 &427120894
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -343,7 +330,7 @@ Transform:
   m_Children:
   - {fileID: 1071543420}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!1 &687505720
 GameObject:
   m_ObjectHideFlags: 0
@@ -104024,7 +104011,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
 --- !u!1 &798507140
 GameObject:
   m_ObjectHideFlags: 0
@@ -104077,7 +104064,7 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 146546, guid: c08925c981dc1cd4db3eb1b320b65b13, type: 2}
+  m_PlayerPrefab: {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
@@ -104133,7 +104120,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
 --- !u!1 &1071543419
 GameObject:
   m_ObjectHideFlags: 0
@@ -104297,3 +104284,45 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!1001 &1784321038
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 448954, guid: 293eec63970b3484baa70761246285ed, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 2.62
+      objectReference: {fileID: 0}
+    - target: {fileID: 448954, guid: 293eec63970b3484baa70761246285ed, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 4.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 448954, guid: 293eec63970b3484baa70761246285ed, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -9.909298
+      objectReference: {fileID: 0}
+    - target: {fileID: 448954, guid: 293eec63970b3484baa70761246285ed, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 448954, guid: 293eec63970b3484baa70761246285ed, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 448954, guid: 293eec63970b3484baa70761246285ed, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 448954, guid: 293eec63970b3484baa70761246285ed, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 448954, guid: 293eec63970b3484baa70761246285ed, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 293eec63970b3484baa70761246285ed, type: 2}
+  m_IsPrefabParent: 0

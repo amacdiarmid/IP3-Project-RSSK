@@ -235,8 +235,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 128142}
-  m_LocalRotation: {x: 0.3458199, y: 0.0012058883, z: 0.0032718717, w: 0.9382944}
-  m_LocalPosition: {x: -0.69700027, y: 0.42900002, z: 0.007000029}
+  m_LocalRotation: {x: 0.2422183, y: -0.6626209, z: 0.24684493, w: 0.66432786}
+  m_LocalPosition: {x: -0.05, y: 0.4289999, z: -0.56}
   m_LocalScale: {x: 0.20000002, y: 2, z: 0.19999999}
   m_Children: []
   m_Father: {fileID: 451378}
@@ -260,7 +260,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 17.157291, y: 0.74, z: 2.4915438}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 484534}
@@ -1147,7 +1147,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  cooldown: 1
+  cooldown: 10
+  comboCoolDown: 2
   range: 1
   knockback: 5
   swordAni: {fileID: 9554272}
@@ -1363,6 +1364,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_SkinWidth
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: comboCoolDown
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
