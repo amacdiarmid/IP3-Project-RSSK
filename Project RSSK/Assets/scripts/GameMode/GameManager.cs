@@ -68,6 +68,7 @@ public class GameManager : NetworkManager
 
     void DebugMsg(string msg)
     {
+        print(msg);
         Debug.Log(msg);
         if(debugRoot == null)
         {

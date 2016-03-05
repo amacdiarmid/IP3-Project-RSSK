@@ -66,9 +66,8 @@ public class PlayerController : NetworkBehaviour
 
         playerTran.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
         playerTran.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = false;
-
-        //remove when we find out spawn points
-        playerTran.position = new Vector3(0, 3, 0);
+        
+        CmdChangeColor();
 	}
 
 	// Update is called once per frame
@@ -358,7 +357,12 @@ public class PlayerController : NetworkBehaviour
     public void RpcSpawned(Vector3 pos, int team)
     {
         this.team = team;
-        transform.position = pos;
+        //transform.position = pos;
+    }
+
+    [Command]
+    void CmdChangeColor()
+    {
         GetComponent<MeshRenderer>().material.color = (team == 0 ? Color.yellow : Color.blue);
     }
 }
