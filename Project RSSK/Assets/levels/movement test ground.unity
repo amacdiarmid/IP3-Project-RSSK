@@ -681,6 +681,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 166142, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11440174, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
+      propertyPath: swordAni
+      value: 
+      objectReference: {fileID: 1779655937}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
   m_IsPrefabParent: 0
@@ -1696,6 +1704,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 15
+--- !u!95 &1779655937 stripped
+Animator:
+  m_PrefabParentObject: {fileID: 9576416, guid: 3e3279028f24c104db8cd986805c9389,
+    type: 2}
+  m_PrefabInternal: {fileID: 801969454}
 --- !u!1 &1832092888
 GameObject:
   m_ObjectHideFlags: 0

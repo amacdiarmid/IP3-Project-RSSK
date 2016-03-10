@@ -2302,7 +2302,7 @@ Animator:
   m_GameObject: {fileID: 166142}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 6d39dca370c6d2a499679da30fffdeeb, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7cd7884f4c70475408018fa62a3843b6, type: 2}
+  m_Controller: {fileID: 9100000, guid: 36e134fd2994c414aabba4f60f4d9432, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2632,7 +2632,7 @@ MonoBehaviour:
   spreadAdv: 0.2
   spreadDep: 0.1
   projectile: {fileID: 187148, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
-  gunAni: {fileID: 9514836}
+  gunAni: {fileID: 9576416}
   fireAudio: {fileID: 8300000, guid: ff7309d4dd64c144d890f04b8c7cf094, type: 3}
   outOfAmmoAudio: {fileID: 8300000, guid: 8175182f91a2a4241a15124f861f53e3, type: 3}
   reloadAudio: {fileID: 8300000, guid: 40b77c48c79852a43925586bd81f50b7, type: 3}
