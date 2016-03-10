@@ -649,52 +649,40 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 451378, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+    - target: {fileID: 446608, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 451378, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+    - target: {fileID: 446608, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 1.5
       objectReference: {fileID: 0}
-    - target: {fileID: 451378, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+    - target: {fileID: 446608, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 451378, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+    - target: {fileID: 446608, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 451378, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+    - target: {fileID: 446608, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 451378, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+    - target: {fileID: 446608, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 451378, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+    - target: {fileID: 446608, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 451378, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+    - target: {fileID: 446608, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
-    - target: {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 11437808, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
-      propertyPath: idleSway.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 11437808, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
-      propertyPath: idleSway.y
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+  m_ParentPrefab: {fileID: 100100000, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &921797329
 GameObject:
@@ -1429,7 +1417,7 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+  m_PlayerPrefab: {fileID: 166142, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
