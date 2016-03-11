@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
 
-public enum PlayerState
+public enum PlayerState : byte
 {
 	idle,
 	run,
@@ -13,9 +14,19 @@ public enum PlayerState
 	wallRun
 }
 
+public enum PlayerTeam : byte
+{
+    NotPicked,
+    TeamYellow,
+    TeamBlue
+}
+
 public class PlayerController : NetworkBehaviour
 {
-    [Range(0, 1)] public int team = 0;
+    [HideInInspector, SyncVar]
+    public PlayerTeam team = PlayerTeam.NotPicked;
+    [HideInInspector, SyncVar]
+    public short playerId;
 
     //enum and components
     PlayerState curState = PlayerState.idle;
@@ -56,6 +67,9 @@ public class PlayerController : NetworkBehaviour
 	public float climbSpeed = 5;
     public float climbTimer = 2;
 
+    public static PlayerController localInstance = null;
+    public static List<PlayerController> players = new List<PlayerController>();
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -65,13 +79,23 @@ public class PlayerController : NetworkBehaviour
 		playerAudio = GetComponent<PlayerAudioController>();
 
         playerTran.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
-        playerTran.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = false;
-        
-        CmdChangeColor();
-	}
+        playerTran.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
 
-	// Update is called once per frame
-	void Update()
+        if (team != PlayerTeam.NotPicked)
+            GetComponent<Renderer>().material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+
+        if (isLocalPlayer)
+            localInstance = this;
+        players.Add(this);
+    }
+
+    public override void OnNetworkDestroy()
+    {
+        players.Remove(this);
+    }
+
+    // Update is called once per frame
+    void Update()
 	{
 		if (!isLocalPlayer)
 			return;
@@ -352,17 +376,17 @@ public class PlayerController : NetworkBehaviour
             setState(PlayerState.jump);
         }
     }
-
-    [ClientRpc]
-    public void RpcSpawned(Vector3 pos, int team)
+    
+    public void UpdateTeam()
     {
-        this.team = team;
-        //transform.position = pos;
+        if(team != PlayerTeam.NotPicked)
+            GetComponent<Renderer>().material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
     }
 
     [Command]
-    void CmdChangeColor()
+    public void CmdUpdateTeam()
     {
-        GetComponent<MeshRenderer>().material.color = (team == 0 ? Color.yellow : Color.blue);
+        if (team != PlayerTeam.NotPicked)
+            GetComponent<Renderer>().material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
     }
 }
