@@ -729,7 +729,6 @@ GameObject:
   - 114: {fileID: 11440174}
   - 114: {fileID: 11430766}
   - 114: {fileID: 11473920}
-  - 95: {fileID: 9576416}
   - 114: {fileID: 11411072}
   m_Layer: 0
   m_Name: knight Character
@@ -2285,25 +2284,8 @@ Animator:
   m_GameObject: {fileID: 192790}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 6d39dca370c6d2a499679da30fffdeeb, type: 3}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 1
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
---- !u!95 &9576416
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 166142}
-  m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 6d39dca370c6d2a499679da30fffdeeb, type: 3}
   m_Controller: {fileID: 9100000, guid: 36e134fd2994c414aabba4f60f4d9432, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -2355,6 +2337,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
+  playerAni: {fileID: 9551620}
   jumpHeight: 10
   runSpeed: 5
   sprintSpeed: 10
@@ -2511,11 +2494,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  cooldown: 10
+  cooldown: 1
   comboCoolDown: 2
   range: 1
   knockback: 5
-  swordAni: {fileID: 9544822}
+  swordAni: {fileID: 9551620}
   attackAudio:
   - {fileID: 8300000, guid: e714254659e00d74fa5fbbb5a2b2eab8, type: 3}
   - {fileID: 8300000, guid: 7a0fdc42e4813c14283018ab483c9f3c, type: 3}
@@ -2553,6 +2536,7 @@ MonoBehaviour:
   rollSway: {x: 1.5, y: 1.5}
   climbSway: {x: 1, y: 1}
   wallRunSway: {x: 1.5, y: 1.5}
+  camSway: 0
 --- !u!114 &11473920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2632,7 +2616,7 @@ MonoBehaviour:
   spreadAdv: 0.2
   spreadDep: 0.1
   projectile: {fileID: 187148, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
-  gunAni: {fileID: 9576416}
+  gunAni: {fileID: 9551620}
   fireAudio: {fileID: 8300000, guid: ff7309d4dd64c144d890f04b8c7cf094, type: 3}
   outOfAmmoAudio: {fileID: 8300000, guid: 8175182f91a2a4241a15124f861f53e3, type: 3}
   reloadAudio: {fileID: 8300000, guid: 40b77c48c79852a43925586bd81f50b7, type: 3}
@@ -2868,7 +2852,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: cooldown
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 166142}

@@ -25,6 +25,7 @@ public class PlayerCamera : NetworkBehaviour
 
 	//vector2 contains the height sway at .x and speed as .y
 	public Vector2 idleSway, runSway, jumpSway, fallingSway, rollSway, climbSway, wallRunSway;
+	public bool camSway;
 
 	// Use this for initialization
 	void Start()
@@ -42,13 +43,17 @@ public class PlayerCamera : NetworkBehaviour
 			return;
 
 		rotateCam();
+
 		if (Input.GetButtonDown("QuickTurn"))
 			playerTran.Rotate(new Vector3(0, 180, 0));
 
-		float height = heightScale * Mathf.PerlinNoise(Time.time * speed, 0.0F);
-		Vector3 pos = playerCam.transform.localPosition;
-		pos.y = height;
-		playerCam.transform.localPosition = pos;
+		if(camSway)
+		{
+			float height = heightScale * Mathf.PerlinNoise(Time.time * speed, 0.0F);
+			Vector3 pos = playerCam.transform.localPosition;
+			pos.y = height;
+			playerCam.transform.localPosition = pos;
+		}
 	}
 
 	void rotateCam()

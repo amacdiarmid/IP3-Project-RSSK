@@ -19,7 +19,6 @@ public class PlayerController : NetworkBehaviour
 
 	//enum and components
 	PlayerState curState = PlayerState.idle;
-	Animator playerAni;
 	Transform playerTran;
 	CharacterController charContr;
 	PlayerCamera playerCam;
@@ -28,6 +27,8 @@ public class PlayerController : NetworkBehaviour
 	Vector3 inputHeading;
 	Vector3 curVel = Vector3.zero;
 	Vector3 curPos;
+
+	public Animator playerAni;
 
 	//general state info
 	bool touchingWall;
@@ -62,7 +63,6 @@ public class PlayerController : NetworkBehaviour
 	void Start ()
 	{
 		playerTran = transform;
-		playerAni = GetComponent<Animator>();
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 		playerCam = GetComponent<PlayerCamera>();
@@ -260,8 +260,10 @@ public class PlayerController : NetworkBehaviour
 
 	void Falling()
 	{
+		
 		if(curState != PlayerState.falling)
 		{
+			Debug.Log("falling trigger");
 			playerAni.SetTrigger("startFalling");
 			curState = PlayerState.falling;
 			playerCam.setSway(PlayerState.falling);
