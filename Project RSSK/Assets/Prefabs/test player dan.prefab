@@ -949,6 +949,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
+  controllable: 1
   jumpHeight: 10
   runSpeed: 5
   sprintSpeed: 10

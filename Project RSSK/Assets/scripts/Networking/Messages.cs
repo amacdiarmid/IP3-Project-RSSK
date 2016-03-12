@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 public enum MsgTypes
 {
 	ChangeName = MsgType.Highest + 1,
+    PickedCharacter,
     PickedTeam,
     GameState
 }
@@ -22,6 +23,7 @@ public class PickedTeamMsg : MessageBase
     public static short type = (short)MsgTypes.PickedTeam;
 
     public short playerId;
+    public byte character;
     public byte team;
 }
 

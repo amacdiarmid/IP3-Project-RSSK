@@ -4,8 +4,6 @@ using UnityEngine.Networking;
 
 public class ClientManager : MonoBehaviour
 {
-    public PickTeam picker;
-
     string nickname = "";
     string server = "";
 
@@ -45,15 +43,15 @@ public class ClientManager : MonoBehaviour
         NetworkManager manager = GetComponent<NetworkManager>();
         manager.networkAddress = ip;
         manager.networkPort = port;
-        NetworkClient client = manager.StartClient();
-        picker.Init(nickname, client);
+        manager.StartClient();
+        ((GameManager)NetworkManager.singleton).localPlayerName = nickname;
     }
 
     public void Host()
     {
         NetworkManager manager = GetComponent<NetworkManager>();
         manager.networkPort = 7777;
-        NetworkClient client = manager.StartHost();
-        picker.Init(nickname, client);
+        manager.StartHost();
+        ((GameManager)NetworkManager.singleton).localPlayerName = nickname;
     }
 }
