@@ -9,6 +9,8 @@ TagManager:
   - Obstacle
   - Wall
   - Bullet
+  - Spawn0
+  - Spawn1
   layers:
   - Default
   - TransparentFX

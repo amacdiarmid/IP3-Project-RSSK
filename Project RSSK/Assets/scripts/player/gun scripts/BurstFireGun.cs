@@ -10,6 +10,9 @@ public class BurstFireGun : Gun
 
 	public override void checkInput()
 	{
+        if (!isLocalPlayer)
+            return;
+
 		//Debug.Log("over written input");
 		if (!canFire)
 			canFire = (RoFTime += Time.deltaTime) >= rateOfFire;

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+using System.Collections.Generic;
 
-public enum PlayerState
+public enum PlayerState : byte
 {
 	idle,
 	run,
@@ -13,9 +14,23 @@ public enum PlayerState
 	wallRun
 }
 
+public enum PlayerTeam : byte
+{
+    NotPicked,
+    TeamYellow,
+    TeamBlue
+}
+
 public class PlayerController : NetworkBehaviour
 {
-    [Range(0, 1)] public int team = 0;
+    public static PlayerController localInstance = null;
+
+    [HideInInspector, SyncVar]
+    public PlayerTeam team = PlayerTeam.NotPicked;
+    [HideInInspector, SyncVar]
+    public short id = -1;
+
+    public bool controllable = true;
 
     //enum and components
     PlayerState curState = PlayerState.idle;
@@ -64,17 +79,23 @@ public class PlayerController : NetworkBehaviour
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 
-        playerTran.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
-        playerTran.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = false;
+        if(controllable)
+        {
+            playerTran.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
+            playerTran.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
+        }
 
-        //remove when we find out spawn points
-        playerTran.position = new Vector3(0, 3, 0);
-	}
+        if (team != PlayerTeam.NotPicked)
+            GetComponent<Renderer>().material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
 
-	// Update is called once per frame
-	void Update()
+        if (isLocalPlayer)
+            localInstance = this;
+    }
+
+    // Update is called once per frame
+    void Update()
 	{
-		if (!isLocalPlayer)
+		if (!isLocalPlayer || !controllable)
 			return;
 
         //Debug.LogWarning(curState);
@@ -352,5 +373,18 @@ public class PlayerController : NetworkBehaviour
             curVel = wallNormal * jumpHeight / 2;
             setState(PlayerState.jump);
         }
+    }
+    
+    public void UpdateTeam()
+    {
+        if(team != PlayerTeam.NotPicked)
+            GetComponent<Renderer>().material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+    }
+
+    [Command]
+    public void CmdUpdateTeam()
+    {
+        if (team != PlayerTeam.NotPicked)
+            GetComponent<Renderer>().material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
     }
 }

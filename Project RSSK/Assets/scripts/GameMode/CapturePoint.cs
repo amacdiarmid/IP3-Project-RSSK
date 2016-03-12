@@ -43,7 +43,7 @@ public class CapturePoint : NetworkBehaviour
         {
             int[] teamCaptors = new int[] { 0, 0 };
             foreach (PlayerController contr in captors)
-                teamCaptors[contr.team]++;
+                teamCaptors[contr.team == PlayerTeam.TeamYellow ? 0 : 1]++;
             if (!team1Captured && teamCaptors[0] > teamCaptors[1])
                 accTime += Time.deltaTime;
             else if (team1Captured && teamCaptors[0] < teamCaptors[1])
