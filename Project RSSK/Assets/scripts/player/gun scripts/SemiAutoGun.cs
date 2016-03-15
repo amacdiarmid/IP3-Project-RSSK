@@ -8,7 +8,7 @@ public class SemiAutoGun : Gun
 	{
 		if (!canFire)
 			canFire = (RoFTime += Time.deltaTime) >= rateOfFire;
-		else if (Input.GetButtonUp("Fire1"))
+		else if ((primWeap && Input.GetButtonDown("Fire1")) || (!primWeap && Input.GetButtonDown("Fire2")))
 			CmdShoot();
 
 		if (Input.GetButtonUp("Reload"))

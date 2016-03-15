@@ -11,7 +11,7 @@ public class ScattershotGun : Gun
 	{
 		if (!canFire)
 			canFire = (RoFTime += Time.deltaTime) >= rateOfFire;
-		else if (Input.GetButtonDown("Fire1"))
+		else if ((primWeap && Input.GetButtonDown("Fire1")) || (!primWeap && Input.GetButtonDown("Fire2")))
 			for (int i = 0; i < peletCount; i++)
 				CmdShoot();
 

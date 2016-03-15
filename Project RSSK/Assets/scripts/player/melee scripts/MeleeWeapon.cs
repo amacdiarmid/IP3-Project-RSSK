@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 public class MeleeWeapon : NetworkBehaviour
 {
+	public bool primWeap;
 	public int damage = 10;
 	public float cooldown = 5;
 	public float comboCoolDown = 1;
@@ -35,7 +36,7 @@ public class MeleeWeapon : NetworkBehaviour
 		}
 		*/
 
-		if (canAttack && Input.GetButtonDown("Fire2") && comboPos < 3)
+		if (canAttack && ((primWeap && Input.GetButtonDown("Fire1")) || (!primWeap && Input.GetButtonDown("Fire2"))) && comboPos < 3)
 			attack();
 		else
 			Debug.Log("can attack " + canAttack + " combo pos " + comboPos);
