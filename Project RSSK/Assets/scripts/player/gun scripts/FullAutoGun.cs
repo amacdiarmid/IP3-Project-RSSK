@@ -9,7 +9,7 @@ public class FullAutoGun : Gun
 		if (!canFire)
 			canFire = (RoFTime += Time.deltaTime) >= rateOfFire;
 		else if ((primWeap && Input.GetButtonDown("Fire1")) || (!primWeap && Input.GetButtonDown("Fire2")))
-			CmdShoot();
+			Shoot();
 
 		if (Input.GetButtonUp("Reload"))
 			reload();

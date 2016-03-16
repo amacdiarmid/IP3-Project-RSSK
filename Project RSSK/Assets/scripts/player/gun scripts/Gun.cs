@@ -34,7 +34,6 @@ public class Gun : NetworkBehaviour {
 	{
 		curAmmo = maxAmmo;
 		barrel = transform.FindChild("camera/barrel point");
-		//audioSource = GetComponent<AudioSource>();
 	}
 	
 	void Update ()
@@ -47,31 +46,23 @@ public class Gun : NetworkBehaviour {
 		Debug.LogError("Don't use the base class!", gameObject);
 	}
 
-	[Command] public virtual void CmdShoot()
+	public virtual void Shoot()
 	{
 		if (curAmmo >= 0)
 		{
 			RoFTime = 0;
 			canFire = false;
-
-			//Debug.Log("fire current ammo " + curAmmo);
+            
 			--curAmmo;
 
-			//creating the bullet locally
-			GameObject curBull = Instantiate(projectile, barrel.position, Quaternion.identity) as GameObject;
+            //dan version
+            Vector3 pos = barrel.position;
+            Vector3 velocity = barrel.right + Random.insideUnitSphere * gunSreadVal;
+            velocity = velocity.normalized * projectile.GetComponent<GunProjectile>().speed;
+            CmdSpawnBullet(pos, velocity);
 
-			//alex test version
-			//curBull.GetComponent<Rigidbody>().velocity = (hit.point - barrel.transform.position).normalized * curBull.GetComponent<GunProjectile>().speed;
-
-			//dan version
-			Vector3 velocity = barrel.right + Random.insideUnitSphere * gunSreadVal;
-			curBull.GetComponent<Rigidbody>().velocity = velocity.normalized * curBull.GetComponent<GunProjectile>().speed;
-
-			//telling the server to spawn this bullet for everyone
-			NetworkServer.Spawn(curBull);
-
-			//audio/ani call
-			audioSource.PlayOneShot(fireAudio);
+            //audio/ani call
+            audioSource.PlayOneShot(fireAudio);
 			gunAni.SetTrigger("fire");
 					
 			//add spread to the next shot 
@@ -99,4 +90,12 @@ public class Gun : NetworkBehaviour {
 		}	
 		gunSreadVal = 0;
 	}
+
+    [Command]
+    void CmdSpawnBullet(Vector3 pos, Vector3 velocity)
+    {
+        GameObject curBull = Instantiate(projectile, pos, Quaternion.identity) as GameObject;
+        curBull.GetComponent<Rigidbody>().velocity = velocity;
+        NetworkServer.Spawn(curBull);
+    }
 }

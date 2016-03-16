@@ -24,9 +24,7 @@ public class GunProjectile : MonoBehaviour
 			canHitTargets--;
 			damage = (int)(damage * damageReduction);
 			if (canHitTargets == 0)
-			{
 				Destroy(gameObject);
-			}
 		}
 		else if (col.gameObject.tag == "TestPlayer")
 		{
@@ -34,13 +32,9 @@ public class GunProjectile : MonoBehaviour
 			canHitTargets--;
 			damage = (int)(damage * damageReduction);
 			if (canHitTargets == 0)
-			{
 				Destroy(gameObject);
-			}
 		}
 		else if (col.gameObject.tag != "Bullet" && !col.gameObject.GetComponent<Collider>().isTrigger)
-		{
 			Destroy(gameObject);
-		}
 	}
 }
