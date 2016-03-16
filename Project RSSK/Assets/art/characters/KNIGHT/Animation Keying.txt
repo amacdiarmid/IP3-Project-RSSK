@@ -1,0 +1,19 @@
+KNIGHT
+--------
+
+Walk - 0-33
+Jog - 34-57
+Sprint - 58-74
+Jump - 74-100
+Idle - 101-177
+Attack1 - 178-223
+Attack2 - 224-274
+Attack3 - 275-305
+Falling - 306-327
+Forward Roll - 328-370
+Run to Wallclimb - 371-391
+Wallclimb - 392-434
+Climb onto Wall - 435-467
+Run to Wallrun - 468-476
+Wallrun - 477-490
+Jump from Wall - 491-501

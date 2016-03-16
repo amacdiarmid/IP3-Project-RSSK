@@ -11,6 +11,7 @@ public class Gun : NetworkBehaviour {
 	protected float gunSreadVal = 0;
 	protected Transform barrel;
 
+	public bool primWeap;
 	public float range = 100;
 	public int maxAmmo = 30;
 	public int spareAmmo = 90;

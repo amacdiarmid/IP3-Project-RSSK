@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/levels/Networking.unity
   - enabled: 0
     path: Assets/levels/movement test ground.unity
+  - enabled: 0
+    path: Assets/levels/Whiteboxing 2.unity

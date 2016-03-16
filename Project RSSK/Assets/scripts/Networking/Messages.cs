@@ -32,8 +32,11 @@ public class GameStateMsg : MessageBase
     public static short type = (short)MsgTypes.GameState;
 
     public int playerCount;
+    public bool yellowAttacking;
+    public byte[] score;
     public string sceneName;
     public string[] playerNames;
     public byte[] playerTeams;
+    public byte[] playerLives;
     public short[] playerIds;
 }
