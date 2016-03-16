@@ -632,6 +632,10 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+--- !u!4 &876964191 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 436300, guid: 96096c2b404f39d49918f3b267411486, type: 2}
+  m_PrefabInternal: {fileID: 1682245844}
 --- !u!1 &921797329
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,20 +1581,12 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 149366, guid: 96096c2b404f39d49918f3b267411486, type: 2}
       propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8223070, guid: 96096c2b404f39d49918f3b267411486, type: 2}
-      propertyPath: panLevelCustomCurve.m_RotationOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8223070, guid: 96096c2b404f39d49918f3b267411486, type: 2}
-      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 13771492, guid: 96096c2b404f39d49918f3b267411486, type: 2}
-      propertyPath: m_Materials.Array.data[0]
+    - target: {fileID: 11461146, guid: 96096c2b404f39d49918f3b267411486, type: 2}
+      propertyPath: barrel
       value: 
-      objectReference: {fileID: 2100000, guid: 65dda9f0abdddff4fa3f858ed0ff6828, type: 2}
+      objectReference: {fileID: 876964191}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 96096c2b404f39d49918f3b267411486, type: 2}
   m_IsPrefabParent: 0

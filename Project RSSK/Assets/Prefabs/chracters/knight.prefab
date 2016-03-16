@@ -213,6 +213,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &124836
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 436300}
+  m_Layer: 0
+  m_Name: temp barrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &125756
 GameObject:
   m_ObjectHideFlags: 1
@@ -491,6 +506,7 @@ GameObject:
   - 114: {fileID: 11422934}
   - 114: {fileID: 11469182}
   - 114: {fileID: 11482044}
+  - 114: {fileID: 11461146}
   m_Layer: 0
   m_Name: knight
   m_TagString: Player
@@ -1218,6 +1234,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 418342}
   m_RootOrder: 0
+--- !u!4 &436300
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 124836}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.363, y: 0.599, z: 1.459}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 476738}
+  m_RootOrder: 5
 --- !u!4 &439284
 Transform:
   m_ObjectHideFlags: 1
@@ -1546,6 +1574,7 @@ Transform:
   - {fileID: 463120}
   - {fileID: 497124}
   - {fileID: 477842}
+  - {fileID: 436300}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &477842
@@ -1869,7 +1898,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -1891,7 +1920,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!82 &8241114
 AudioSource:
   m_ObjectHideFlags: 1
@@ -2132,6 +2161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
+  id: -1
+  controllable: 0
   playerAni: {fileID: 9585848}
   jumpHeight: 10
   runSpeed: 5
@@ -2192,7 +2223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b0009c27645c5448faa8d76a9ef946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primWeap: 1
+  primWeap: 0
   damage: 10
   cooldown: 1
   comboCoolDown: 2
@@ -2203,6 +2234,34 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e714254659e00d74fa5fbbb5a2b2eab8, type: 3}
   - {fileID: 8300000, guid: 7a0fdc42e4813c14283018ab483c9f3c, type: 3}
   audioSource: {fileID: 8223070}
+--- !u!114 &11461146
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d7a1636477f88044aab3976917ca166, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barrel: {fileID: 436300}
+  primWeap: 1
+  range: 100
+  maxAmmo: 30
+  spareAmmo: 90
+  rateOfFire: 1
+  damage: 50
+  maxSpread: 3
+  spreadAdv: 0.2
+  spreadDep: 0.1
+  gunAni: {fileID: 9585848}
+  fireAudio: {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
+  outOfAmmoAudio: {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
+  reloadAudio: {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
+  audioSource: {fileID: 8241114}
+  burstCount: 3
+  burstTime: 0.1
 --- !u!114 &11467498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2430,7 +2489,7 @@ SkinnedMeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1801d89d0d0ba4a4cab2e96120265cd1, type: 2}
+  - {fileID: 2100000, guid: 65dda9f0abdddff4fa3f858ed0ff6828, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
