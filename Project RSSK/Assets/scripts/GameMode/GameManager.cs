@@ -40,6 +40,7 @@ public class GameManager : NetworkManager
 
     PlayerTeam attackingTeam = PlayerTeam.TeamYellow;
     byte roundsToPlay = 5;
+    bool runningRound = false;
     byte[] score = { 0, 0 };
     public List<GameObject> characters;
     List<Player> players = new List<Player>();
@@ -108,11 +109,13 @@ public class GameManager : NetworkManager
         ClientScene.AddPlayer(conn, 0, msg);
     }
 
-    public override void OnClientDisconnect(NetworkConnection conn)
+    public override void OnServerDisconnect(NetworkConnection conn)
     {
-        base.OnClientDisconnect(conn);
-        Debug.Log("OnClientDisconnect: " + conn.address);
-        drawMenu = false;
+        base.OnServerDisconnect(conn);
+        Debug.Log("OnServerDisconnect: " + conn.address);
+        players.RemoveAll(x => x.conn == conn);
+        NetworkServer.DestroyPlayersForConnection(conn);
+        SendGameState();
     }
 
     void OnNameChanged(NetworkMessage netMsg)
@@ -135,7 +138,7 @@ public class GameManager : NetworkManager
         Vector3 spawn = PickSpawnPoint((PlayerTeam)msg.team);
         GameObject newPlayer = (GameObject)Instantiate(characters[msg.character], spawn, Quaternion.identity);
         p.controller = newPlayer.GetComponent<PlayerController>();
-        p.controller.controllable = false;
+        p.controller.controllable = runningRound;
         p.team = p.controller.team = (PlayerTeam)msg.team;
         p.controller.id = msg.playerId;
         p.character = msg.character;
@@ -252,22 +255,14 @@ public class GameManager : NetworkManager
     {
         IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
         int secs = msg.value;
-        timeoutText = string.Format("Time Left: {0}s", secs);
+        timeoutText = string.Format("Prep Left: {0}s", secs);
     }
 
     void StartRoundTimer(NetworkMessage netMsg)
     {
-        StartCoroutine(StartTimer(roundSeconds));
-    }
-
-    IEnumerator StartTimer(int seconds)
-    {
-        while (seconds > 0)
-        {
-            timeoutText = string.Format("Time Left: {0}s", seconds);
-            yield return new WaitForSeconds(1);
-            seconds--;
-        }
+        IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
+        int secs = msg.value;
+        timeoutText = string.Format("Time Left: {0}s", secs);
     }
 
     #region GameModeProgression
@@ -301,6 +296,7 @@ public class GameManager : NetworkManager
 
     IEnumerator PrepTimer(int seconds)
     {
+        runningRound = false;
         while(--seconds > 0)
         {
             IntegerMessage msg = new IntegerMessage();
@@ -313,15 +309,25 @@ public class GameManager : NetworkManager
             p.waitingForRound = false;
             p.controller.controllable = true;
         }
-        NetworkServer.SendToAll((short)MsgTypes.RoundStart, new EmptyMessage());
+        
         StartCoroutine(RoundTimer(roundSeconds));
     }
 
     IEnumerator RoundTimer(int seconds)
     {
         int currRoundsLeft = roundsToPlay;
-        NetworkServer.SendToAll((short)MsgTypes.RoundStart, new EmptyMessage());
-        yield return new WaitForSeconds(seconds);
+        runningRound = true;
+        while(--seconds > 0)
+        {
+            IntegerMessage msg = new IntegerMessage();
+            msg.value = seconds;
+            NetworkServer.SendToAll((short)MsgTypes.RoundStart, msg);
+            if (currRoundsLeft == roundsToPlay)
+                yield return new WaitForSeconds(1);
+            else
+                yield return null;
+        }
+        
         if (currRoundsLeft == roundsToPlay) //defenders won
             Win(attackingTeam.Enemy());
     }

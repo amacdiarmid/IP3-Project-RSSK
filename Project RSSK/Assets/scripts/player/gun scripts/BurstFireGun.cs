@@ -27,10 +27,10 @@ public class BurstFireGun : Gun
 
 	IEnumerator burstFire()
 	{
-			for (int i = 0; i < burstCount; i++)
-			{
-				CmdShoot();
-				yield return new WaitForSeconds(burstTime);
-			}
+		for (int i = 0; i < burstCount; i++)
+		{
+			Shoot();
+			yield return new WaitForSeconds(burstTime);
 		}
 	}
+}
