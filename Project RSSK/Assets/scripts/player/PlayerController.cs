@@ -159,6 +159,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+			playerAni.SetFloat("wallrun side", 1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -167,6 +168,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+			playerAni.SetFloat("wallrun side", 0);
 			wallNormal = hit.normal;
 			return true;
 		}

@@ -111,13 +111,13 @@ ModelImporter:
     400102: mixamorig:Spine2
     4300000: Body
     4300002: Head
-    7400000: Knight walk
-    7400002: Knight run
-    7400004: Knight sprint
-    7400006: Knight jump
-    7400008: Knight idle
-    7400010: Knight melee 1
-    7400012: Knight wallrun
+    7400000: oldKnight walk
+    7400002: oldKnight run
+    7400004: oldKnight sprint
+    7400006: oldKnight jump
+    7400008: oldKnight idle
+    7400010: oldKnight melee 1
+    7400012: oldKnight wallrun
     7400014: Take 001
     9500000: //RootNode
     13700000: Body
@@ -158,7 +158,7 @@ ModelImporter:
     extraExposedTransformPaths: []
     clipAnimations:
     - serializedVersion: 16
-      name: Knight walk
+      name: oldKnight walk
       takeName: Take 001
       firstFrame: 0
       lastFrame: 33
@@ -186,7 +186,7 @@ ModelImporter:
       maskSource: {fileID: 101100000, guid: c983d334999466b488608372d3c01a5c, type: 2}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Knight run
+      name: oldKnight run
       takeName: Take 001
       firstFrame: 34
       lastFrame: 57
@@ -214,7 +214,7 @@ ModelImporter:
       maskSource: {fileID: 101100000, guid: c983d334999466b488608372d3c01a5c, type: 2}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Knight sprint
+      name: oldKnight sprint
       takeName: Take 001
       firstFrame: 58
       lastFrame: 74
@@ -242,7 +242,7 @@ ModelImporter:
       maskSource: {fileID: 101100000, guid: c983d334999466b488608372d3c01a5c, type: 2}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Knight jump
+      name: oldKnight jump
       takeName: Take 001
       firstFrame: 74
       lastFrame: 100
@@ -270,7 +270,7 @@ ModelImporter:
       maskSource: {fileID: 101100000, guid: c983d334999466b488608372d3c01a5c, type: 2}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Knight idle
+      name: oldKnight idle
       takeName: Take 001
       firstFrame: 100
       lastFrame: 177
@@ -298,7 +298,7 @@ ModelImporter:
       maskSource: {fileID: 101100000, guid: 1b6b8ff4be32f1449b2320bb3f3990c4, type: 2}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Knight melee 1
+      name: oldKnight melee 1
       takeName: Take 001
       firstFrame: 178
       lastFrame: 223
@@ -326,7 +326,7 @@ ModelImporter:
       maskSource: {fileID: 101100000, guid: 01e2ad2bc0b904a478091ec045013f92, type: 2}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Knight wallrun
+      name: oldKnight wallrun
       takeName: Take 001
       firstFrame: 224
       lastFrame: 252
