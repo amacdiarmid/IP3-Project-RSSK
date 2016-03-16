@@ -21,6 +21,14 @@ public enum PlayerTeam : byte
     TeamBlue
 }
 
+public static class Utils
+{
+    public static PlayerTeam Enemy(this PlayerTeam team)
+    {
+        return team == PlayerTeam.TeamYellow ? PlayerTeam.TeamBlue : PlayerTeam.TeamYellow;
+    }
+}
+
 public class PlayerController : NetworkBehaviour
 {
     public static PlayerController localInstance = null;
@@ -74,7 +82,6 @@ public class PlayerController : NetworkBehaviour
 	public float climbTimer = 2;
 
     bool overrideControllable;
-    string timerText;
 
 	// Use this for initialization
 	void Start ()
@@ -407,13 +414,6 @@ public class PlayerController : NetworkBehaviour
     public void RpcLockCursor(bool state)
     {
         Cursor.lockState = state ? CursorLockMode.Locked : CursorLockMode.Confined;
-    }
-
-    [ClientRpc]
-    public void RpcStartCooldown(int seconds)
-    {
-        timerText = string.Format("Prep time: {0}s", seconds);
-
     }
 
     IEnumerator Cooldown(int seconds)

@@ -9,7 +9,8 @@ public class GameManager : NetworkManager
     #region ClientVars
     public ClientManager clManager;
     public CapturePoint capturePoint;
-    public int seconds = 10;
+    public int prepSeconds = 10;
+    public int roundSeconds = 180;
 
     [HideInInspector]
     public string localPlayerName = "";
@@ -20,6 +21,7 @@ public class GameManager : NetworkManager
     bool drawMenu = false;
     string status = "";
     byte pickCharacter = 6;
+    string timeoutText;
     #endregion
 
     #region ServerVars
@@ -46,7 +48,14 @@ public class GameManager : NetworkManager
 
     void OnGUI()
     {
-        GUI.Box(new Rect(Screen.width / 2 - 100, 0, 200, 100), status);
+        float y = 0;
+        Vector2 size = GUI.skin.box.CalcSize(new GUIContent(status));
+        GUI.Box(new Rect(Screen.width / 2 - size.x / 2, y, size.x, size.y), status);
+        y += size.y;
+
+        size = GUI.skin.box.CalcSize(new GUIContent(timeoutText));
+        GUI.Box(new Rect((Screen.width - size.x) / 2, y, size.x, size.y), timeoutText);
+        y += size.y;
 
         if (drawMenu)
         {
@@ -54,16 +63,18 @@ public class GameManager : NetworkManager
             if(pickCharacter == 6)
             {
                 for (int i = 0; i < 6; i++)
-                    if (GUI.Button(new Rect(Screen.width / 2 - indWidth * 3 + indWidth * i, 100, indWidth, 25), i.ToString()))
+                    if (GUI.Button(new Rect(Screen.width / 2 - indWidth * 3 + indWidth * i, y, indWidth, 25), i.ToString()))
                         pickCharacter = (byte)i;
+                y += 25;
             }
             
             if ((pickCharacter != 6) && !pickedTeam)
             {
-                if (canPickT1 && GUI.Button(new Rect(Screen.width / 2 - 75, 125, 75, 25), "Team Yellow"))
+                if (canPickT1 && GUI.Button(new Rect(Screen.width / 2 - 75, y, 75, 25), "Team Yellow"))
                     PickedTeam(PlayerTeam.TeamYellow);
-                if (canPickT2 && GUI.Button(new Rect(Screen.width / 2, 125, 75, 25), "Team Blue"))
+                if (canPickT2 && GUI.Button(new Rect(Screen.width / 2, y, 75, 25), "Team Blue"))
                     PickedTeam(PlayerTeam.TeamBlue);
+                y += 25;
             }
         }
     }
@@ -81,6 +92,8 @@ public class GameManager : NetworkManager
         base.OnClientConnect(conn);
 
         conn.RegisterHandler(GameStateMsg.type, GameStateResponse);
+        conn.RegisterHandler((short)MsgTypes.PrepTimeStart, StartPrepTimer);
+        conn.RegisterHandler((short)MsgTypes.RoundStart, StartRoundTimer);
 
         Debug.Log("Client Connected " + localPlayerName);
         pickedTeam = false;
@@ -128,9 +141,8 @@ public class GameManager : NetworkManager
         NetworkServer.ReplacePlayerForConnection(netMsg.conn, newPlayer, msg.playerId);
         p.controller.RpcLockCursor(true);
 
-        if (players.Count > 1)
-            foreach (Player pToActivate in players)
-                pToActivate.controller.controllable = pToActivate.picked;
+        if (players.Count >= 1)
+            StartCoroutine(PrepTimer(prepSeconds));
 
         SendGameState();
     }
@@ -146,7 +158,6 @@ public class GameManager : NetworkManager
 
         Player p = new Player();
         p.controller = player.GetComponent<PlayerController>();
-        //p.controller.id = playerIdsGen++;
         p.controller.id = playerControllerId;
         p.controller.RpcLockCursor(false);
         p.spawnPos = spawnPos;
@@ -237,6 +248,26 @@ public class GameManager : NetworkManager
         client.Send(PickedTeamMsg.type, msg);
     }
 
+    void StartPrepTimer(NetworkMessage netMsg)
+    {
+        StartCoroutine(StartTimer(prepSeconds));
+    }
+
+    void StartRoundTimer(NetworkMessage netMsg)
+    {
+        StartCoroutine(StartTimer(roundSeconds));
+    }
+
+    IEnumerator StartTimer(int seconds)
+    {
+        while (seconds > 0)
+        {
+            timeoutText = string.Format("Time Left: {0}s", seconds);
+            yield return new WaitForSeconds(1);
+            seconds--;
+        }
+    }
+
     #region GameModeProgression
     public void OnPlayerDied(GameObject go)
     {
@@ -254,17 +285,50 @@ public class GameManager : NetworkManager
         NetworkServer.ReplacePlayerForConnection(p.conn, newPlayer, 0);
 
         SendGameState();
+
+        //check if all spent their lives
+        List<Player> activeTeammates = players.FindAll(x => x.team == p.team && !x.waitingForRound);
+        if (activeTeammates.Count == 0)
+            Win(p.team.Enemy());
     }
 
     public void OnPointCaptured()
     {
+        Win(attackingTeam);
+    }
+
+    IEnumerator PrepTimer(int seconds)
+    {
+        NetworkServer.SendToAll((short)MsgTypes.PrepTimeStart, new EmptyMessage());
+        yield return new WaitForSeconds(seconds);
+        foreach (Player p in players)
+        {
+            p.waitingForRound = false;
+            p.controller.controllable = true;
+        }
+        NetworkServer.SendToAll((short)MsgTypes.RoundStart, new EmptyMessage());
+        StartCoroutine(RoundTimer(roundSeconds));
+    }
+
+    IEnumerator RoundTimer(int seconds)
+    {
+        int currRoundsLeft = roundsToPlay;
+        NetworkServer.SendToAll((short)MsgTypes.RoundStart, new EmptyMessage());
+        yield return new WaitForSeconds(seconds);
+        if (currRoundsLeft == roundsToPlay) //defenders won
+            Win(attackingTeam.Enemy());
+    }
+
+    public void Win(PlayerTeam winners)
+    {
         //updating the score and switching the teams
-        score[(byte)attackingTeam - 1]++;
+        score[(byte)winners - 1]++;
         capturePoint.owner = attackingTeam;
         attackingTeam = attackingTeam == PlayerTeam.TeamBlue ? PlayerTeam.TeamYellow : PlayerTeam.TeamBlue;
-        
+        roundsToPlay--;
+
         //respawning everyone
-        foreach(Player p in players)
+        foreach (Player p in players)
         {
             short id = p.controller.id;
             NetworkServer.Destroy(p.controller.gameObject);
@@ -277,11 +341,13 @@ public class GameManager : NetworkManager
             p.waitingForRound = true;
             p.lives = 5;
             p.controller.controllable = !p.waitingForRound;
-            //p.controller.RpcStartCooldown();
             NetworkServer.ReplacePlayerForConnection(p.conn, newPlayer, 0);
         }
 
         SendGameState();
+
+        if(roundsToPlay > 0)
+            StartCoroutine(PrepTimer(prepSeconds));
     }
     #endregion
 }
