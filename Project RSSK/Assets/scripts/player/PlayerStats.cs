@@ -7,33 +7,43 @@ public class PlayerStats : NetworkBehaviour
 	PlayerAudioController playerAudio;
 	Text text;
 
-	[SyncVar]
-	public float maxHealth = 100;
+	[SyncVar(hook = "HealthChanged")]
+	public int maxHealth = 100;
 
 	void Start()
 	{
 		playerAudio = GetComponent<PlayerAudioController>();
 		text = GetComponentInChildren<Text>();
-
-		//cursor locking
-		Cursor.lockState = CursorLockMode.Locked;
 	}
 
-	[Command]
-	public void CmdDamage(int dmg)
-	{
-		if (!isServer)
-			return;
+    void Update()
+    {
+        if (isLocalPlayer)
+            if (Input.GetKeyDown(KeyCode.K))
+                Damage(1000);
+    }
 
-		maxHealth -= dmg;
-		if (maxHealth <= 0)
-		{
-			playerAudio.dead();
-			Destroy(gameObject, playerAudio.deathAudio[0].length);
-		}
-		else
-			playerAudio.damaged();
+    public void Damage(int dmg)
+    {
+        if(isServer)
+        {
+            if (maxHealth <= 0)
+                return;
 
-		text.text = "Health: " + maxHealth;
-	}
+            maxHealth -= dmg;
+            if (maxHealth <= 0)
+                ((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);
+        }
+
+        if (isLocalPlayer)
+            playerAudio.damaged();
+    }
+
+    void HealthChanged(int newHealth)
+    {
+        maxHealth = newHealth;
+        text.text = "Health: " + maxHealth;
+        if (maxHealth <= 0)
+            playerAudio.dead();
+    }
 }

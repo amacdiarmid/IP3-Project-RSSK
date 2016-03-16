@@ -20,7 +20,7 @@ public class GunProjectile : MonoBehaviour
 	{
 		if (col.gameObject.tag == "Player")
 		{
-			col.gameObject.GetComponent<PlayerStats>().CmdDamage(damage);	
+			col.gameObject.GetComponent<PlayerStats>().Damage(damage);	
 			canHitTargets--;
 			damage = (int)(damage * damageReduction);
 			if (canHitTargets == 0)
@@ -38,7 +38,7 @@ public class GunProjectile : MonoBehaviour
 				Destroy(gameObject);
 			}
 		}
-		else if (col.gameObject.tag != "Bullet" && col.gameObject.GetComponent<BoxCollider>().isTrigger != true)
+		else if (col.gameObject.tag != "Bullet" && !col.gameObject.GetComponent<Collider>().isTrigger)
 		{
 			Destroy(gameObject);
 		}

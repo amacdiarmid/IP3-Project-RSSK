@@ -10,8 +10,8 @@ public class CapturePoint : NetworkBehaviour
     public Color[] teamColors = new Color[] { Color.yellow, Color.red };
     public float maxRotSpeed = 2;
 
-    [SyncVar]
-    bool team1Captured = false;
+    [SyncVar(hook="OnOwnerChanged")]
+    public PlayerTeam owner = PlayerTeam.TeamYellow;
 
     List<PlayerController> captors = new List<PlayerController>();
     float accTime = 0;
@@ -20,53 +20,63 @@ public class CapturePoint : NetworkBehaviour
     void Start ()
     {
         indicatorMat = indicator.GetComponent<MeshRenderer>().material;
-        indicatorMat.color = team1Captured ? teamColors[0] : teamColors[1];
+        indicatorMat.color = owner == PlayerTeam.TeamYellow ? teamColors[0] : teamColors[1];
 	}
 
     [ClientRpc]
-    void RpcChangeColor(Vector3 from, Vector3 to, float progress)
+    void RpcChangeColor(Vector3 color)
     {
-        indicatorMat.color = Color.Lerp(new Color(from.x, from.y, from.z), new Color(to.x, to.y, to.z), progress);
+        indicatorMat.color = new Color(color.x, color.y, color.z);
+    }
+    
+    void OnOwnerChanged(PlayerTeam newOwner)
+    {
+        Debug.Log("New Owner: " + newOwner);
+        owner = newOwner;
+        indicatorMat.color = owner == PlayerTeam.TeamYellow ? teamColors[0] : teamColors[1];
     }
 
     void FixedUpdate()
     {
-        float xRot = Random.Range(0, maxRotSpeed) * Time.deltaTime;
-        float yRot = Random.Range(0, maxRotSpeed) * Time.deltaTime;
-        float zRot = Random.Range(0, maxRotSpeed) * Time.deltaTime;
+        float xRot = Random.Range(0, maxRotSpeed) * Time.fixedDeltaTime;
+        float yRot = Random.Range(0, maxRotSpeed) * Time.fixedDeltaTime;
+        float zRot = Random.Range(0, maxRotSpeed) * Time.fixedDeltaTime;
         indicator.Rotate(xRot, yRot, zRot);
 
         if (!isServer)
             return;
 
-        if(captors.Count > 0)
+        PlayerTeam attackers = owner == PlayerTeam.TeamYellow ? PlayerTeam.TeamBlue : PlayerTeam.TeamYellow;
+        int attInd = (int)attackers - 1;
+        int defInd = (int)owner - 1;
+        int[] teamCaptors = new int[] { 0, 0 };
+        foreach (PlayerController contr in captors)
+            teamCaptors[(byte)contr.team - 1]++;
+
+        if (teamCaptors[attInd] > 0 && teamCaptors[defInd] == 0) //capturing and not defending
         {
-            int[] teamCaptors = new int[] { 0, 0 };
-            foreach (PlayerController contr in captors)
-                teamCaptors[contr.team]++;
-            if (!team1Captured && teamCaptors[0] > teamCaptors[1])
-                accTime += Time.deltaTime;
-            else if (team1Captured && teamCaptors[0] < teamCaptors[1])
-                accTime += Time.deltaTime;
+            accTime += Time.deltaTime;
 
             float progr = accTime / captureTime;
-            Color from = team1Captured ? teamColors[0] : teamColors[1];
-            Color to = team1Captured ? teamColors[1] : teamColors[0];
-            RpcChangeColor(new Vector3(from.r, from.g, from.b), new Vector3(to.r, to.g, to.b), progr);
+            Color from = teamColors[defInd];
+            Color to = teamColors[attInd];
+            Color res = Color.Lerp(from, to, progr);
+            RpcChangeColor(new Vector3(res.r, res.g, res.b));
 
             if (accTime > captureTime)
             {
                 accTime = 0;
-                team1Captured = !team1Captured;
+                ((GameManager)NetworkManager.singleton).OnPointCaptured();
             }
         }
-        else if(accTime > 0)
+        else if(teamCaptors[(byte)attackers - 1] == 0 && accTime > 0) //not capturing
         {
             accTime -= Time.deltaTime;
             float progr = accTime / captureTime;
-            Color from = team1Captured ? teamColors[0] : teamColors[1];
-            Color to = team1Captured ? teamColors[1] : teamColors[0];
-            RpcChangeColor(new Vector3(from.r, from.g, from.b), new Vector3(to.r, to.g, to.b), progr);
+            Color from = teamColors[attInd];
+            Color to = teamColors[defInd];
+            Color res = Color.Lerp(from, to, progr);
+            RpcChangeColor(new Vector3(res.r, res.g, res.b));
         }
     }
 

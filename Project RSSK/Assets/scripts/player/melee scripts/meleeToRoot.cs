@@ -12,15 +12,15 @@ public class meleeToRoot : MonoBehaviour {
 	{
 		if (i == 1)
 		{
-			Debug.Log("main attack");
+			//Debug.Log("main attack");
 		}
 		else if (i == 2)
 		{
-			Debug.Log("2nd attack");
+			//Debug.Log("2nd attack");
 		}
 		else if (i == 3)
 		{
-			Debug.Log("3rd attack");
+			//Debug.Log("3rd attack");
 		}
 	}
 

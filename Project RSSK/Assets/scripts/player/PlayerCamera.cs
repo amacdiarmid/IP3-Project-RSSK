@@ -4,14 +4,11 @@ using System.Collections;
 
 public class PlayerCamera : NetworkBehaviour
 {
-
 	private Transform playerTran;
 	private Transform playerCam;
 
 	private Quaternion turnFrom;
 	private Quaternion turnTo;
-
-	private Vector3 startCam;
 
 	public float camSensativity = 1;
 
@@ -32,8 +29,8 @@ public class PlayerCamera : NetworkBehaviour
 	{
 		playerTran = transform;
 		playerCam = transform.FindChild("camera");
-
-		startCam = playerCam.transform.localPosition;
+        
+        setSway(PlayerState.idle);
 	}
 
 	// Update is called once per frame
