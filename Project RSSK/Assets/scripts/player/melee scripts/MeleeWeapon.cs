@@ -23,18 +23,8 @@ public class MeleeWeapon : NetworkBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		/*
-		if (!canAttack)
-		{
-			countdownTimer += Time.deltaTime;
-			if (countdownTimer >= cooldown)
-			{
-				Debug.Log("combo reset");
-				canAttack = true;
-				curComboPos = 0;
-			}
-		}
-		*/
+        if (!isLocalPlayer)
+            return;
 
 		if (canAttack && ((primWeap && Input.GetButtonDown("Fire1")) || (!primWeap && Input.GetButtonDown("Fire2"))) && comboPos < 3)
 			attack();

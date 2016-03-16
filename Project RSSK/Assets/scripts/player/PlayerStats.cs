@@ -25,18 +25,21 @@ public class PlayerStats : NetworkBehaviour
 
     public void Damage(int dmg)
     {
-        if(isServer)
-        {
-            if (maxHealth <= 0)
-                return;
-
-            maxHealth -= dmg;
-            if (maxHealth <= 0)
-                ((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);
-        }
+        CmdDamage(dmg);
 
         if (isLocalPlayer)
             playerAudio.damaged();
+    }
+
+    [Command]
+    void CmdDamage(int dmg)
+    {
+        if (maxHealth <= 0)
+            return;
+
+        maxHealth -= dmg;
+        if (maxHealth <= 0)
+            ((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);
     }
 
     void HealthChanged(int newHealth)
