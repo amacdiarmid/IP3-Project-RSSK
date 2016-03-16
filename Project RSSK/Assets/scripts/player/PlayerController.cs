@@ -21,6 +21,14 @@ public enum PlayerTeam : byte
     TeamBlue
 }
 
+public static class Utils
+{
+    public static PlayerTeam Enemy(this PlayerTeam team)
+    {
+        return team == PlayerTeam.TeamYellow ? PlayerTeam.TeamBlue : PlayerTeam.TeamYellow;
+    }
+}
+
 public class PlayerController : NetworkBehaviour
 {
     public static PlayerController localInstance = null;
@@ -74,12 +82,14 @@ public class PlayerController : NetworkBehaviour
 	public float climbTimer = 2;
 
     bool overrideControllable;
-    string timerText;
 
 	// Use this for initialization
 	void Start ()
 	{
-		playerTran = transform;
+        if (isLocalPlayer)
+            localInstance = this;
+
+        playerTran = transform;
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 		playerCam = GetComponent<PlayerCamera>();
@@ -92,10 +102,12 @@ public class PlayerController : NetworkBehaviour
         }
 
         if (team != PlayerTeam.NotPicked)
-            GetComponent<Renderer>().material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
-
-        if (isLocalPlayer)
-            localInstance = this;
+        {
+            Renderer r = GetComponent<Renderer>();
+            if(r != null)
+                r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+        }
+            
     }
 
     // Update is called once per frame
@@ -407,13 +419,6 @@ public class PlayerController : NetworkBehaviour
     public void RpcLockCursor(bool state)
     {
         Cursor.lockState = state ? CursorLockMode.Locked : CursorLockMode.Confined;
-    }
-
-    [ClientRpc]
-    public void RpcStartCooldown(int seconds)
-    {
-        timerText = string.Format("Prep time: {0}s", seconds);
-
     }
 
     IEnumerator Cooldown(int seconds)

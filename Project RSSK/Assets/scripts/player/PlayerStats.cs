@@ -19,7 +19,7 @@ public class PlayerStats : NetworkBehaviour
     void Update()
     {
         if (isLocalPlayer)
-            if (Input.GetKey(KeyCode.K))
+            if (Input.GetKeyDown(KeyCode.K))
                 Damage(1000);
     }
 

@@ -38,7 +38,7 @@ public class GunProjectile : MonoBehaviour
 				Destroy(gameObject);
 			}
 		}
-		else if (col.gameObject.tag != "Bullet" && !col.gameObject.GetComponent<BoxCollider>().isTrigger)
+		else if (col.gameObject.tag != "Bullet" && !col.gameObject.GetComponent<Collider>().isTrigger)
 		{
 			Destroy(gameObject);
 		}

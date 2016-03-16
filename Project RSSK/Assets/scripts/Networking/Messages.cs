@@ -7,7 +7,9 @@ public enum MsgTypes
 	ChangeName = MsgType.Highest + 1,
     PickedCharacter,
     PickedTeam,
-    GameState
+    GameState,
+    PrepTimeStart,
+    RoundStart
 }
 
 public class ChangeNameMsg : MessageBase
