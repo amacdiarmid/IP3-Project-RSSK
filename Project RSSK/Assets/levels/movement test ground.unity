@@ -1577,8 +1577,20 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 149366, guid: 96096c2b404f39d49918f3b267411486, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8223070, guid: 96096c2b404f39d49918f3b267411486, type: 2}
+      propertyPath: panLevelCustomCurve.m_RotationOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8223070, guid: 96096c2b404f39d49918f3b267411486, type: 2}
+      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 13771492, guid: 96096c2b404f39d49918f3b267411486, type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 65dda9f0abdddff4fa3f858ed0ff6828, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 96096c2b404f39d49918f3b267411486, type: 2}
   m_IsPrefabParent: 0
