@@ -29,8 +29,8 @@ public class PlayerController : NetworkBehaviour
     public PlayerTeam team = PlayerTeam.NotPicked;
     [HideInInspector, SyncVar]
     public short id = -1;
-
-    public bool controllable = true;
+    [HideInInspector, SyncVar]
+    public bool controllable = false;
 
 	//enum and components
 	PlayerState curState = PlayerState.idle;
@@ -73,6 +73,8 @@ public class PlayerController : NetworkBehaviour
 	public float climbSpeed = 5;
 	public float climbTimer = 2;
 
+    bool overrideControllable;
+    string timerText;
 
 	// Use this for initialization
 	void Start ()
@@ -82,12 +84,11 @@ public class PlayerController : NetworkBehaviour
 		playerAudio = GetComponent<PlayerAudioController>();
 		playerCam = GetComponent<PlayerCamera>();
 
-		playerCam.setSway(PlayerState.idle);
-
-        if(controllable)
+        Transform childCam = playerTran.FindChild("camera");
+        if(childCam)
         {
-            playerTran.FindChild("camera").gameObject.GetComponent<Camera>().enabled = isLocalPlayer;
-            playerTran.FindChild("camera").gameObject.GetComponent<AudioListener>().enabled = isLocalPlayer;
+            childCam.GetComponent<Camera>().enabled = isLocalPlayer;
+            childCam.GetComponent<AudioListener>().enabled = isLocalPlayer;
         }
 
         if (team != PlayerTeam.NotPicked)
@@ -100,8 +101,13 @@ public class PlayerController : NetworkBehaviour
     // Update is called once per frame
     void Update()
 	{
-		if (!isLocalPlayer || !controllable)
+		if (!isLocalPlayer)
 			return;
+
+        if (Input.GetKeyDown(KeyCode.L))
+            overrideControllable = !overrideControllable;
+        if (!overrideControllable && !controllable)
+            return;
 
 		//Debug.LogWarning(curState);
 		//collecting general info required for state decision making
@@ -130,7 +136,7 @@ public class PlayerController : NetworkBehaviour
 	{
 		Vector2 lookDir = new Vector2(playerTran.forward.x, playerTran.forward.z);
 		float angleToWall = Mathf.Rad2Deg * Mathf.Acos(Vector2.Dot(lookDir, wallNormal));
-		Debug.Log(angleToWall);
+		//Debug.Log(angleToWall);
 		return angleToWall > 180 - angleToWallrun;
 	}
 	
@@ -214,7 +220,8 @@ public class PlayerController : NetworkBehaviour
 			playerAni.SetTrigger("startIdle");
 			curState = PlayerState.idle;
 			playerAudio.setAudio(PlayerState.idle);
-			playerCam.setSway(PlayerState.idle);
+            if (playerCam)
+                playerCam.setSway(PlayerState.idle);
 		}
 
 		curVel = new Vector3(0, curVel.y, 0);
@@ -236,7 +243,8 @@ public class PlayerController : NetworkBehaviour
 			curVel.y = jumpHeight;
 			playerAudio.setAudio(PlayerState.jump);
 			curState = PlayerState.jump;
-			playerCam.setSway(PlayerState.jump);
+            if (playerCam)
+                playerCam.setSway(PlayerState.jump);
 		}
 
 		//if there's a wall next to us
@@ -260,7 +268,8 @@ public class PlayerController : NetworkBehaviour
 			playerAni.SetTrigger(Input.GetButton("Sprint") ? "startSprint" : "startRun");
 			curState = PlayerState.run;
 			playerAudio.setAudio(PlayerState.run);
-			playerCam.setSway(PlayerState.run);
+            if (playerCam)
+                playerCam.setSway(PlayerState.run);
 		}
 
 		float speed = Input.GetButton("Sprint") ? sprintSpeed : runSpeed;
@@ -281,13 +290,13 @@ public class PlayerController : NetworkBehaviour
 
 	void Falling()
 	{
-		
 		if(curState != PlayerState.falling)
 		{
-			Debug.Log("falling trigger");
+			//Debug.Log("falling trigger");
 			playerAni.SetTrigger("startFalling");
 			curState = PlayerState.falling;
-			playerCam.setSway(PlayerState.falling);
+            if (playerCam)
+                playerCam.setSway(PlayerState.falling);
 		}
 
 		float yVel = curVel.y;
@@ -320,7 +329,8 @@ public class PlayerController : NetworkBehaviour
 			curState = PlayerState.roll;
 			timer = rollTimer;
 			curVel = inputHeading * rollSpeed;
-			playerCam.setSway(PlayerState.roll);
+            if (playerCam)
+                playerCam.setSway(PlayerState.roll);
 		}
 
 		Debug.LogWarning("Roll");
@@ -339,7 +349,8 @@ public class PlayerController : NetworkBehaviour
 			curState = PlayerState.wallRun;
 			if(curVel.y < 0)
 				curVel.y = 0; //lose the fall speed
-			playerCam.setSway(PlayerState.wallRun);
+            if (playerCam)
+                playerCam.setSway(PlayerState.wallRun);
 		}
 
 		Vector3 dir1 = Vector3.Cross(Vector3.up, wallNormal); //dir1 and dir2 are both orthogonal to the normal
@@ -375,7 +386,8 @@ public class PlayerController : NetworkBehaviour
             curState = PlayerState.climb;
             playerAni.SetTrigger("startClimb");
             timer = climbTimer;
-		playerCam.setSway(PlayerState.climb);
+            if (playerCam)
+                playerCam.setSway(PlayerState.climb);
         }
 
         curVel = playerTran.up * climbSpeed * timer / climbTimer;
@@ -388,17 +400,27 @@ public class PlayerController : NetworkBehaviour
             setState(PlayerState.jump);
         }
     }
-    
-    public void UpdateTeam()
+
+    [ClientRpc]
+    public void RpcLockCursor(bool state)
     {
-        if(team != PlayerTeam.NotPicked)
-            GetComponent<Renderer>().material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+        Cursor.lockState = state ? CursorLockMode.Locked : CursorLockMode.Confined;
     }
 
-    [Command]
-    public void CmdUpdateTeam()
+    [ClientRpc]
+    public void RpcStartCooldown(int seconds)
     {
-        if (team != PlayerTeam.NotPicked)
-            GetComponent<Renderer>().material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+        timerText = string.Format("Prep time: {0}s", seconds);
+
+    }
+
+    IEnumerator Cooldown(int seconds)
+    {
+        while(seconds > 0)
+        {
+            yield return new WaitForSeconds(1);
+            seconds--;
+
+        }
     }
 }

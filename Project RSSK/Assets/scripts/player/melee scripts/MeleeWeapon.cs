@@ -37,13 +37,13 @@ public class MeleeWeapon : NetworkBehaviour
 
 		if (canAttack && Input.GetButtonDown("Fire2") && comboPos < 3)
 			attack();
-		else
-			Debug.Log("can attack " + canAttack + " combo pos " + comboPos);
+		/*else
+			Debug.Log("can attack " + canAttack + " combo pos " + comboPos);*/
 	}
 
 	public void attack()
 	{
-		Debug.Log("attack called");
+		//Debug.Log("attack called");
 		//canAttack = false;
 		StopCoroutine(comboWait());
 		//countdownTimer = 0;
@@ -70,7 +70,7 @@ public class MeleeWeapon : NetworkBehaviour
 			if (hit.collider.gameObject.tag == "TestPlayer")
 				hit.collider.gameObject.GetComponent<TestPlayer>().hit();
 			else if (hit.collider.gameObject.tag == "Player") //need to test with other people 
-				hit.collider.gameObject.GetComponent<PlayerStats>().CmdDamage(damage);
+				hit.collider.gameObject.GetComponent<PlayerStats>().Damage(damage);
 		}
 		else
 		{
@@ -81,13 +81,13 @@ public class MeleeWeapon : NetworkBehaviour
 
 	IEnumerator comboWait()
 	{
-		Debug.Log("swing time " + Time.time);
+		//Debug.Log("swing time " + Time.time);
 		yield return new WaitForSeconds(comboCoolDown);
-		Debug.Log("combocool down time " + Time.time);
+		//Debug.Log("combocool down time " + Time.time);
 		comboPos = 0;
 		canAttack = false;
 		yield return new WaitForSeconds(cooldown);
-		Debug.Log("attackcool down time " + Time.time);
+		//Debug.Log("attackcool down time " + Time.time);
 		canAttack = true;
 	}
 
