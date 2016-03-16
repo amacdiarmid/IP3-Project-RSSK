@@ -474,6 +474,8 @@ MonoBehaviour:
   matchSize: 4
   clManager: {fileID: 639476959}
   capturePoint: {fileID: 1760250286}
+  prepSeconds: 10
+  roundSeconds: 180
   localPlayerName: 
   characters:
   - {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
