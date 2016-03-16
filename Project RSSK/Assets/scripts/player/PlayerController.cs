@@ -86,7 +86,10 @@ public class PlayerController : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		playerTran = transform;
+        if (isLocalPlayer)
+            localInstance = this;
+
+        playerTran = transform;
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 		playerCam = GetComponent<PlayerCamera>();
@@ -99,10 +102,12 @@ public class PlayerController : NetworkBehaviour
         }
 
         if (team != PlayerTeam.NotPicked)
-            GetComponent<Renderer>().material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
-
-        if (isLocalPlayer)
-            localInstance = this;
+        {
+            Renderer r = GetComponent<Renderer>();
+            if(r != null)
+                r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+        }
+            
     }
 
     // Update is called once per frame

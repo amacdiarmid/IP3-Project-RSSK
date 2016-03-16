@@ -71,7 +71,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 112422}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 27.197624, y: 2.7396302, z: 8.767212}
+  m_LocalPosition: {x: -129.36, y: -18.19, z: -37.46}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 464138}
@@ -180,11 +180,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indicator: {fileID: 425076}
-  captureTime: 15
+  captureTime: 10
   teamColors:
   - {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
+  - {r: 0, g: 0, b: 1, a: 1}
   maxRotSpeed: 45
+  owner: 2
 --- !u!114 &11465814
 MonoBehaviour:
   m_ObjectHideFlags: 1

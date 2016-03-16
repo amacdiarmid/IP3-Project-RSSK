@@ -85,6 +85,8 @@ public class GameManager : NetworkManager
 
         NetworkServer.RegisterHandler(ChangeNameMsg.type, OnNameChanged);
         NetworkServer.RegisterHandler(PickedTeamMsg.type, OnPickedTeam);
+
+        StartCoroutine(PrepTimer(prepSeconds));
     }
 
     public override void OnClientConnect(NetworkConnection conn)
@@ -133,16 +135,13 @@ public class GameManager : NetworkManager
         Vector3 spawn = PickSpawnPoint((PlayerTeam)msg.team);
         GameObject newPlayer = (GameObject)Instantiate(characters[msg.character], spawn, Quaternion.identity);
         p.controller = newPlayer.GetComponent<PlayerController>();
-        p.controller.controllable = players.Count > 1;
+        p.controller.controllable = false;
         p.team = p.controller.team = (PlayerTeam)msg.team;
         p.controller.id = msg.playerId;
         p.character = msg.character;
         p.picked = true;
         NetworkServer.ReplacePlayerForConnection(netMsg.conn, newPlayer, msg.playerId);
         p.controller.RpcLockCursor(true);
-
-        if (players.Count >= 1)
-            StartCoroutine(PrepTimer(prepSeconds));
 
         SendGameState();
     }
@@ -175,6 +174,7 @@ public class GameManager : NetworkManager
             return transform.position;
 
         string spawnTag = team == attackingTeam ? "SpawnAttack" : "SpawnDefend";
+        Debug.Log("For " + team + " got " + spawnTag);
         List<Transform> spawns = startPositions.FindAll(x => x.tag == spawnTag);
         int spawnToUse = oldSpawns[(int)team - 1] + 1;
         if (spawnToUse == spawns.Count)
@@ -250,7 +250,9 @@ public class GameManager : NetworkManager
 
     void StartPrepTimer(NetworkMessage netMsg)
     {
-        StartCoroutine(StartTimer(prepSeconds));
+        IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
+        int secs = msg.value;
+        timeoutText = string.Format("Time Left: {0}s", secs);
     }
 
     void StartRoundTimer(NetworkMessage netMsg)
@@ -299,8 +301,13 @@ public class GameManager : NetworkManager
 
     IEnumerator PrepTimer(int seconds)
     {
-        NetworkServer.SendToAll((short)MsgTypes.PrepTimeStart, new EmptyMessage());
-        yield return new WaitForSeconds(seconds);
+        while(--seconds > 0)
+        {
+            IntegerMessage msg = new IntegerMessage();
+            msg.value = seconds;
+            NetworkServer.SendToAll((short)MsgTypes.PrepTimeStart, msg);
+            yield return new WaitForSeconds(1);
+        }
         foreach (Player p in players)
         {
             p.waitingForRound = false;
