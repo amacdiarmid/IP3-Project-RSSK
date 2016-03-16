@@ -64,7 +64,7 @@ public class GameManager : NetworkManager
             if(pickCharacter == 6)
             {
                 for (int i = 0; i < 6; i++)
-                    if (GUI.Button(new Rect(Screen.width / 2 - indWidth * 3 + indWidth * i, y, indWidth, 25), i.ToString()))
+                    if (GUI.Button(new Rect(Screen.width / 2 - indWidth * 3 + indWidth * i, y, indWidth, 25), characters[i].name))
                         pickCharacter = (byte)i;
                 y += 25;
             }

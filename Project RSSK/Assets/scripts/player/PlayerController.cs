@@ -51,7 +51,7 @@ public class PlayerController : NetworkBehaviour
 	Vector3 curVel = Vector3.zero;
 	Vector3 curPos;
 
-	public Animator playerAni;
+	public NetworkAnimator playerAni;
 
 	//general state info
 	bool touchingWall;
@@ -113,7 +113,7 @@ public class PlayerController : NetworkBehaviour
     // Update is called once per frame
     void Update()
 	{
-		if (!isLocalPlayer)
+        if (!isLocalPlayer || charContr == null)
 			return;
 
         if (Input.GetKeyDown(KeyCode.L))
@@ -171,7 +171,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.SetFloat("wallrun side", 1);
+			playerAni.animator.SetFloat("wallrun side", 1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -180,7 +180,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.SetFloat("wallrun side", 0);
+			playerAni.animator.SetFloat("wallrun side", 0);
 			wallNormal = hit.normal;
 			return true;
 		}

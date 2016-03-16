@@ -11,7 +11,7 @@ public class MeleeWeapon : NetworkBehaviour
 	public float comboCoolDown = 1;
 	public float range = 10;
 	public float knockback = 5;
-	public Animator swordAni;   //todo set up a search to find the correct animator
+	public NetworkAnimator swordAni;   //todo set up a search to find the correct animator
 
 	private bool canAttack = true;
 	private float countdownTimer;

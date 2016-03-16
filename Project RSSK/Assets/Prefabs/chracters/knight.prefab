@@ -491,6 +491,8 @@ GameObject:
   - 114: {fileID: 11422934}
   - 114: {fileID: 11469182}
   - 114: {fileID: 11482044}
+  - 95: {fileID: 9500648}
+  - 114: {fileID: 11468328}
   m_Layer: 0
   m_Name: knight
   m_TagString: Player
@@ -735,7 +737,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 444290}
-  - 95: {fileID: 9585848}
   - 114: {fileID: 11485782}
   - 82: {fileID: 8223070}
   m_Layer: 0
@@ -1538,7 +1539,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 149366}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.52, z: 0}
+  m_LocalPosition: {x: -41.205223, y: 17.178719, z: 152.98416}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 444290}
@@ -2047,13 +2048,13 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 135524}
   m_Enabled: 1
---- !u!95 &9585848
+--- !u!95 &9500648
 Animator:
   serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 179050}
+  m_GameObject: {fileID: 149366}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: be0f0fb8dcc98a9418f24aba61096833, type: 3}
   m_Controller: {fileID: 9100000, guid: 90cd8c009bc8ac640b01bf59fef72d6f, type: 2}
@@ -2134,7 +2135,7 @@ MonoBehaviour:
   team: 0
   id: -1
   controllable: 0
-  playerAni: {fileID: 9585848}
+  playerAni: {fileID: 11468328}
   jumpHeight: 10
   runSpeed: 5
   sprintSpeed: 10
@@ -2200,7 +2201,7 @@ MonoBehaviour:
   comboCoolDown: 2
   range: 1
   knockback: 5
-  swordAni: {fileID: 9585848}
+  swordAni: {fileID: 11468328}
   attackAudio:
   - {fileID: 8300000, guid: e714254659e00d74fa5fbbb5a2b2eab8, type: 3}
   - {fileID: 8300000, guid: 7a0fdc42e4813c14283018ab483c9f3c, type: 3}
@@ -2232,6 +2233,25 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11468328
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 149366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1590678366, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Animator: {fileID: 9500648}
+  m_ParameterSendBits: 524287
+  param0: 
+  param1: 
+  param2: 
+  param3: 
+  param4: 
+  param5: 
 --- !u!114 &11469182
 MonoBehaviour:
   m_ObjectHideFlags: 1
