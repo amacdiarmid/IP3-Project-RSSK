@@ -11,6 +11,7 @@ public class Gun : NetworkBehaviour
 	protected bool canFire = true;
 	protected float gunSreadVal = 0;
 	public Transform barrel;
+	public GameObject bulletTrail;
 
 	public bool primWeap;
 	public float range = 100;
@@ -70,6 +71,8 @@ public class Gun : NetworkBehaviour
 					//Debug.Log("hit");
 					//gun to target ray
 					Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
+					GameObject trail = Instantiate(bulletTrail);
+					trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, hit.point);
 					//screen to target ray
 					Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
 					if (hit.collider.tag == "player")
@@ -83,6 +86,8 @@ public class Gun : NetworkBehaviour
 				Debug.Log("no hit");
 				//gun to target ray
 				Debug.DrawLine(barrel.transform.position, ray.GetPoint(range), Color.blue, 10);
+				GameObject trail = Instantiate(bulletTrail);
+				trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, ray.GetPoint(range));
 				//screen to target ray
 				Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.red, 10);
 				Debug.Log("reload");

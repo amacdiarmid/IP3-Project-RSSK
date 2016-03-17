@@ -2246,6 +2246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barrel: {fileID: 436300}
+  bulletTrail: {fileID: 148282, guid: 6e6b636c8f025d14da95a5430a0987b4, type: 2}
   primWeap: 1
   range: 100
   maxAmmo: 30
@@ -2636,6 +2637,10 @@ Prefab:
       propertyPath: rateOfFire
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: bulletTrail
+      value: 
+      objectReference: {fileID: 148282, guid: 6e6b636c8f025d14da95a5430a0987b4, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149366}
