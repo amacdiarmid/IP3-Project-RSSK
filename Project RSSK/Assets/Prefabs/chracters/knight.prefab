@@ -213,21 +213,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &124836
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 436300}
-  m_Layer: 0
-  m_Name: temp barrel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
 --- !u!1 &125756
 GameObject:
   m_ObjectHideFlags: 1
@@ -506,7 +491,6 @@ GameObject:
   - 114: {fileID: 11422934}
   - 114: {fileID: 11469182}
   - 114: {fileID: 11482044}
-  - 114: {fileID: 11461146}
   m_Layer: 0
   m_Name: knight
   m_TagString: Player
@@ -1234,18 +1218,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 418342}
   m_RootOrder: 0
---- !u!4 &436300
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 124836}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.363, y: 0.599, z: 1.459}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 476738}
-  m_RootOrder: 5
 --- !u!4 &439284
 Transform:
   m_ObjectHideFlags: 1
@@ -1574,7 +1546,6 @@ Transform:
   - {fileID: 463120}
   - {fileID: 497124}
   - {fileID: 477842}
-  - {fileID: 436300}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &477842
@@ -2164,17 +2135,17 @@ MonoBehaviour:
   id: -1
   controllable: 0
   playerAni: {fileID: 9585848}
-  jumpHeight: 10
-  runSpeed: 5
-  sprintSpeed: 10
-  airStrafe: 5
-  decelRate: 4
-  rollTimer: 0.5
-  rollSpeed: 10
-  wallrunSpeed: 10
+  jumpHeight: 5
+  runSpeed: 6
+  sprintSpeed: 9
+  airStrafe: 4
+  decelRate: 8
+  rollTimer: 1.5
+  rollSpeed: 7
+  wallrunSpeed: 7
   angleToWallrun: 10
   maxDistanceToWall: 2
-  climbSpeed: 10
+  climbSpeed: 7
   climbTimer: 3
 --- !u!114 &11422934
 MonoBehaviour:
@@ -2223,44 +2194,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b0009c27645c5448faa8d76a9ef946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  primWeap: 0
-  damage: 10
+  primWeap: 1
+  damage: 30
   cooldown: 1
   comboCoolDown: 2
-  range: 1
-  knockback: 5
+  range: 1.5
+  knockback: 1
   swordAni: {fileID: 9585848}
   attackAudio:
   - {fileID: 8300000, guid: e714254659e00d74fa5fbbb5a2b2eab8, type: 3}
   - {fileID: 8300000, guid: 7a0fdc42e4813c14283018ab483c9f3c, type: 3}
-  audioSource: {fileID: 8223070}
---- !u!114 &11461146
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 149366}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71c604af0429d0749b532167dfd22a10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  barrel: {fileID: 436300}
-  bulletTrail: {fileID: 148282, guid: 6e6b636c8f025d14da95a5430a0987b4, type: 2}
-  primWeap: 1
-  range: 100
-  maxAmmo: 30
-  spareAmmo: 90
-  rateOfFire: 0.1
-  damage: 50
-  maxSpread: 10
-  spreadAdv: 3
-  spreadDep: 1
-  gunAni: {fileID: 9585848}
-  fireAudio: {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
-  outOfAmmoAudio: {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
-  reloadAudio: {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
-  audioSource: {fileID: 8241114}
+  audioSource: {fileID: 8254110, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
 --- !u!114 &11467498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2627,7 +2571,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: primWeap
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: spreadAdv
@@ -2641,6 +2585,66 @@ Prefab:
       propertyPath: bulletTrail
       value: 
       objectReference: {fileID: 148282, guid: 6e6b636c8f025d14da95a5430a0987b4, type: 2}
+    - target: {fileID: 0}
+      propertyPath: damage
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: range
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: knockback
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: swordAni
+      value: 
+      objectReference: {fileID: 9551620, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
+    - target: {fileID: 0}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 8254110, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
+    - target: {fileID: 0}
+      propertyPath: playerAni
+      value: 
+      objectReference: {fileID: 9585848}
+    - target: {fileID: 0}
+      propertyPath: jumpHeight
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: runSpeed
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintSpeed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: airStrafe
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: decelRate
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rollTimer
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rollSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: wallrunSpeed
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: climbSpeed
+      value: 7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149366}

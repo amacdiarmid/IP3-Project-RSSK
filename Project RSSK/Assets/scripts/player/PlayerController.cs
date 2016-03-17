@@ -16,29 +16,29 @@ public enum PlayerState : byte
 
 public enum PlayerTeam : byte
 {
-    NotPicked,
-    TeamYellow,
-    TeamBlue
+	NotPicked,
+	TeamYellow,
+	TeamBlue
 }
 
 public static class Utils
 {
-    public static PlayerTeam Enemy(this PlayerTeam team)
-    {
-        return team == PlayerTeam.TeamYellow ? PlayerTeam.TeamBlue : PlayerTeam.TeamYellow;
-    }
+	public static PlayerTeam Enemy(this PlayerTeam team)
+	{
+		return team == PlayerTeam.TeamYellow ? PlayerTeam.TeamBlue : PlayerTeam.TeamYellow;
+	}
 }
 
 public class PlayerController : NetworkBehaviour
 {
-    public static PlayerController localInstance = null;
+	public static PlayerController localInstance = null;
 
-    [HideInInspector, SyncVar]
-    public PlayerTeam team = PlayerTeam.NotPicked;
-    [HideInInspector, SyncVar]
-    public short id = -1;
-    [HideInInspector, SyncVar]
-    public bool controllable = false;
+	[HideInInspector, SyncVar]
+	public PlayerTeam team = PlayerTeam.NotPicked;
+	[HideInInspector, SyncVar]
+	public short id = -1;
+	[HideInInspector, SyncVar]
+	public bool controllable = false;
 
 	//enum and components
 	PlayerState curState = PlayerState.idle;
@@ -81,45 +81,45 @@ public class PlayerController : NetworkBehaviour
 	public float climbSpeed = 5;
 	public float climbTimer = 2;
 
-    bool overrideControllable;
+	bool overrideControllable;
 
 	// Use this for initialization
 	void Start ()
 	{
-        if (isLocalPlayer)
-            localInstance = this;
+		if (isLocalPlayer)
+			localInstance = this;
 
-        playerTran = transform;
+		playerTran = transform;
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 		playerCam = GetComponent<PlayerCamera>();
 
-        Transform childCam = playerTran.FindChild("camera");
-        if(childCam)
-        {
-            childCam.GetComponent<Camera>().enabled = isLocalPlayer;
-            childCam.GetComponent<AudioListener>().enabled = isLocalPlayer;
-        }
+		Transform childCam = playerTran.FindChild("camera");
+		if(childCam)
+		{
+			childCam.GetComponent<Camera>().enabled = isLocalPlayer;
+			childCam.GetComponent<AudioListener>().enabled = isLocalPlayer;
+		}
 
-        if (team != PlayerTeam.NotPicked)
-        {
-            Renderer r = GetComponent<Renderer>();
-            if(r != null)
-                r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
-        }
-            
-    }
+		if (team != PlayerTeam.NotPicked)
+		{
+			Renderer r = GetComponent<Renderer>();
+			if(r != null)
+				r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+		}
+			
+	}
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	void Update()
 	{
 		if (!isLocalPlayer)
 			return;
 
-        if (Input.GetKeyDown(KeyCode.L))
-            overrideControllable = !overrideControllable;
-        if (!overrideControllable && !controllable)
-            return;
+		if (Input.GetKeyDown(KeyCode.L))
+			overrideControllable = !overrideControllable;
+		if (!overrideControllable && !controllable)
+			return;
 
 		//Debug.LogWarning(curState);
 		//collecting general info required for state decision making
@@ -163,6 +163,7 @@ public class PlayerController : NetworkBehaviour
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
 			Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
 			Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
+			playerAni.SetFloat("wallrun side", 0.5f);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -234,8 +235,8 @@ public class PlayerController : NetworkBehaviour
 			playerAni.SetTrigger("startIdle");
 			curState = PlayerState.idle;
 			playerAudio.setAudio(PlayerState.idle);
-            if (playerCam)
-                playerCam.setSway(PlayerState.idle);
+			if (playerCam)
+				playerCam.setSway(PlayerState.idle);
 		}
 
 		curVel = new Vector3(0, curVel.y, 0);
@@ -257,8 +258,8 @@ public class PlayerController : NetworkBehaviour
 			curVel.y = jumpHeight;
 			playerAudio.setAudio(PlayerState.jump);
 			curState = PlayerState.jump;
-            if (playerCam)
-                playerCam.setSway(PlayerState.jump);
+			if (playerCam)
+				playerCam.setSway(PlayerState.jump);
 		}
 
 		//if there's a wall next to us
@@ -282,8 +283,8 @@ public class PlayerController : NetworkBehaviour
 			playerAni.SetTrigger(Input.GetButton("Sprint") ? "startSprint" : "startRun");
 			curState = PlayerState.run;
 			playerAudio.setAudio(PlayerState.run);
-            if (playerCam)
-                playerCam.setSway(PlayerState.run);
+			if (playerCam)
+				playerCam.setSway(PlayerState.run);
 		}
 
 		float speed = Input.GetButton("Sprint") ? sprintSpeed : runSpeed;
@@ -309,8 +310,8 @@ public class PlayerController : NetworkBehaviour
 			//Debug.Log("falling trigger");
 			playerAni.SetTrigger("startFalling");
 			curState = PlayerState.falling;
-            if (playerCam)
-                playerCam.setSway(PlayerState.falling);
+			if (playerCam)
+				playerCam.setSway(PlayerState.falling);
 		}
 
 		float yVel = curVel.y;
@@ -343,8 +344,8 @@ public class PlayerController : NetworkBehaviour
 			curState = PlayerState.roll;
 			timer = rollTimer;
 			curVel = inputHeading * rollSpeed;
-            if (playerCam)
-                playerCam.setSway(PlayerState.roll);
+			if (playerCam)
+				playerCam.setSway(PlayerState.roll);
 		}
 
 		Debug.LogWarning("Roll");
@@ -363,8 +364,8 @@ public class PlayerController : NetworkBehaviour
 			curState = PlayerState.wallRun;
 			if(curVel.y < 0)
 				curVel.y = 0; //lose the fall speed
-            if (playerCam)
-                playerCam.setSway(PlayerState.wallRun);
+			if (playerCam)
+				playerCam.setSway(PlayerState.wallRun);
 		}
 
 		Vector3 dir1 = Vector3.Cross(Vector3.up, wallNormal); //dir1 and dir2 are both orthogonal to the normal
@@ -395,39 +396,39 @@ public class PlayerController : NetworkBehaviour
 
 	void Climb()
 	{
-        if(curState != PlayerState.climb)
-        {
-            curState = PlayerState.climb;
-            playerAni.SetTrigger("startClimb");
-            timer = climbTimer;
-            if (playerCam)
-                playerCam.setSway(PlayerState.climb);
-        }
+		if(curState != PlayerState.climb)
+		{
+			curState = PlayerState.climb;
+			playerAni.SetTrigger("startClimb");
+			timer = climbTimer;
+			if (playerCam)
+				playerCam.setSway(PlayerState.climb);
+		}
 
-        curVel = playerTran.up * climbSpeed * timer / climbTimer;
-        timer -= Time.deltaTime;
-        if (Input.GetButton("Sprint") || timer < 0 || Input.GetAxisRaw("Vertical") < 0)
-            setState(PlayerState.falling);
-        else if (Input.GetButtonDown("Jump"))
-        {
-            curVel = wallNormal * jumpHeight / 2;
-            setState(PlayerState.jump);
-        }
-    }
+		curVel = playerTran.up * climbSpeed * timer / climbTimer;
+		timer -= Time.deltaTime;
+		if (Input.GetButton("Sprint") || timer < 0 || Input.GetAxisRaw("Vertical") < 0)
+			setState(PlayerState.falling);
+		else if (Input.GetButtonDown("Jump"))
+		{
+			curVel = wallNormal * jumpHeight / 2;
+			setState(PlayerState.jump);
+		}
+	}
 
-    [ClientRpc]
-    public void RpcLockCursor(bool state)
-    {
-        Cursor.lockState = state ? CursorLockMode.Locked : CursorLockMode.Confined;
-    }
+	[ClientRpc]
+	public void RpcLockCursor(bool state)
+	{
+		Cursor.lockState = state ? CursorLockMode.Locked : CursorLockMode.Confined;
+	}
 
-    IEnumerator Cooldown(int seconds)
-    {
-        while(seconds > 0)
-        {
-            yield return new WaitForSeconds(1);
-            seconds--;
+	IEnumerator Cooldown(int seconds)
+	{
+		while(seconds > 0)
+		{
+			yield return new WaitForSeconds(1);
+			seconds--;
 
-        }
-    }
+		}
+	}
 }
