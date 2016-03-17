@@ -1,0 +1,16 @@
+idle- 1-111
+attack-112-147
+slash-149-185
+slash_combo-187-284
+kick-285-343
+turn_345-381
+sneak_384-415
+roll-416-485
+run-487-504
+jump-506-534
+jump_off_wall-535-571
+wall_climb-574-633
+wall_run-634-640
+wall_climb_v2-642-756
+sprint_to_wall-757-809
+

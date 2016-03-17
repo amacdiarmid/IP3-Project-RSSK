@@ -1,0 +1,14 @@
+idle-1-222
+kick-223-286
+jump-287-343
+sneak-344-393
+turn-394-424
+roll-425-478
+run-479-502
+sprint-503-518
+shoot-519-677
+attack_inward-678-743
+attack_outward-744-804
+attack_combo-805-940
+climb_wall-941-1000
+sprint_to_wall_1001
