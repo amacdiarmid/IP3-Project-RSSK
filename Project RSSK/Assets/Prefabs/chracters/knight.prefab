@@ -2242,7 +2242,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 149366}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d7a1636477f88044aab3976917ca166, type: 3}
+  m_Script: {fileID: 11500000, guid: 71c604af0429d0749b532167dfd22a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   barrel: {fileID: 436300}
@@ -2250,18 +2250,16 @@ MonoBehaviour:
   range: 100
   maxAmmo: 30
   spareAmmo: 90
-  rateOfFire: 1
+  rateOfFire: 0.1
   damage: 50
-  maxSpread: 3
-  spreadAdv: 0.2
-  spreadDep: 0.1
+  maxSpread: 10
+  spreadAdv: 3
+  spreadDep: 1
   gunAni: {fileID: 9585848}
   fireAudio: {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
   outOfAmmoAudio: {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
   reloadAudio: {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
   audioSource: {fileID: 8241114}
-  burstCount: 3
-  burstTime: 0.1
 --- !u!114 &11467498
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2629,6 +2627,14 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: primWeap
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spreadAdv
+      value: 3.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: rateOfFire
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

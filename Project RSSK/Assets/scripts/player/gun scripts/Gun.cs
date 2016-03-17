@@ -59,6 +59,7 @@ public class Gun : NetworkBehaviour
 
 			float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal);
 			float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal);
+			Debug.Log(targetX +" " + targetY);
 
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
@@ -92,6 +93,7 @@ public class Gun : NetworkBehaviour
 
 			//add spread to the next shot 
 			gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, maxSpread);
+			Debug.Log(gunSreadVal);
 		}
 		else
 		{

@@ -8,12 +8,13 @@ public class FullAutoGun : Gun
 	{
 		if (!canFire)
 			canFire = (RoFTime += Time.deltaTime) >= rateOfFire;
-		else if ((primWeap && Input.GetButtonDown("Fire1")) || (!primWeap && Input.GetButtonDown("Fire2")))
+		else if ((primWeap && Input.GetButton("Fire1")) || (!primWeap && Input.GetButton("Fire2")))
 			Shoot();
+		else
+			gunSreadVal -= gunSreadVal - (spreadDep * Time.deltaTime);   //reduce the gun spread
 
 		if (Input.GetButtonUp("Reload"))
 			reload();
 			
-		gunSreadVal -= gunSreadVal - (spreadDep * Time.deltaTime);   //reduce the gun spread
 	}
 }
