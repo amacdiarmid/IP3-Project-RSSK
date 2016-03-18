@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public enum PlayerState : byte
 {
@@ -53,6 +54,9 @@ public class PlayerController : NetworkBehaviour
 
 	public NetworkAnimator playerAni;
 
+    //clientside canvas display
+    Text gameStatusText;
+
 	//general state info
 	bool touchingWall;
 	bool canDoubleJump;
@@ -86,9 +90,6 @@ public class PlayerController : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-        if (isLocalPlayer)
-            localInstance = this;
-
         playerTran = transform;
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
@@ -104,10 +105,16 @@ public class PlayerController : NetworkBehaviour
         if (team != PlayerTeam.NotPicked)
         {
             Renderer r = GetComponent<Renderer>();
-            if(r != null)
+            if(r)
                 r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
         }
-            
+
+        if (isLocalPlayer)
+        {
+            localInstance = this;
+            GameObject canvas = ((GameManager)NetworkManager.singleton).canvas;
+            gameStatusText = canvas.transform.Find("GameStatus").GetComponent<Text>();
+        }
     }
 
     // Update is called once per frame
@@ -421,13 +428,8 @@ public class PlayerController : NetworkBehaviour
         Cursor.lockState = state ? CursorLockMode.Locked : CursorLockMode.Confined;
     }
 
-    IEnumerator Cooldown(int seconds)
+    public void SetGameInfo(string text)
     {
-        while(seconds > 0)
-        {
-            yield return new WaitForSeconds(1);
-            seconds--;
-
-        }
+        gameStatusText.text = text;
     }
 }
