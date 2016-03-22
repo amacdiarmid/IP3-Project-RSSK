@@ -104,7 +104,7 @@ public class Gun : NetworkBehaviour
 		{
 			Debug.Log("reload");
 			audioSource.PlayOneShot(outOfAmmoAudio);
-			reload();
+			//reload();
 		}
 
 
