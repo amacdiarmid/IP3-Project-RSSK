@@ -126,6 +126,9 @@ public class PlayerController : NetworkBehaviour
 		curPos = transform.TransformPoint(charContr.center);
 		transitioned = false;
 		inputHeading = playerTran.right * Input.GetAxisRaw("Horizontal") + playerTran.forward * Input.GetAxisRaw("Vertical");
+		playerAni.SetFloat("forward direction", Input.GetAxisRaw("Vertical"));
+		Debug.Log("horz " + Input.GetAxisRaw("Horizontal") + " vert " + Input.GetAxisRaw("Vertical"));
+		playerAni.SetFloat("side direction", Input.GetAxisRaw("Horizontal"));
 		inputHeading.Normalize();
 		touchingWall = checkWall();
 		if (charContr.isGrounded) //reset double jump on ground touch
@@ -163,7 +166,7 @@ public class PlayerController : NetworkBehaviour
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
 			Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
 			Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
-			playerAni.SetFloat("wallrun side", 0.5f);
+			playerAni.SetFloat("side direction", 0);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -172,7 +175,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.SetFloat("wallrun side", 1);
+			playerAni.SetFloat("side direction", 1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -181,7 +184,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.SetFloat("wallrun side", 0);
+			playerAni.SetFloat("side direction", -1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -233,6 +236,8 @@ public class PlayerController : NetworkBehaviour
 		if (curState != PlayerState.idle)
 		{
 			playerAni.SetTrigger("startIdle");
+			playerAni.SetFloat("forward direction", 0);
+			playerAni.SetFloat("speed", 0);
 			curState = PlayerState.idle;
 			playerAudio.setAudio(PlayerState.idle);
 			if (playerCam)
@@ -281,6 +286,7 @@ public class PlayerController : NetworkBehaviour
 		if(curState != PlayerState.run)
 		{
 			playerAni.SetTrigger(Input.GetButton("Sprint") ? "startSprint" : "startRun");
+			playerAni.SetFloat("speed", Input.GetButton("Sprint") ? 3 : 2);
 			curState = PlayerState.run;
 			playerAudio.setAudio(PlayerState.run);
 			if (playerCam)
