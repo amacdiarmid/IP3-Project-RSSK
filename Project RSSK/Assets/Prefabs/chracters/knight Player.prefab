@@ -492,7 +492,7 @@ GameObject:
   - 114: {fileID: 11469182}
   - 114: {fileID: 11482044}
   m_Layer: 0
-  m_Name: knight
+  m_Name: knight Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1555,7 +1555,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 135524}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.24, y: 1, z: 0.18}
+  m_LocalPosition: {x: 0.667, y: 1, z: -3.011}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 476738}
@@ -2056,7 +2056,7 @@ Animator:
   m_GameObject: {fileID: 179050}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: be0f0fb8dcc98a9418f24aba61096833, type: 3}
-  m_Controller: {fileID: 9100000, guid: 90cd8c009bc8ac640b01bf59fef72d6f, type: 2}
+  m_Controller: {fileID: 9100000, guid: 40b50b50f149b894088ca7b01fa7ce03, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2645,6 +2645,10 @@ Prefab:
       propertyPath: climbSpeed
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 40b50b50f149b894088ca7b01fa7ce03, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149366}
