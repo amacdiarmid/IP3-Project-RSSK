@@ -1169,7 +1169,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 175134, guid: 0cb035b7f6caff746a102967a3b3cb71, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0cb035b7f6caff746a102967a3b3cb71, type: 2}
@@ -1513,7 +1513,7 @@ MonoBehaviour:
   m_ScriptCRCCheck: 1
   m_MaxDelay: 0.01
   m_LogLevel: 2
-  m_PlayerPrefab: {fileID: 149366, guid: 96096c2b404f39d49918f3b267411486, type: 2}
+  m_PlayerPrefab: {fileID: 175134, guid: 0cb035b7f6caff746a102967a3b3cb71, type: 2}
   m_AutoCreatePlayer: 1
   m_PlayerSpawnMethod: 0
   m_OfflineScene: 
