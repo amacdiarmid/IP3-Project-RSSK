@@ -61,6 +61,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 409978}
   - 65: {fileID: 6517644}
+  - 114: {fileID: 11482118}
   m_Layer: 0
   m_Name: hitbox
   m_TagString: Untagged
@@ -408,7 +409,7 @@ BoxCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 128812}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 0.028951138, y: 0.8969711, z: 0.12}
@@ -827,10 +828,22 @@ MonoBehaviour:
   range: 1
   knockback: 5
   swordAni: {fileID: 9501048}
+  weaponCol: {fileID: 11482118}
   attackAudio:
   - {fileID: 8300000, guid: e714254659e00d74fa5fbbb5a2b2eab8, type: 3}
   - {fileID: 8300000, guid: 7a0fdc42e4813c14283018ab483c9f3c, type: 3}
   audioSource: {fileID: 8299320}
+--- !u!114 &11482118
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 128812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffee16128defa8148b18fd7f030f247f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11488816
 MonoBehaviour:
   m_ObjectHideFlags: 1

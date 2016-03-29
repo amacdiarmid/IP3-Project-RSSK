@@ -12,6 +12,7 @@ public class MeleeWeapon : NetworkBehaviour
 	public float range = 10;
 	public float knockback = 5;
 	public Animator swordAni;   //todo set up a search to find the correct animator
+	public MeleeTrigger weaponCol;
 
 	private bool canAttack = true;
 	private float countdownTimer;
@@ -19,6 +20,11 @@ public class MeleeWeapon : NetworkBehaviour
 
 	public List<AudioClip> attackAudio;
 	public AudioSource audioSource;
+
+	void Start()
+	{
+		weaponCol.setValues(damage, this.gameObject);
+	}
 
 	// Update is called once per frame
 	void Update()
