@@ -16,37 +16,34 @@ public class PlayerStats : NetworkBehaviour
 		text = GetComponentInChildren<Text>();
 	}
 
-    void Update()
-    {
-        if (isLocalPlayer)
-            if (Input.GetKeyDown(KeyCode.K))
-                Damage(1000);
-    }
+	void Update()
+	{
+		if (isLocalPlayer)
+			if (Input.GetKeyDown(KeyCode.K))
+				Damage(1000);
+	}
 
-    public void Damage(int dmg)
-    {
-        CmdDamage(dmg);
+	public void Damage(int dmg)
+	{
+		if(isServer)
+		{
+			if (maxHealth <= 0)
+				return;
 
-        if (isLocalPlayer)
-            playerAudio.damaged();
-    }
+			maxHealth -= dmg;
+			if (maxHealth <= 0)
+				((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);
+		}
 
-    [Command]
-    void CmdDamage(int dmg)
-    {
-        if (maxHealth <= 0)
-            return;
+		if (isLocalPlayer)
+			playerAudio.damaged();
+	}
 
-        maxHealth -= dmg;
-        if (maxHealth <= 0)
-            ((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);
-    }
-
-    void HealthChanged(int newHealth)
-    {
-        maxHealth = newHealth;
-        text.text = "Health: " + maxHealth;
-        if (maxHealth <= 0)
-            playerAudio.dead();
-    }
+	void HealthChanged(int newHealth)
+	{
+		maxHealth = newHealth;
+		text.text = "Health: " + maxHealth;
+		if (maxHealth <= 0)
+			playerAudio.dead();
+	}
 }

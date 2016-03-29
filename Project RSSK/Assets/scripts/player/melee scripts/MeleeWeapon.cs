@@ -11,7 +11,8 @@ public class MeleeWeapon : NetworkBehaviour
 	public float comboCoolDown = 1;
 	public float range = 10;
 	public float knockback = 5;
-	public NetworkAnimator swordAni;   //todo set up a search to find the correct animator
+	public Animator swordAni;   //todo set up a search to find the correct animator
+	public MeleeTrigger weaponCol;
 
 	private bool canAttack = true;
 	private float countdownTimer;
@@ -20,11 +21,27 @@ public class MeleeWeapon : NetworkBehaviour
 	public List<AudioClip> attackAudio;
 	public AudioSource audioSource;
 
+	void Start()
+	{
+		weaponCol.setValues(damage, this.gameObject);
+		weaponCol.active(false);
+	}
+
 	// Update is called once per frame
 	void Update()
 	{
-        if (!isLocalPlayer)
-            return;
+		/*
+		if (!canAttack)
+		{
+			countdownTimer += Time.deltaTime;
+			if (countdownTimer >= cooldown)
+			{
+				Debug.Log("combo reset");
+				canAttack = true;
+				curComboPos = 0;
+			}
+		}
+		*/
 
 		if (canAttack && ((primWeap && Input.GetButtonDown("Fire1")) || (!primWeap && Input.GetButtonDown("Fire2"))) && comboPos < 3)
 			attack();
@@ -40,9 +57,6 @@ public class MeleeWeapon : NetworkBehaviour
 		//countdownTimer = 0;
 		comboPos++;
 
-		RaycastHit hit;
-		Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-
 		audioSource.PlayOneShot(attackAudio[Random.Range(0, attackAudio.Count - 1)]);
 
 
@@ -53,21 +67,9 @@ public class MeleeWeapon : NetworkBehaviour
 		else if (comboPos == 3)
 			swordAni.SetTrigger("attack3");
 		StartCoroutine(comboWait());
+		StartCoroutine(triggerEnable());
 
-		if (Physics.Raycast(ray, out hit, range))
-		{
-			Debug.Log("hit melee wep " + hit.collider.gameObject.name);
-			Debug.DrawLine(ray.origin, hit.point, Color.yellow, 10);
-			if (hit.collider.gameObject.tag == "TestPlayer")
-				hit.collider.gameObject.GetComponent<TestPlayer>().hit();
-			else if (hit.collider.gameObject.tag == "Player") //need to test with other people 
-				hit.collider.gameObject.GetComponent<PlayerStats>().Damage(damage);
-		}
-		else
-		{
-			Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.magenta, 10);
-			//canAttack = false;
-		}
+
 	}
 
 	IEnumerator comboWait()
@@ -80,6 +82,14 @@ public class MeleeWeapon : NetworkBehaviour
 		yield return new WaitForSeconds(cooldown);
 		//Debug.Log("attackcool down time " + Time.time);
 		canAttack = true;
+	}
+
+	IEnumerator triggerEnable()
+	{
+		Debug.Log("enter co routing");
+		weaponCol.active(true);
+		yield return new WaitForSeconds(1.0f);
+		weaponCol.active(false);
 	}
 
 	public void attackAni()

@@ -1,0 +1,24 @@
+Cowboy
+--------
+
+Walk - 
+Jog - 41-65
+Sprint - 66-98
+Run Backwards - 130-146
+Jump - 99-129
+Idle - 0-40
+Attack1 - 335-341
+Attack2 - 343-352
+Attack3 - 
+Reload -372-397
+Falling - 309-330
+Dodge Forward - 273-308 
+Dodge Back - 207-272
+Dodge Left - 147-176
+Dodge Right - 177-206
+Run to Wallclimb - 413-430
+Wallclimb - 431-491
+Climb onto Wall - 492-510
+Run to Wallrun - 511-518
+Wallrun - 519-533
+Jump from Wall - 534-543
