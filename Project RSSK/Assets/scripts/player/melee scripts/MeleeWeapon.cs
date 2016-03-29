@@ -24,6 +24,7 @@ public class MeleeWeapon : NetworkBehaviour
 	void Start()
 	{
 		weaponCol.setValues(damage, this.gameObject);
+		weaponCol.active(false);
 	}
 
 	// Update is called once per frame
@@ -56,9 +57,6 @@ public class MeleeWeapon : NetworkBehaviour
 		//countdownTimer = 0;
 		comboPos++;
 
-		RaycastHit hit;
-		Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-
 		audioSource.PlayOneShot(attackAudio[Random.Range(0, attackAudio.Count - 1)]);
 
 
@@ -69,21 +67,9 @@ public class MeleeWeapon : NetworkBehaviour
 		else if (comboPos == 3)
 			swordAni.SetTrigger("attack3");
 		StartCoroutine(comboWait());
+		StartCoroutine(triggerEnable());
 
-		if (Physics.Raycast(ray, out hit, range))
-		{
-			Debug.Log("hit melee wep " + hit.collider.gameObject.name);
-			Debug.DrawLine(ray.origin, hit.point, Color.yellow, 10);
-			if (hit.collider.gameObject.tag == "TestPlayer")
-				hit.collider.gameObject.GetComponent<TestPlayer>().hit();
-			else if (hit.collider.gameObject.tag == "Player") //need to test with other people 
-				hit.collider.gameObject.GetComponent<PlayerStats>().Damage(damage);
-		}
-		else
-		{
-			Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.magenta, 10);
-			//canAttack = false;
-		}
+
 	}
 
 	IEnumerator comboWait()
@@ -96,6 +82,14 @@ public class MeleeWeapon : NetworkBehaviour
 		yield return new WaitForSeconds(cooldown);
 		//Debug.Log("attackcool down time " + Time.time);
 		canAttack = true;
+	}
+
+	IEnumerator triggerEnable()
+	{
+		Debug.Log("enter co routing");
+		weaponCol.active(true);
+		yield return new WaitForSeconds(1.0f);
+		weaponCol.active(false);
 	}
 
 	public void attackAni()
