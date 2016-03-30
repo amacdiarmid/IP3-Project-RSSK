@@ -12,6 +12,9 @@ public class PlayerCamera : NetworkBehaviour
 	public float lookUpLim = 320;
 	public float lookDownLim = 45;
 
+	public float defaultFOV = 60;
+	public float aimFOV = 30;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -29,6 +32,7 @@ public class PlayerCamera : NetworkBehaviour
 			rotateCamera();
 
 		lockMouse();
+		checkAim();
 	}
 
 	void rotateCamera()
@@ -57,6 +61,18 @@ public class PlayerCamera : NetworkBehaviour
 				Cursor.lockState = CursorLockMode.None;
 				Cursor.visible = true;
 			}
+		}
+	}
+
+	void checkAim()
+	{
+		if (Input.GetButtonDown("Aim"))
+		{
+			Camera.main.fieldOfView = aimFOV;
+		}
+		else if (Input.GetButtonUp("Aim"))
+		{
+			Camera.main.fieldOfView = defaultFOV;
 		}
 	}
 }

@@ -42,6 +42,7 @@ public class Gun : NetworkBehaviour
 	void Update()
 	{
 		checkInput();
+		checkAim();
 	}
 
 	public virtual void checkInput()
@@ -142,4 +143,17 @@ public class Gun : NetworkBehaviour
 	//	curBull.GetComponent<Rigidbody>().velocity = velocity;
 	//	NetworkServer.Spawn(curBull);
 	//}
+
+	void checkAim()
+	{
+		if (Input.GetButtonDown("Aim"))
+		{
+			gunAni.SetFloat("aim", 1);
+		}
+		else if (Input.GetButtonUp("Aim"))
+		{
+			gunAni.SetFloat("aim", 0);
+		}
+	}
+
 }
