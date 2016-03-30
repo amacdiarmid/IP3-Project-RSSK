@@ -11,7 +11,10 @@ public class MeleeWeapon : NetworkBehaviour
 	public float comboCoolDown = 1;
 	public float range = 10;
 	public float knockback = 5;
+
 	public NetworkAnimator swordAni;   //todo set up a search to find the correct animator
+	public MeleeTrigger weaponCol;
+	private int meleeHash;
 
 	private bool canAttack = true;
 	private float countdownTimer;
@@ -19,6 +22,14 @@ public class MeleeWeapon : NetworkBehaviour
 
 	public List<AudioClip> attackAudio;
 	public AudioSource audioSource;
+
+	void Start()
+	{
+		weaponCol.setValues(damage, this.gameObject);
+		weaponCol.active(false);
+		meleeHash = swordAni.GetLayerIndex("MeleeLayer");
+		Debug.Log(swordAni.GetLayerName(meleeHash));
+	}
 
 	// Update is called once per frame
 	void Update()
@@ -28,20 +39,13 @@ public class MeleeWeapon : NetworkBehaviour
 
 		if (canAttack && ((primWeap && Input.GetButtonDown("Fire1")) || (!primWeap && Input.GetButtonDown("Fire2"))) && comboPos < 3)
 			attack();
-		/*else
-			Debug.Log("can attack " + canAttack + " combo pos " + comboPos);*/
 	}
 
 	public void attack()
 	{
-		//Debug.Log("attack called");
-		//canAttack = false;
-		StopCoroutine(comboWait());
-		//countdownTimer = 0;
 		comboPos++;
 
-		RaycastHit hit;
-		Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
+		StopCoroutine(comboWait());
 
 		audioSource.PlayOneShot(attackAudio[Random.Range(0, attackAudio.Count - 1)]);
 
@@ -52,54 +56,31 @@ public class MeleeWeapon : NetworkBehaviour
 			swordAni.SetTrigger("attack2");
 		else if (comboPos == 3)
 			swordAni.SetTrigger("attack3");
-		StartCoroutine(comboWait());
 
-		if (Physics.Raycast(ray, out hit, range))
-		{
-			Debug.Log("hit melee wep " + hit.collider.gameObject.name);
-			Debug.DrawLine(ray.origin, hit.point, Color.yellow, 10);
-			if (hit.collider.gameObject.tag == "TestPlayer")
-				hit.collider.gameObject.GetComponent<TestPlayer>().hit();
-			else if (hit.collider.gameObject.tag == "Player") //need to test with other people 
-				hit.collider.gameObject.GetComponent<PlayerStats>().Damage(damage);
-		}
-		else
-		{
-			Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.magenta, 10);
-			//canAttack = false;
-		}
+		StartCoroutine(comboWait());
+		StartCoroutine(triggerEnable());
+
+
 	}
 
 	IEnumerator comboWait()
 	{
-		//Debug.Log("swing time " + Time.time);
-		yield return new WaitForSeconds(comboCoolDown);
-		//Debug.Log("combocool down time " + Time.time);
-		comboPos = 0;
 		canAttack = false;
-		yield return new WaitForSeconds(cooldown);
-		//Debug.Log("attackcool down time " + Time.time);
+		Debug.Log("cant attack");
+		yield return new WaitForSeconds(swordAni.GetCurrentAnimatorStateInfo(meleeHash).length);
 		canAttack = true;
+		Debug.Log("can attack");
+		yield return new WaitForSeconds(5);
+		comboPos = 0;
+		Debug.Log("reset combo");
 	}
 
-	public void attackAni()
+	IEnumerator triggerEnable()
 	{
-		RaycastHit hit;
-		Ray ray = Camera.main.ScreenPointToRay(new Vector2(Screen.width / 2, Screen.height / 2));
-
-		if (Physics.Raycast(ray, out hit, range))
-		{
-			Debug.Log("hit melee wep " + hit.collider.gameObject.name);
-			if (hit.collider.gameObject.tag == "TestPlayer" || hit.collider.gameObject.tag == "Player")
-			{
-				//hit.collider.GetComponent<Rigidbody>().AddForce(transform.forward * (knockback * 2), ForceMode.Impulse);
-				//this.GetComponent<Rigidbody>().AddForce(-transform.forward * knockback, ForceMode.Impulse);
-			}
-		}
-	}
-
-	public void endCombo()
-	{
-		canAttack = false;
+		Debug.Log("enter co routing");
+		weaponCol.active(true);
+		Debug.Log(swordAni.GetCurrentAnimatorStateInfo(meleeHash).length);
+		yield return new WaitForSeconds(swordAni.GetCurrentAnimatorStateInfo(meleeHash).length);
+		weaponCol.active(false);
 	}
 }

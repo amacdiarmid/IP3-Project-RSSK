@@ -3,10 +3,10 @@ using System.Collections;
 
 public class meleeToRoot : MonoBehaviour {
 
-	public void meleeHitPoint()
-	{
-		this.gameObject.GetComponentInParent<MeleeWeapon>().attackAni();
-	}
+	//public void meleeHitPoint()
+	//{
+	//	this.gameObject.GetComponentInParent<MeleeWeapon>().attackAni();
+	//}
 
 	public void attackNum(int i)
 	{
@@ -24,8 +24,8 @@ public class meleeToRoot : MonoBehaviour {
 		}
 	}
 
-	public void endCombo()
-	{
-		this.gameObject.GetComponentInParent<MeleeWeapon>().endCombo();
-	}
+	//public void endCombo()
+	//{
+	//	this.gameObject.GetComponentInParent<MeleeWeapon>().endCombo();
+	//}
 }

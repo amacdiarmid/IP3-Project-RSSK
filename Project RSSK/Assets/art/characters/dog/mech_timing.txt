@@ -1,0 +1,10 @@
+idle-1-231
+attack-232-310
+kick-311-375
+sneak-375-424
+jump-425-454
+jump_attack-455-568
+reload 569-667
+shoot-668-673
+run-674-693
+

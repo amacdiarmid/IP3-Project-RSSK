@@ -1,0 +1,24 @@
+Archer
+--------
+
+Walk - 
+Jog - 154-180
+Sprint - 181-196
+Run Backwards - 197-217
+Jump - 218-244
+Idle - 0-152
+Attack1 - 438-478
+Attack2 - 
+Attack3 - 
+Reload -
+Falling - 405-437
+Dodge Forward - 245-294
+Dodge Back - 295-344
+Dodge Left - 375-404
+Dodge Right - 345-374
+Run to Wallclimb - 479-491
+Wallclimb - 492-552
+Climb onto Wall - 553-579
+Run to Wallrun - 580-587
+Wallrun - 588-600
+Jump from Wall - 601-608

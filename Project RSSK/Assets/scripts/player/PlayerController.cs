@@ -17,29 +17,29 @@ public enum PlayerState : byte
 
 public enum PlayerTeam : byte
 {
-    NotPicked,
-    TeamYellow,
-    TeamBlue
+	NotPicked,
+	TeamYellow,
+	TeamBlue
 }
 
 public static class Utils
 {
-    public static PlayerTeam Enemy(this PlayerTeam team)
-    {
-        return team == PlayerTeam.TeamYellow ? PlayerTeam.TeamBlue : PlayerTeam.TeamYellow;
-    }
+	public static PlayerTeam Enemy(this PlayerTeam team)
+	{
+		return team == PlayerTeam.TeamYellow ? PlayerTeam.TeamBlue : PlayerTeam.TeamYellow;
+	}
 }
 
 public class PlayerController : NetworkBehaviour
 {
-    public static PlayerController localInstance = null;
+	public static PlayerController localInstance = null;
 
-    [HideInInspector, SyncVar]
-    public PlayerTeam team = PlayerTeam.NotPicked;
-    [HideInInspector, SyncVar]
-    public short id = -1;
-    [HideInInspector, SyncVar]
-    public bool controllable = false;
+	[HideInInspector, SyncVar]
+	public PlayerTeam team = PlayerTeam.NotPicked;
+	[HideInInspector, SyncVar]
+	public short id = -1;
+	[HideInInspector, SyncVar]
+	public bool controllable = false;
 
 	//enum and components
 	PlayerState curState = PlayerState.idle;
@@ -85,12 +85,13 @@ public class PlayerController : NetworkBehaviour
 	public float climbSpeed = 5;
 	public float climbTimer = 2;
 
-    bool overrideControllable;
+	bool overrideControllable;
 
 	// Use this for initialization
 	void Start ()
 	{
         playerTran = transform;
+
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 		playerCam = GetComponent<PlayerCamera>();
@@ -123,10 +124,10 @@ public class PlayerController : NetworkBehaviour
         if (!isLocalPlayer || charContr == null)
 			return;
 
-        if (Input.GetKeyDown(KeyCode.L))
-            overrideControllable = !overrideControllable;
-        if (!overrideControllable && !controllable)
-            return;
+		if (Input.GetKeyDown(KeyCode.L))
+			overrideControllable = !overrideControllable;
+		if (!overrideControllable && !controllable)
+			return;
 
 		//Debug.LogWarning(curState);
 		//collecting general info required for state decision making
@@ -149,6 +150,32 @@ public class PlayerController : NetworkBehaviour
 			curVel -= curVelXZ.normalized * decelRate;
 		}
 		charContr.Move(curVel * Time.deltaTime);
+
+		playerAni.SetFloat("height", curVel.y);
+		playerAni.SetFloat("forward direction", Input.GetAxisRaw("Vertical"));
+		playerAni.SetFloat("side direction", Input.GetAxisRaw("Horizontal"));
+
+		if (Input.GetButton("Vertical"))
+		{
+			if (Input.GetButton("Sprint"))
+			{
+				playerAni.SetFloat("speed", 3);
+			}
+			else if (Input.GetButton("Walk"))
+			{
+				playerAni.SetFloat("speed", 1);
+			}
+			else
+			{
+				playerAni.SetFloat("speed", 2);
+			}
+		}
+		else
+		{
+			playerAni.SetFloat("speed", 0);
+		}
+		//Debug.Log("horz " + Input.GetAxisRaw("Horizontal") + " vert " + Input.GetAxisRaw("Vertical"));
+		//Debug.Log("Cur vel y " + curVel.y);
 	}
 
 	bool checkWallAngleForClimb()
@@ -170,6 +197,7 @@ public class PlayerController : NetworkBehaviour
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
 			Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
 			Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
+			playerAni.SetFloat("side direction", 0);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -178,7 +206,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.animator.SetFloat("wallrun side", 1);
+			playerAni.animator.SetFloat("side direction", 1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -187,7 +215,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.animator.SetFloat("wallrun side", 0);
+			playerAni.animator.SetFloat("side direction", -1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -238,11 +266,11 @@ public class PlayerController : NetworkBehaviour
 	{
 		if (curState != PlayerState.idle)
 		{
-			playerAni.SetTrigger("startIdle");
+			playerAni.SetTrigger("movement");
 			curState = PlayerState.idle;
 			playerAudio.setAudio(PlayerState.idle);
-            if (playerCam)
-                playerCam.setSway(PlayerState.idle);
+			if (playerCam)
+				playerCam.setSway(PlayerState.idle);
 		}
 
 		curVel = new Vector3(0, curVel.y, 0);
@@ -260,12 +288,12 @@ public class PlayerController : NetworkBehaviour
 	{
 		if(curState != PlayerState.jump)
 		{
-			playerAni.SetTrigger("startJump");
+			playerAni.SetTrigger("jump");
 			curVel.y = jumpHeight;
 			playerAudio.setAudio(PlayerState.jump);
 			curState = PlayerState.jump;
-            if (playerCam)
-                playerCam.setSway(PlayerState.jump);
+			if (playerCam)
+				playerCam.setSway(PlayerState.jump);
 		}
 
 		//if there's a wall next to us
@@ -286,11 +314,10 @@ public class PlayerController : NetworkBehaviour
 		//transitioning in
 		if(curState != PlayerState.run)
 		{
-			playerAni.SetTrigger(Input.GetButton("Sprint") ? "startSprint" : "startRun");
 			curState = PlayerState.run;
 			playerAudio.setAudio(PlayerState.run);
-            if (playerCam)
-                playerCam.setSway(PlayerState.run);
+			if (playerCam)
+				playerCam.setSway(PlayerState.run);
 		}
 
 		float speed = Input.GetButton("Sprint") ? sprintSpeed : runSpeed;
@@ -314,10 +341,10 @@ public class PlayerController : NetworkBehaviour
 		if(curState != PlayerState.falling)
 		{
 			//Debug.Log("falling trigger");
-			playerAni.SetTrigger("startFalling");
+			playerAni.SetTrigger("jump");
 			curState = PlayerState.falling;
-            if (playerCam)
-                playerCam.setSway(PlayerState.falling);
+			if (playerCam)
+				playerCam.setSway(PlayerState.falling);
 		}
 
 		float yVel = curVel.y;
@@ -346,12 +373,12 @@ public class PlayerController : NetworkBehaviour
 		//transitioning in
 		if (curState != PlayerState.roll)
 		{
-			playerAni.SetTrigger("startRoll");
+			playerAni.SetTrigger("roll");
 			curState = PlayerState.roll;
 			timer = rollTimer;
 			curVel = inputHeading * rollSpeed;
-            if (playerCam)
-                playerCam.setSway(PlayerState.roll);
+			if (playerCam)
+				playerCam.setSway(PlayerState.roll);
 		}
 
 		Debug.LogWarning("Roll");
@@ -366,12 +393,12 @@ public class PlayerController : NetworkBehaviour
 	{
 		if(curState != PlayerState.wallRun)
 		{
-			playerAni.SetTrigger("startWallRun");
+			playerAni.SetTrigger("wallrun");
 			curState = PlayerState.wallRun;
 			if(curVel.y < 0)
 				curVel.y = 0; //lose the fall speed
-            if (playerCam)
-                playerCam.setSway(PlayerState.wallRun);
+			if (playerCam)
+				playerCam.setSway(PlayerState.wallRun);
 		}
 
 		Vector3 dir1 = Vector3.Cross(Vector3.up, wallNormal); //dir1 and dir2 are both orthogonal to the normal
@@ -402,34 +429,35 @@ public class PlayerController : NetworkBehaviour
 
 	void Climb()
 	{
-        if(curState != PlayerState.climb)
-        {
-            curState = PlayerState.climb;
-            playerAni.SetTrigger("startClimb");
-            timer = climbTimer;
-            if (playerCam)
-                playerCam.setSway(PlayerState.climb);
-        }
+		if(curState != PlayerState.climb)
+		{
+			curState = PlayerState.climb;
+			playerAni.SetTrigger("wallrun");
+			timer = climbTimer;
+			if (playerCam)
+				playerCam.setSway(PlayerState.climb);
+		}
 
-        curVel = playerTran.up * climbSpeed * timer / climbTimer;
-        timer -= Time.deltaTime;
-        if (Input.GetButton("Sprint") || timer < 0 || Input.GetAxisRaw("Vertical") < 0)
-            setState(PlayerState.falling);
-        else if (Input.GetButtonDown("Jump"))
-        {
-            curVel = wallNormal * jumpHeight / 2;
-            setState(PlayerState.jump);
-        }
-    }
+		curVel = playerTran.up * climbSpeed * timer / climbTimer;
+		timer -= Time.deltaTime;
+		if (Input.GetButton("Sprint") || timer < 0 || Input.GetAxisRaw("Vertical") < 0)
+			setState(PlayerState.falling);
+		else if (Input.GetButtonDown("Jump"))
+		{
+			curVel = wallNormal * jumpHeight / 2;
+			setState(PlayerState.jump);
+		}
+	}
 
-    [ClientRpc]
-    public void RpcLockCursor(bool state)
-    {
-        Cursor.lockState = state ? CursorLockMode.Locked : CursorLockMode.Confined;
-    }
+	[ClientRpc]
+	public void RpcLockCursor(bool state)
+	{
+		Cursor.lockState = state ? CursorLockMode.Locked : CursorLockMode.Confined;
+	}
 
-    public void SetGameInfo(string text)
-    {
-        gameStatusText.text = text;
-    }
+	public void SetGameInfo(string text)
+	{
+		gameStatusText.text = text;
+	}
+
 }
