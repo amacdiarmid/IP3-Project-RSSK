@@ -131,6 +131,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &148690
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 419316}
+  - 65: {fileID: 6588552}
+  - 114: {fileID: 11484494}
+  m_Layer: 0
+  m_Name: hitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &148788
 GameObject:
   m_ObjectHideFlags: 1
@@ -270,6 +287,7 @@ Transform:
   m_LocalScale: {x: 1.0000004, y: 1, z: 1.0000002}
   m_Children:
   - {fileID: 465494}
+  - {fileID: 419316}
   m_Father: {fileID: 409482}
   m_RootOrder: 3
 --- !u!4 &402358
@@ -326,6 +344,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 451378}
   m_RootOrder: 2
+--- !u!4 &419316
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148690}
+  m_LocalRotation: {x: -0.00018610527, y: 0.2687538, z: 0.00007254121, w: 0.9632089}
+  m_LocalPosition: {x: -0.185, y: -0, z: -0.167}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 401010}
+  m_RootOrder: 1
 --- !u!4 &451378
 Transform:
   m_ObjectHideFlags: 1
@@ -333,7 +363,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.219, z: 0}
+  m_LocalPosition: {x: 4, y: 25, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 484534}
@@ -555,6 +585,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176964}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!65 &6588552
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148690}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0603391, y: 0.5747594, z: 0.6707239}
+  m_Center: {x: -0.466747, y: -0.10256433, z: 0.16584189}
 --- !u!81 &8198158
 AudioListener:
   m_ObjectHideFlags: 1
@@ -1050,6 +1092,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &11484494
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffee16128defa8148b18fd7f030f247f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11493518
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1068,6 +1121,7 @@ MonoBehaviour:
   range: 1
   knockback: 5
   swordAni: {fileID: 9544176}
+  weaponCol: {fileID: 11484494}
   attackAudio:
   - {fileID: 8300000, guid: e714254659e00d74fa5fbbb5a2b2eab8, type: 3}
   - {fileID: 8300000, guid: 7a0fdc42e4813c14283018ab483c9f3c, type: 3}

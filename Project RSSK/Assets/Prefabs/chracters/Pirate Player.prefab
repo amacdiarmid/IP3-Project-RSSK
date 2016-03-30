@@ -85,6 +85,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &122746
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 412130}
+  - 65: {fileID: 6569296}
+  - 114: {fileID: 11422496}
+  m_Layer: 0
+  m_Name: hitbox
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &125856
 GameObject:
   m_ObjectHideFlags: 1
@@ -203,6 +220,7 @@ GameObject:
   - 4: {fileID: 414106}
   - 33: {fileID: 3393458}
   - 23: {fileID: 2311300}
+  - 65: {fileID: 6504140}
   m_Layer: 0
   m_Name: Cutlass_Unrwapped:Box001
   m_TagString: Untagged
@@ -226,6 +244,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!4 &412130
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122746}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.022, y: 0.015, z: -0.519}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 414106}
+  m_RootOrder: 0
 --- !u!4 &414106
 Transform:
   m_ObjectHideFlags: 1
@@ -235,7 +265,8 @@ Transform:
   m_LocalRotation: {x: -0.0021518767, y: -0.94103444, z: -0.3376384, w: -0.021212906}
   m_LocalPosition: {x: 0.28540772, y: 0.91444474, z: 0.0715356}
   m_LocalScale: {x: 0.46763784, y: 0.46763784, z: 0.46763778}
-  m_Children: []
+  m_Children:
+  - {fileID: 412130}
   m_Father: {fileID: 496634}
   m_RootOrder: 0
 --- !u!4 &419152
@@ -330,7 +361,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.34689, y: 7.254767, z: -7.546223}
+  m_LocalPosition: {x: 1, y: 25, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 496634}
@@ -463,6 +494,30 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 157252}
   m_Mesh: {fileID: 4300006, guid: b9bf3ae9058926e4f9f7ff0fbd806c36, type: 3}
+--- !u!65 &6504140
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157252}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.25592205, y: 0.2855684, z: 1.9485319}
+  m_Center: {x: -0.00000023955656, y: -0.045623153, z: -0.7478261}
+--- !u!65 &6569296
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122746}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.25592205, y: 0.2855684, z: 3.14}
+  m_Center: {x: -0.00000023955656, y: -0.045623153, z: -0.7478261}
 --- !u!81 &8187764
 AudioListener:
   m_ObjectHideFlags: 1
@@ -521,7 +576,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -543,7 +598,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
 --- !u!82 &8253350
 AudioSource:
   m_ObjectHideFlags: 1
@@ -747,6 +802,17 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8343cf754c65cfe43a5108e79f9b24b6, type: 3}
   - {fileID: 8300000, guid: 013a016c41095ab4a9d39574bfe7eaf7, type: 3}
   spawnAudio: {fileID: 8300000, guid: 2477044abccc63d4ebc3be362c38029e, type: 3}
+--- !u!114 &11422496
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffee16128defa8148b18fd7f030f247f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11440756
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -765,6 +831,7 @@ MonoBehaviour:
   range: 1
   knockback: 5
   swordAni: {fileID: 9508748}
+  weaponCol: {fileID: 11422496}
   attackAudio:
   - {fileID: 8300000, guid: e714254659e00d74fa5fbbb5a2b2eab8, type: 3}
   - {fileID: 8300000, guid: 7a0fdc42e4813c14283018ab483c9f3c, type: 3}
