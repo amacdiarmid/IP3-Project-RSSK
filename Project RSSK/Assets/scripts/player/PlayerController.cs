@@ -261,8 +261,6 @@ public class PlayerController : NetworkBehaviour
 			playerAni.SetTrigger("movement");
 			curState = PlayerState.idle;
 			playerAudio.setAudio(PlayerState.idle);
-			if (playerCam)
-				playerCam.setSway(PlayerState.idle);
 		}
 
 		curVel = new Vector3(0, curVel.y, 0);
@@ -284,8 +282,6 @@ public class PlayerController : NetworkBehaviour
 			curVel.y = jumpHeight;
 			playerAudio.setAudio(PlayerState.jump);
 			curState = PlayerState.jump;
-			if (playerCam)
-				playerCam.setSway(PlayerState.jump);
 		}
 
 		//if there's a wall next to us
@@ -308,8 +304,6 @@ public class PlayerController : NetworkBehaviour
 		{
 			curState = PlayerState.run;
 			playerAudio.setAudio(PlayerState.run);
-			if (playerCam)
-				playerCam.setSway(PlayerState.run);
 		}
 
 		float speed = Input.GetButton("Sprint") ? sprintSpeed : runSpeed;
@@ -335,8 +329,6 @@ public class PlayerController : NetworkBehaviour
 			//Debug.Log("falling trigger");
 			playerAni.SetTrigger("jump");
 			curState = PlayerState.falling;
-			if (playerCam)
-				playerCam.setSway(PlayerState.falling);
 		}
 
 		float yVel = curVel.y;
@@ -369,8 +361,6 @@ public class PlayerController : NetworkBehaviour
 			curState = PlayerState.roll;
 			timer = rollTimer;
 			curVel = inputHeading * rollSpeed;
-			if (playerCam)
-				playerCam.setSway(PlayerState.roll);
 		}
 
 		Debug.LogWarning("Roll");
@@ -389,8 +379,6 @@ public class PlayerController : NetworkBehaviour
 			curState = PlayerState.wallRun;
 			if(curVel.y < 0)
 				curVel.y = 0; //lose the fall speed
-			if (playerCam)
-				playerCam.setSway(PlayerState.wallRun);
 		}
 
 		Vector3 dir1 = Vector3.Cross(Vector3.up, wallNormal); //dir1 and dir2 are both orthogonal to the normal
@@ -426,8 +414,6 @@ public class PlayerController : NetworkBehaviour
 			curState = PlayerState.climb;
 			playerAni.SetTrigger("wallrun");
 			timer = climbTimer;
-			if (playerCam)
-				playerCam.setSway(PlayerState.climb);
 		}
 
 		curVel = playerTran.up * climbSpeed * timer / climbTimer;
