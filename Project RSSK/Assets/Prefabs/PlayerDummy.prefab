@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 482604}
   - 114: {fileID: 11476370}
   - 114: {fileID: 11469452}
+  - 81: {fileID: 8166468}
   m_Layer: 0
   m_Name: PlayerDummy
   m_TagString: Untagged
@@ -29,6 +30,13 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!81 &8166468
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152566}
+  m_Enabled: 1
 --- !u!114 &11469452
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -41,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
+  id: -1
   controllable: 0
   jumpHeight: 10
   runSpeed: 5

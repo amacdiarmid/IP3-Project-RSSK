@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public enum PlayerState : byte
 {
@@ -51,7 +52,10 @@ public class PlayerController : NetworkBehaviour
 	Vector3 curVel = Vector3.zero;
 	Vector3 curPos;
 
-	public Animator playerAni;
+	NetworkAnimator playerAni;
+
+    //clientside canvas display
+    Text gameStatusText;
 
 	//general state info
 	bool touchingWall;
@@ -86,34 +90,39 @@ public class PlayerController : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		if (isLocalPlayer)
-			localInstance = this;
+        playerTran = transform;
 
-		playerTran = transform;
+		playerAni = GetComponent<NetworkAnimator>();
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 		playerCam = GetComponent<PlayerCamera>();
 
-		Transform childCam = playerTran.FindChild("camera");
-		if(childCam)
-		{
-			childCam.GetComponent<Camera>().enabled = isLocalPlayer;
-			childCam.GetComponent<AudioListener>().enabled = isLocalPlayer;
-		}
+        Transform childCam = playerTran.FindChild("camera");
+        if(childCam)
+        {
+            childCam.GetComponent<Camera>().enabled = isLocalPlayer;
+            childCam.GetComponent<AudioListener>().enabled = isLocalPlayer;
+        }
 
-		if (team != PlayerTeam.NotPicked)
-		{
-			Renderer r = GetComponent<Renderer>();
-			if(r != null)
-				r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
-		}
-			
-	}
+        if (team != PlayerTeam.NotPicked)
+        {
+            Renderer r = GetComponent<Renderer>();
+            if(r)
+                r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+        }
 
-	// Update is called once per frame
-	void Update()
+        if (isLocalPlayer)
+        {
+            localInstance = this;
+            GameObject canvas = ((GameManager)NetworkManager.singleton).canvas;
+            gameStatusText = canvas.transform.Find("GameStatus").GetComponent<Text>();
+        }
+    }
+
+    // Update is called once per frame
+    void Update()
 	{
-		if (!isLocalPlayer)
+        if (!isLocalPlayer || charContr == null)
 			return;
 
 		if (Input.GetKeyDown(KeyCode.L))
@@ -143,28 +152,28 @@ public class PlayerController : NetworkBehaviour
 		}
 		charContr.Move(curVel * Time.deltaTime);
 
-		playerAni.SetFloat("height", curVel.y);
-		playerAni.SetFloat("forward direction", Input.GetAxisRaw("Vertical"));
-		playerAni.SetFloat("side direction", Input.GetAxisRaw("Horizontal"));
+		playerAni.animator.SetFloat("height", curVel.y);
+		playerAni.animator.SetFloat("forward direction", Input.GetAxisRaw("Vertical"));
+		playerAni.animator.SetFloat("side direction", Input.GetAxisRaw("Horizontal"));
 
 		if (Input.GetButton("Vertical"))
 		{
 			if (Input.GetButton("Sprint"))
 			{
-				playerAni.SetFloat("speed", 3);
+				playerAni.animator.SetFloat("speed", 3);
 			}
 			else if (Input.GetButton("Walk"))
 			{
-				playerAni.SetFloat("speed", 1);
+				playerAni.animator.SetFloat("speed", 1);
 			}
 			else
 			{
-				playerAni.SetFloat("speed", 2);
+				playerAni.animator.SetFloat("speed", 2);
 			}
 		}
 		else
 		{
-			playerAni.SetFloat("speed", 0);
+			playerAni.animator.SetFloat("speed", 0);
 		}
 		//Debug.Log("horz " + Input.GetAxisRaw("Horizontal") + " vert " + Input.GetAxisRaw("Vertical"));
 		//Debug.Log("Cur vel y " + curVel.y);
@@ -189,7 +198,7 @@ public class PlayerController : NetworkBehaviour
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
 			Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
 			Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
-			playerAni.SetFloat("side direction", 0);
+			playerAni.animator.SetFloat("side direction", 0);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -198,7 +207,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.SetFloat("side direction", 1);
+			playerAni.animator.SetFloat("side direction", 1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -207,7 +216,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.SetFloat("side direction", -1);
+			playerAni.animator.SetFloat("side direction", -1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -433,13 +442,8 @@ public class PlayerController : NetworkBehaviour
 		Cursor.lockState = state ? CursorLockMode.Locked : CursorLockMode.Confined;
 	}
 
-	IEnumerator Cooldown(int seconds)
+	public void SetGameInfo(string text)
 	{
-		while(seconds > 0)
-		{
-			yield return new WaitForSeconds(1);
-			seconds--;
-
-		}
+		gameStatusText.text = text;
 	}
 }

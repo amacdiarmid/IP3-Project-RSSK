@@ -13,7 +13,7 @@ public class PlayerStats : NetworkBehaviour
 	void Start()
 	{
 		playerAudio = GetComponent<PlayerAudioController>();
-		text = GetComponentInChildren<Text>();
+		text = ((GameManager)NetworkManager.singleton).canvas.transform.Find("Health").GetComponent<Text>();
 	}
 
 	void Update()
@@ -25,18 +25,12 @@ public class PlayerStats : NetworkBehaviour
 
 	public void Damage(int dmg)
 	{
-		if(isServer)
-		{
-			if (maxHealth <= 0)
-				return;
+		if (maxHealth <= 0) //just a safety check
+			return;
 
-			maxHealth -= dmg;
-			if (maxHealth <= 0)
-				((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);
-		}
-
-		if (isLocalPlayer)
-			playerAudio.damaged();
+		maxHealth -= dmg;
+		if (maxHealth <= 0)
+			((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);		
 	}
 
 	void HealthChanged(int newHealth)
@@ -45,5 +39,7 @@ public class PlayerStats : NetworkBehaviour
 		text.text = "Health: " + maxHealth;
 		if (maxHealth <= 0)
 			playerAudio.dead();
+		else
+			playerAudio.damaged();
 	}
 }
