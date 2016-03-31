@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: _LowPoly_OpenedDoorsdefault
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: b860b088cb38ddd4fbd9dcba877ddcb6, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -19,7 +19,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: b780be1c6aa57f3499f62ee5bb054acb, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -78,6 +78,48 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SpecGlossMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _diffuse
+        second:
+          m_Texture: {fileID: 2800000, guid: b780be1c6aa57f3499f62ee5bb054acb, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _normal
+        second:
+          m_Texture: {fileID: 2800000, guid: 8b0edd3fbf9493b4b8ff93cb84bab036, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _spec
+        second:
+          m_Texture: {fileID: 2800000, guid: c12ca728ba9e03541b57c8f9b8d2fa7d, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _cubemap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _RGBMASK
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -90,7 +132,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: 0.5
+        second: .5
       data:
         first:
           name: _Metallic
@@ -98,7 +140,7 @@ Material:
       data:
         first:
           name: _Parallax
-        second: 0.02
+        second: .0199999996
       data:
         first:
           name: _ZWrite
@@ -106,7 +148,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0.5
+        second: .5
       data:
         first:
           name: _BumpScale
@@ -127,6 +169,34 @@ Material:
         first:
           name: _Mode
         second: 0
+      data:
+        first:
+          name: _spec_intens
+        second: 3.24786305
+      data:
+        first:
+          name: _gloss_slider
+        second: .860607088
+      data:
+        first:
+          name: _cubemap_control
+        second: 0
+      data:
+        first:
+          name: _sss_str
+        second: 0
+      data:
+        first:
+          name: _sss_coverage
+        second: 1
+      data:
+        first:
+          name: _R_CM_Str
+        second: 0
+      data:
+        first:
+          name: _B_CM_Str
+        second: 0
     m_Colors:
       data:
         first:
@@ -135,4 +205,20 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0.588, g: 0.588, b: 0.588, a: 1}
+        second: {r: .588, g: .588, b: .588, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+      data:
+        first:
+          name: _spec_color
+        second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _diffuse_color
+        second: {r: .897058785, g: .897058785, b: .897058785, a: 1}
+      data:
+        first:
+          name: _sss_color
+        second: {r: .801470578, g: 0, b: 0, a: 1}
