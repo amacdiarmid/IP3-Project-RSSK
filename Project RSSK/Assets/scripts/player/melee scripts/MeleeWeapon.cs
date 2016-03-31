@@ -37,8 +37,8 @@ public class MeleeWeapon : NetworkBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-        if (!isLocalPlayer)
-            return;
+		if (!isLocalPlayer)
+			return;
 
 		if (canAttack && ((primWeap && Input.GetButtonDown("Fire1")) || (!primWeap && Input.GetButtonDown("Fire2"))) && comboPos < 3)
 			attack();
