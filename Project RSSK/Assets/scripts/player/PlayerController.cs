@@ -54,8 +54,8 @@ public class PlayerController : NetworkBehaviour
 
 	NetworkAnimator playerAni;
 
-    //clientside canvas display
-    Text gameStatusText;
+	//clientside canvas display
+	Text gameStatusText;
 
 	//general state info
 	bool touchingWall;
@@ -90,39 +90,39 @@ public class PlayerController : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-        playerTran = transform;
+		playerTran = transform;
 
 		playerAni = GetComponent<NetworkAnimator>();
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 		playerCam = GetComponent<PlayerCamera>();
 
-        Transform childCam = playerTran.FindChild("camera");
-        if(childCam)
-        {
-            childCam.GetComponent<Camera>().enabled = isLocalPlayer;
-            childCam.GetComponent<AudioListener>().enabled = isLocalPlayer;
-        }
+		Transform childCam = playerTran.FindChild("camera");
+		if(childCam)
+		{
+			childCam.GetComponent<Camera>().enabled = isLocalPlayer;
+			childCam.GetComponent<AudioListener>().enabled = isLocalPlayer;
+		}
 
-        if (team != PlayerTeam.NotPicked)
-        {
-            Renderer r = GetComponent<Renderer>();
-            if(r)
-                r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
-        }
+		if (team != PlayerTeam.NotPicked)
+		{
+			Renderer r = GetComponent<Renderer>();
+			if(r)
+				r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+		}
 
-        if (isLocalPlayer)
-        {
-            localInstance = this;
-            GameObject canvas = ((GameManager)NetworkManager.singleton).canvas;
-            gameStatusText = canvas.transform.Find("GameStatus").GetComponent<Text>();
-        }
-    }
+		if (isLocalPlayer)
+		{
+			localInstance = this;
+			GameObject canvas = ((GameManager)NetworkManager.singleton).canvas;
+			gameStatusText = canvas.transform.Find("GameStatus").GetComponent<Text>();
+		}
+	}
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	void Update()
 	{
-        if (!isLocalPlayer || charContr == null)
+		if (!isLocalPlayer || charContr == null)
 			return;
 
 		if (Input.GetKeyDown(KeyCode.L))
@@ -198,7 +198,7 @@ public class PlayerController : NetworkBehaviour
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
 			Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
 			Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
-			playerAni.animator.SetFloat("side direction", 0);
+			playerAni.animator.SetFloat("wall direction", 0);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -207,7 +207,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.animator.SetFloat("side direction", 1);
+			playerAni.animator.SetFloat("wall direction", 1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -216,7 +216,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.animator.SetFloat("side direction", -1);
+			playerAni.animator.SetFloat("wall direction", -1);
 			wallNormal = hit.normal;
 			return true;
 		}
