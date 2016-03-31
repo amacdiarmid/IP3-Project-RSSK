@@ -203,9 +203,12 @@ public class GameManager : NetworkManager
             if ((PlayerTeam)msg.playerTeams[i] != PlayerTeam.NotPicked)
                 teams[msg.playerTeams[i] - 1]++;
         }
-        PlayerController.localInstance.SetGameInfo(status + timeoutText);
+		Debug.Log (teams[0] + " vs " + teams[1]);
         yellowBtn.interactable = teams[0] <= teams[1];
         blueBtn.interactable = teams[0] >= teams[1];
+
+		Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
+		text.text = status + timeoutText;
     }
 
     public void PickedCharacter(int character)
@@ -232,7 +235,13 @@ public class GameManager : NetworkManager
         IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
         int secs = msg.value;
         timeoutText = string.Format("\nPrep Left: {0}s", secs);
-        PlayerController.localInstance.SetGameInfo(status + timeoutText);
+		if (PlayerController.localInstance)
+			PlayerController.localInstance.SetGameInfo (status + timeoutText);
+		else 
+		{
+			Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
+			text.text = status + timeoutText;
+		}
     }
 
     void StartRoundTimer(NetworkMessage netMsg)
@@ -240,7 +249,13 @@ public class GameManager : NetworkManager
         IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
         int secs = msg.value;
         timeoutText = string.Format("\nTime Left: {0}s", secs);
-        PlayerController.localInstance.SetGameInfo(status + timeoutText);
+		if (PlayerController.localInstance)
+			PlayerController.localInstance.SetGameInfo (status + timeoutText);
+		else 
+		{
+			Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
+			text.text = status + timeoutText;
+		}
     }
 
     #region GameModeProgression

@@ -52,7 +52,7 @@ public class PlayerController : NetworkBehaviour
 	Vector3 curVel = Vector3.zero;
 	Vector3 curPos;
 
-	public NetworkAnimator playerAni;
+	NetworkAnimator playerAni;
 
     //clientside canvas display
     Text gameStatusText;
@@ -92,6 +92,7 @@ public class PlayerController : NetworkBehaviour
 	{
         playerTran = transform;
 
+		playerAni = GetComponent<NetworkAnimator>();
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 		playerCam = GetComponent<PlayerCamera>();
@@ -151,28 +152,28 @@ public class PlayerController : NetworkBehaviour
 		}
 		charContr.Move(curVel * Time.deltaTime);
 
-		playerAni.SetFloat("height", curVel.y);
-		playerAni.SetFloat("forward direction", Input.GetAxisRaw("Vertical"));
-		playerAni.SetFloat("side direction", Input.GetAxisRaw("Horizontal"));
+		playerAni.animator.SetFloat("height", curVel.y);
+		playerAni.animator.SetFloat("forward direction", Input.GetAxisRaw("Vertical"));
+		playerAni.animator.SetFloat("side direction", Input.GetAxisRaw("Horizontal"));
 
 		if (Input.GetButton("Vertical"))
 		{
 			if (Input.GetButton("Sprint"))
 			{
-				playerAni.SetFloat("speed", 3);
+				playerAni.animator.SetFloat("speed", 3);
 			}
 			else if (Input.GetButton("Walk"))
 			{
-				playerAni.SetFloat("speed", 1);
+				playerAni.animator.SetFloat("speed", 1);
 			}
 			else
 			{
-				playerAni.SetFloat("speed", 2);
+				playerAni.animator.SetFloat("speed", 2);
 			}
 		}
 		else
 		{
-			playerAni.SetFloat("speed", 0);
+			playerAni.animator.SetFloat("speed", 0);
 		}
 		//Debug.Log("horz " + Input.GetAxisRaw("Horizontal") + " vert " + Input.GetAxisRaw("Vertical"));
 		//Debug.Log("Cur vel y " + curVel.y);
@@ -197,7 +198,7 @@ public class PlayerController : NetworkBehaviour
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
 			Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
 			Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
-			playerAni.SetFloat("side direction", 0);
+			playerAni.animator.SetFloat("side direction", 0);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -459,5 +460,4 @@ public class PlayerController : NetworkBehaviour
 	{
 		gameStatusText.text = text;
 	}
-
 }

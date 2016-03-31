@@ -26,7 +26,7 @@ public class Gun : NetworkBehaviour
 
 	//public GameObject projectile;
 
-	public Animator gunAni;   //todo set up a search to find the correct animator
+	NetworkAnimator gunAni;   //todo set up a search to find the correct animator
 
 	public AudioClip fireAudio;
 	public AudioClip outOfAmmoAudio;
@@ -36,6 +36,9 @@ public class Gun : NetworkBehaviour
 	void Start()
 	{
 		curAmmo = maxAmmo;
+		gunAni = GetComponent<NetworkAnimator>();
+		if (gunAni == null)
+			Debug.LogError ("Setup: Failed to find NetworkAnimator");
 		//barrel = transform.FindChild("camera/barrel point");
 	}
 
@@ -66,20 +69,14 @@ public class Gun : NetworkBehaviour
 			Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
 			if (Physics.Raycast(ray, out hit))
 			{
-				if (hit.collider != null)
-				{
-					//Debug.Log("hit");
-					//gun to target ray
-					Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
-					GameObject trail = Instantiate(bulletTrail);
-					trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, hit.point);
-					//screen to target ray
-					Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
-					if (hit.collider.tag == "player")
-					{
-						hit.collider.GetComponent<PlayerStats>().Damage(damage);
-					}
-				}
+				//gun to target ray
+				Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
+				GameObject trail = Instantiate(bulletTrail);
+				trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, hit.point);
+				//screen to target ray
+				Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
+				if (hit.collider.tag == "Player")
+					CmdHit (hit.transform.gameObject, damage);
 			}
 			else
 			{
@@ -90,7 +87,6 @@ public class Gun : NetworkBehaviour
 				trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, ray.GetPoint(range));
 				//screen to target ray
 				Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.red, 10);
-				Debug.Log("reload");
 			}
 
 			audioSource.PlayOneShot(fireAudio);
@@ -135,11 +131,9 @@ public class Gun : NetworkBehaviour
 		gunSreadVal = 0;
 	}
 
-	//[Command]
-	//void CmdSpawnBullet(Vector3 pos, Vector3 velocity)
-	//{
-	//	GameObject curBull = Instantiate(projectile, pos, Quaternion.identity) as GameObject;
-	//	curBull.GetComponent<Rigidbody>().velocity = velocity;
-	//	NetworkServer.Spawn(curBull);
-	//}
+	[Command]
+	void CmdHit(GameObject obj, int damage)
+	{
+		obj.GetComponent<PlayerStats> ().Damage (damage);
+	}
 }

@@ -431,9 +431,12 @@ MonoBehaviour:
   m_OnlineScene: 
   m_SpawnPrefabs:
   - {fileID: 187148, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
-  - {fileID: 152566, guid: b9cac2a2c8890bb49ba40e0ebc8b93c0, type: 2}
-  - {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+  - {fileID: 160840, guid: bf931aa8c5d01644c94f9694174820c8, type: 2}
+  - {fileID: 124602, guid: 63a93d40eff7f76409d5a248b12f4bbf, type: 2}
   - {fileID: 149366, guid: 96096c2b404f39d49918f3b267411486, type: 2}
+  - {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+  - {fileID: 175134, guid: 0cb035b7f6caff746a102967a3b3cb71, type: 2}
+  - {fileID: 146196, guid: c975c8c63f002ed4c96e1978e4a15510, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 6
   m_ConnectionConfig:
@@ -483,11 +486,11 @@ MonoBehaviour:
   blueBtn: {fileID: 1784349944}
   characters:
   - {fileID: 149366, guid: 96096c2b404f39d49918f3b267411486, type: 2}
+  - {fileID: 146196, guid: c975c8c63f002ed4c96e1978e4a15510, type: 2}
   - {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
-  - {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
-  - {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
-  - {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
-  - {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
+  - {fileID: 175134, guid: 0cb035b7f6caff746a102967a3b3cb71, type: 2}
+  - {fileID: 160840, guid: bf931aa8c5d01644c94f9694174820c8, type: 2}
+  - {fileID: 124602, guid: 63a93d40eff7f76409d5a248b12f4bbf, type: 2}
 --- !u!4 &639476961
 Transform:
   m_ObjectHideFlags: 0
