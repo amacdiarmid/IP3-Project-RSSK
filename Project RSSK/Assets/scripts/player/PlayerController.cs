@@ -54,8 +54,8 @@ public class PlayerController : NetworkBehaviour
 
 	NetworkAnimator playerAni;
 
-    //clientside canvas display
-    Text gameStatusText;
+	//clientside canvas display
+	Text gameStatusText;
 
 	//general state info
 	bool touchingWall;
@@ -90,39 +90,39 @@ public class PlayerController : NetworkBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-        playerTran = transform;
+		playerTran = transform;
 
 		playerAni = GetComponent<NetworkAnimator>();
 		charContr = GetComponent<CharacterController>();
 		playerAudio = GetComponent<PlayerAudioController>();
 		playerCam = GetComponent<PlayerCamera>();
 
-        Transform childCam = playerTran.FindChild("camera");
-        if(childCam)
-        {
-            childCam.GetComponent<Camera>().enabled = isLocalPlayer;
-            childCam.GetComponent<AudioListener>().enabled = isLocalPlayer;
-        }
+		Transform childCam = playerTran.FindChild("camera");
+		if(childCam)
+		{
+			childCam.GetComponent<Camera>().enabled = isLocalPlayer;
+			childCam.GetComponent<AudioListener>().enabled = isLocalPlayer;
+		}
 
-        if (team != PlayerTeam.NotPicked)
-        {
-            Renderer r = GetComponent<Renderer>();
-            if(r)
-                r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
-        }
+		if (team != PlayerTeam.NotPicked)
+		{
+			Renderer r = GetComponent<Renderer>();
+			if(r)
+				r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+		}
 
-        if (isLocalPlayer)
-        {
-            localInstance = this;
-            GameObject canvas = ((GameManager)NetworkManager.singleton).canvas;
-            gameStatusText = canvas.transform.Find("GameStatus").GetComponent<Text>();
-        }
-    }
+		if (isLocalPlayer)
+		{
+			localInstance = this;
+			GameObject canvas = ((GameManager)NetworkManager.singleton).canvas;
+			gameStatusText = canvas.transform.Find("GameStatus").GetComponent<Text>();
+		}
+	}
 
-    // Update is called once per frame
-    void Update()
+	// Update is called once per frame
+	void Update()
 	{
-        if (!isLocalPlayer || charContr == null)
+		if (!isLocalPlayer || charContr == null)
 			return;
 
 		if (Input.GetKeyDown(KeyCode.L))
@@ -198,7 +198,7 @@ public class PlayerController : NetworkBehaviour
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
 			Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
 			Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
-			playerAni.animator.SetFloat("side direction", 0);
+			playerAni.animator.SetFloat("wall direction", 0);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -207,7 +207,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.animator.SetFloat("side direction", 1);
+			playerAni.animator.SetFloat("wall direction", 1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -216,7 +216,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.animator.SetFloat("side direction", -1);
+			playerAni.animator.SetFloat("wall direction", -1);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -270,8 +270,6 @@ public class PlayerController : NetworkBehaviour
 			playerAni.SetTrigger("movement");
 			curState = PlayerState.idle;
 			playerAudio.setAudio(PlayerState.idle);
-			if (playerCam)
-				playerCam.setSway(PlayerState.idle);
 		}
 
 		curVel = new Vector3(0, curVel.y, 0);
@@ -293,8 +291,6 @@ public class PlayerController : NetworkBehaviour
 			curVel.y = jumpHeight;
 			playerAudio.setAudio(PlayerState.jump);
 			curState = PlayerState.jump;
-			if (playerCam)
-				playerCam.setSway(PlayerState.jump);
 		}
 
 		//if there's a wall next to us
@@ -317,8 +313,6 @@ public class PlayerController : NetworkBehaviour
 		{
 			curState = PlayerState.run;
 			playerAudio.setAudio(PlayerState.run);
-			if (playerCam)
-				playerCam.setSway(PlayerState.run);
 		}
 
 		float speed = Input.GetButton("Sprint") ? sprintSpeed : runSpeed;
@@ -344,8 +338,6 @@ public class PlayerController : NetworkBehaviour
 			//Debug.Log("falling trigger");
 			playerAni.SetTrigger("jump");
 			curState = PlayerState.falling;
-			if (playerCam)
-				playerCam.setSway(PlayerState.falling);
 		}
 
 		float yVel = curVel.y;
@@ -378,8 +370,6 @@ public class PlayerController : NetworkBehaviour
 			curState = PlayerState.roll;
 			timer = rollTimer;
 			curVel = inputHeading * rollSpeed;
-			if (playerCam)
-				playerCam.setSway(PlayerState.roll);
 		}
 
 		Debug.LogWarning("Roll");
@@ -398,8 +388,6 @@ public class PlayerController : NetworkBehaviour
 			curState = PlayerState.wallRun;
 			if(curVel.y < 0)
 				curVel.y = 0; //lose the fall speed
-			if (playerCam)
-				playerCam.setSway(PlayerState.wallRun);
 		}
 
 		Vector3 dir1 = Vector3.Cross(Vector3.up, wallNormal); //dir1 and dir2 are both orthogonal to the normal
@@ -435,8 +423,6 @@ public class PlayerController : NetworkBehaviour
 			curState = PlayerState.climb;
 			playerAni.SetTrigger("wallrun");
 			timer = climbTimer;
-			if (playerCam)
-				playerCam.setSway(PlayerState.climb);
 		}
 
 		curVel = playerTran.up * climbSpeed * timer / climbTimer;

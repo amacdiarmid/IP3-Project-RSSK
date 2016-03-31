@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections.Generic;
+using System.Collections;
 
 //dont use this for that characters use one of the derived classes
 public class Gun : NetworkBehaviour
@@ -9,6 +10,7 @@ public class Gun : NetworkBehaviour
 	protected int curAmmo;
 	protected float RoFTime = 0;
 	protected bool canFire = true;
+	protected bool reloading = false;
 	protected float gunSreadVal = 0;
 	public Transform barrel;
 	public GameObject bulletTrail;
@@ -19,6 +21,7 @@ public class Gun : NetworkBehaviour
 	public int spareAmmo = 90;
 	public float rateOfFire = 1;
 	public int damage = 50;
+	public float reloadSpeed = 5;
 
 	public float maxSpread = 3;
 	public float spreadAdv = 0.2f;
@@ -45,6 +48,7 @@ public class Gun : NetworkBehaviour
 	void Update()
 	{
 		checkInput();
+		checkAim();
 	}
 
 	public virtual void checkInput()
@@ -54,7 +58,7 @@ public class Gun : NetworkBehaviour
 
 	public virtual void Shoot()
 	{
-		if (curAmmo >= 0)
+		if (curAmmo >= 0 && !reloading)
 		{
 			RoFTime = 0;
 			canFire = false;
@@ -117,6 +121,7 @@ public class Gun : NetworkBehaviour
 
 	public void reload()
 	{
+		StartCoroutine(reloadWait());
 		//this could be alot better
 		if (curAmmo != maxAmmo && spareAmmo > 0)
 		{
@@ -129,6 +134,25 @@ public class Gun : NetworkBehaviour
 			audioSource.PlayOneShot(reloadAudio);
 		}
 		gunSreadVal = 0;
+	}
+
+	IEnumerator reloadWait()
+	{
+		reloading = true;
+		yield return new WaitForSeconds(reloadSpeed);
+		reloading = false;
+	}
+
+	void checkAim()
+	{
+		if (Input.GetButtonDown("Aim"))
+		{
+			gunAni.animator.SetFloat("aim", 1);
+		}
+		else if (Input.GetButtonUp("Aim"))
+		{
+			gunAni.animator.SetFloat("aim", 0);
+		}
 	}
 
 	[Command]

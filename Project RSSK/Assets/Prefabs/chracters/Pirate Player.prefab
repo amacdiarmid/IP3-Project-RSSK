@@ -285,7 +285,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 117032}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.467, y: 0.615, z: -1.654}
+  m_LocalPosition: {x: 0.467, y: 0.615, z: -0.854}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 496172}
@@ -309,7 +309,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146196}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 28.456726, y: -1, z: 27.212376}
+  m_LocalPosition: {x: 1, y: 25, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 496634}
@@ -923,17 +923,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camSensativity: 1
-  lookUpLim: 75
-  lookDownLim: 285
-  rotationSpeed: 50
-  idleSway: {x: 0.5, y: 0.5}
-  runSway: {x: 1, y: 1}
-  jumpSway: {x: 1.5, y: 1.5}
-  fallingSway: {x: 1.5, y: 1.5}
-  rollSway: {x: 1.5, y: 1.5}
-  climbSway: {x: 1, y: 1}
-  wallRunSway: {x: 1.5, y: 1.5}
-  camSway: 0
+  lookUpLim: 320
+  lookDownLim: 45
+  defaultFOV: 60
+  aimFOV: 30
 --- !u!124 &12432026
 Behaviour:
   m_ObjectHideFlags: 1
@@ -1087,6 +1080,18 @@ Prefab:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: ae7acd4453df54746a0156db00409277, type: 2}
+    - target: {fileID: 0}
+      propertyPath: camSensativity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lookUpLim
+      value: 320
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: lookDownLim
+      value: 45
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 146196}

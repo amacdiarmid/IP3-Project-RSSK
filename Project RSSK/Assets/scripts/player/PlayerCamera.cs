@@ -7,107 +7,73 @@ public class PlayerCamera : NetworkBehaviour
 	private Transform playerTran;
 	private Transform playerCam;
 
-	private Quaternion turnFrom;
-	private Quaternion turnTo;
-
 	public float camSensativity = 1;
 
-	public float lookUpLim = 270;
-	public float lookDownLim = 90;
+	public float lookUpLim = 320;
+	public float lookDownLim = 45;
 
-	public float rotationSpeed = 50;
-
-	private float heightScale = 1;
-	private float speed = 1;
-
-	//vector2 contains the height sway at .x and speed as .y
-	public Vector2 idleSway, runSway, jumpSway, fallingSway, rollSway, climbSway, wallRunSway;
-	public bool camSway;
+	public float defaultFOV = 60;
+	public float aimFOV = 30;
 
 	// Use this for initialization
 	void Start()
 	{
-		playerTran = transform;
+		playerTran = this.transform;
 		playerCam = transform.FindChild("camera");
-        
-        setSway(PlayerState.idle);
+
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-		if (!isLocalPlayer)
-			return;
+		if (isLocalPlayer)
+			rotateCamera();
 
-		rotateCam();
-
-		if (Input.GetButtonDown("QuickTurn"))
-			playerTran.Rotate(new Vector3(0, 180, 0));
-
-		if(camSway)
-		{
-			float height = heightScale * Mathf.PerlinNoise(Time.time * speed, 0.0F);
-			Vector3 pos = playerCam.transform.localPosition;
-			pos.y = height;
-			playerCam.transform.localPosition = pos;
-		}
+		lockMouse();
+		checkAim();
 	}
 
-	void rotateCam()
+	void rotateCamera()
 	{
 		playerTran.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * camSensativity, 0), Space.World);
 		float delta = Input.GetAxis("Mouse Y") * camSensativity;
 
-		if (playerTran.rotation.eulerAngles.z + delta < lookUpLim || playerTran.rotation.eulerAngles.z + delta > lookDownLim)
+		Debug.Log((playerCam.rotation.eulerAngles.x + delta));
+
+		if (playerCam.rotation.eulerAngles.x - delta > lookUpLim || playerCam.rotation.eulerAngles.x - delta < lookDownLim)
 			playerCam.Rotate(new Vector3(-delta, 0, 0));
+
 	}
 
-	public void setCamera(float angle)
+	void lockMouse()
 	{
-		transform.Rotate(new Vector3(0, angle, 0));
-	}
-
-	public void setSway(PlayerState state)
-	{
-		switch (state)
+		if (Input.GetKeyUp(KeyCode.BackQuote))
 		{
-			case PlayerState.idle:
-				heightScale = idleSway.x;
-				speed = idleSway.y;
-				break;
-			case PlayerState.run:
-				heightScale = runSway.x;
-				speed = runSway.y;
-				break;
-			case PlayerState.jump:
-				heightScale = jumpSway.x;
-				speed = jumpSway.y;
-				break;
-			case PlayerState.falling:
-				heightScale = fallingSway.x;
-				speed = fallingSway.y;
-				break;
-			case PlayerState.roll:
-				heightScale = rollSway.x;
-				speed = rollSway.y;
-				break;
-			case PlayerState.climb:
-				heightScale = climbSway.x;
-				speed = climbSway.y;
-				break;
-			case PlayerState.wallRun:
-				heightScale = wallRunSway.x;
-				speed = wallRunSway.y;
-				break;
-			default:
-				break;
+			if (Cursor.visible)
+			{
+				Cursor.lockState = CursorLockMode.Locked;
+				Cursor.visible = false;
+			}
+			else
+			{
+				Cursor.lockState = CursorLockMode.None;
+				Cursor.visible = true;
+			}
 		}
 	}
 
-	public void setSway(float heightScale, float speed)
+	void checkAim()
 	{
-		this.heightScale = heightScale;
-		this.speed = speed;
+		if (Input.GetButtonDown("Aim"))
+		{
+			Camera.main.fieldOfView = aimFOV;
+		}
+		else if (Input.GetButtonUp("Aim"))
+		{
+			Camera.main.fieldOfView = defaultFOV;
+		}
 	}
 }
 
