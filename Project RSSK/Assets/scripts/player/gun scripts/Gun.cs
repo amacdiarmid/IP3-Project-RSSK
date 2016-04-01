@@ -42,7 +42,6 @@ public class Gun : NetworkBehaviour
 		gunAni = GetComponent<NetworkAnimator>();
 		if (gunAni == null)
 			Debug.LogError ("Setup: Failed to find NetworkAnimator");
-		//barrel = transform.FindChild("camera/barrel point");
 	}
 
 	void Update()
@@ -67,7 +66,6 @@ public class Gun : NetworkBehaviour
 
 			float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal);
 			float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal);
-			Debug.Log(targetX +" " + targetY);
 
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
@@ -98,25 +96,11 @@ public class Gun : NetworkBehaviour
 
 			//add spread to the next shot 
 			gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, maxSpread);
-			Debug.Log(gunSreadVal);
 		}
 		else
 		{
-			Debug.Log("reload");
 			audioSource.PlayOneShot(outOfAmmoAudio);
-			//reload();
 		}
-
-
-		//dan version
-		//Vector3 pos = barrel.position;
-		//Vector3 velocity = barrel.right + Random.insideUnitSphere * gunSreadVal;
-		//velocity = velocity.normalized * projectile.GetComponent<GunProjectile>().speed;
-		//CmdSpawnBullet(pos, velocity);
-
-		//audio/ani call
-
-
 	}
 
 	public void reload()

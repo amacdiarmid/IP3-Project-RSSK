@@ -130,7 +130,6 @@ public class PlayerController : NetworkBehaviour
 		if (!overrideControllable && !controllable)
 			return;
 
-		//Debug.LogWarning(curState);
 		//collecting general info required for state decision making
 		curPos = transform.TransformPoint(charContr.center);
 		transitioned = false;
@@ -175,8 +174,6 @@ public class PlayerController : NetworkBehaviour
 		{
 			playerAni.animator.SetFloat("speed", 0);
 		}
-		//Debug.Log("horz " + Input.GetAxisRaw("Horizontal") + " vert " + Input.GetAxisRaw("Vertical"));
-		//Debug.Log("Cur vel y " + curVel.y);
 	}
 
 	bool checkWallAngleForClimb()

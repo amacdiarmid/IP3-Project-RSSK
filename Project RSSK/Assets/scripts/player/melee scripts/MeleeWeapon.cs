@@ -25,13 +25,12 @@ public class MeleeWeapon : NetworkBehaviour
 
 	void Start()
 	{
-		weaponCol.setValues(damage, this.gameObject);
+		weaponCol.setValues(gameObject, this);
 		weaponCol.active(false);
 		swordAni = GetComponent<NetworkAnimator>();
 		if (swordAni == null)
 			Debug.LogError ("Setup: Failed to find NetworkAnimator");
 		meleeHash = swordAni.animator.GetLayerIndex("MeleeLayer");
-		Debug.Log(swordAni.animator.GetLayerName(meleeHash));
 	}
 
 	// Update is called once per frame
@@ -64,21 +63,22 @@ public class MeleeWeapon : NetworkBehaviour
 	IEnumerator comboWait()
 	{
 		canAttack = false;
-		Debug.Log("cant attack");
 		yield return new WaitForSeconds(swordAni.animator.GetCurrentAnimatorStateInfo(meleeHash).length);
 		canAttack = true;
-		Debug.Log("can attack");
 		yield return new WaitForSeconds(5);
 		comboPos = 0;
-		Debug.Log("reset combo");
 	}
 
 	IEnumerator triggerEnable()
 	{
-		Debug.Log("enter co routing");
 		weaponCol.active(true);
-		Debug.Log(swordAni.animator.GetCurrentAnimatorStateInfo(meleeHash).length);
 		yield return new WaitForSeconds(swordAni.animator.GetCurrentAnimatorStateInfo(meleeHash).length);
 		weaponCol.active(false);
+	}
+
+	[Command]
+	public void CmdHit(GameObject obj)
+	{
+		obj.GetComponent<PlayerStats> ().Damage (damage);
 	}
 }

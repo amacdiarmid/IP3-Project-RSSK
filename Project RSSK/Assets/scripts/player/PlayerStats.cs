@@ -14,6 +14,8 @@ public class PlayerStats : NetworkBehaviour
 	{
 		playerAudio = GetComponent<PlayerAudioController>();
 		text = ((GameManager)NetworkManager.singleton).canvas.transform.Find("Health").GetComponent<Text>();
+		if (isLocalPlayer)
+			text.text = "Health: " + maxHealth;
 	}
 
 	void Update()
@@ -36,7 +38,8 @@ public class PlayerStats : NetworkBehaviour
 	void HealthChanged(int newHealth)
 	{
 		maxHealth = newHealth;
-		text.text = "Health: " + maxHealth;
+		if(isLocalPlayer)
+			text.text = "Health: " + maxHealth;
 		if (maxHealth <= 0)
 			playerAudio.dead();
 		else
