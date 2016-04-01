@@ -19,7 +19,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: c53e6d770ab72d64cb8b934175407147, type: 3}
+          m_Texture: {fileID: 2800000, guid: 640a66a6c0d7e9a43950f36dd7dc9094, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -78,6 +78,41 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _diffuse
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _normal
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _spec
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _cubemap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _RGBMASK
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -90,7 +125,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: 0.5
       data:
         first:
           name: _Metallic
@@ -98,7 +133,7 @@ Material:
       data:
         first:
           name: _Parallax
-        second: .0199999996
+        second: 0.02
       data:
         first:
           name: _ZWrite
@@ -106,7 +141,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -127,6 +162,34 @@ Material:
         first:
           name: _Mode
         second: 0
+      data:
+        first:
+          name: _spec_intens
+        second: 3.247863
+      data:
+        first:
+          name: _gloss_slider
+        second: 0.8606071
+      data:
+        first:
+          name: _cubemap_control
+        second: 0.8333355
+      data:
+        first:
+          name: _sss_str
+        second: 1
+      data:
+        first:
+          name: _sss_coverage
+        second: 0.3655484
+      data:
+        first:
+          name: _R_CM_Str
+        second: 0
+      data:
+        first:
+          name: _B_CM_Str
+        second: 0
     m_Colors:
       data:
         first:
@@ -136,3 +199,15 @@ Material:
         first:
           name: _Color
         second: {r: 1, g: 1, b: 1, a: 1}
+      data:
+        first:
+          name: _spec_color
+        second: {r: 0.6029412, g: 0.5946248, b: 0.5275735, a: 1}
+      data:
+        first:
+          name: _diffuse_color
+        second: {r: 0, g: 0, b: 0, a: 1}
+      data:
+        first:
+          name: _sss_color
+        second: {r: 0.8014706, g: 0, b: 0, a: 1}

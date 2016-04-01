@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: new wall_outer wall_color
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 857f47563d80247cfa79677a8d496230, type: 3}
   m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -89,7 +89,7 @@ Material:
         first:
           name: _normal
         second:
-          m_Texture: {fileID: 2800000, guid: 67bbd371c9eb8624dbe08549aa14fdc1, type: 3}
+          m_Texture: {fileID: 2800000, guid: c5a5f0fd179e0894ab7f6b9e8e59bccd, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -125,7 +125,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: 0.5
       data:
         first:
           name: _Metallic
@@ -133,7 +133,7 @@ Material:
       data:
         first:
           name: _Parallax
-        second: .0199999996
+        second: 0.02
       data:
         first:
           name: _ZWrite
@@ -141,7 +141,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -165,23 +165,23 @@ Material:
       data:
         first:
           name: _spec_intens
-        second: 3.24786305
+        second: 2.18
       data:
         first:
           name: _gloss_slider
-        second: .860607088
+        second: 0.8606071
       data:
         first:
           name: _cubemap_control
-        second: .833335519
+        second: 0.8333355
       data:
         first:
           name: _sss_str
-        second: 1
+        second: 0
       data:
         first:
           name: _sss_coverage
-        second: .365548402
+        second: 1
       data:
         first:
           name: _R_CM_Str
@@ -198,16 +198,16 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 0.31617647, g: 0.31617647, b: 0.31617647, a: 1}
       data:
         first:
           name: _spec_color
-        second: {r: .602941215, g: .594624817, b: .527573526, a: 1}
+        second: {r: 0.7941176, g: 0.7876745, b: 0.73572665, a: 1}
       data:
         first:
           name: _diffuse_color
-        second: {r: .897058785, g: .897058785, b: .897058785, a: 1}
+        second: {r: 0.8970588, g: 0.8970588, b: 0.8970588, a: 1}
       data:
         first:
           name: _sss_color
-        second: {r: .801470578, g: 0, b: 0, a: 1}
+        second: {r: 0.8014706, g: 0, b: 0, a: 1}

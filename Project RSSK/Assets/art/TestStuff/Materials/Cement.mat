@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Cement
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Shader: {fileID: 4800000, guid: 857f47563d80247cfa79677a8d496230, type: 3}
   m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -125,7 +125,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: 0.5
       data:
         first:
           name: _Metallic
@@ -133,7 +133,7 @@ Material:
       data:
         first:
           name: _Parallax
-        second: .0199999996
+        second: 0.02
       data:
         first:
           name: _ZWrite
@@ -141,7 +141,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -165,11 +165,11 @@ Material:
       data:
         first:
           name: _spec_intens
-        second: 3.24786305
+        second: 3.247863
       data:
         first:
           name: _gloss_slider
-        second: .860607088
+        second: 0.8606071
       data:
         first:
           name: _cubemap_control
@@ -198,16 +198,16 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .752941191, g: .749019623, b: .733333349, a: 1}
+        second: {r: 0.5514706, g: 0.5514706, b: 0.5514706, a: 1}
       data:
         first:
           name: _spec_color
-        second: {r: .602941215, g: .594624817, b: .527573526, a: 1}
+        second: {r: 0.6029412, g: 0.5946248, b: 0.5275735, a: 1}
       data:
         first:
           name: _diffuse_color
-        second: {r: .897058785, g: .897058785, b: .897058785, a: 1}
+        second: {r: 0.8970588, g: 0.8970588, b: 0.8970588, a: 1}
       data:
         first:
           name: _sss_color
-        second: {r: .801470578, g: 0, b: 0, a: 1}
+        second: {r: 0.8014706, g: 0, b: 0, a: 1}

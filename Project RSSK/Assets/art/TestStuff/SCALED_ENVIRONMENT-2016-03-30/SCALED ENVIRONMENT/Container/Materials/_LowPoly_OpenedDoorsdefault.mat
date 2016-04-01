@@ -132,7 +132,7 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: 0.5
       data:
         first:
           name: _Metallic
@@ -140,7 +140,7 @@ Material:
       data:
         first:
           name: _Parallax
-        second: .0199999996
+        second: 0.02
       data:
         first:
           name: _ZWrite
@@ -148,7 +148,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -172,11 +172,11 @@ Material:
       data:
         first:
           name: _spec_intens
-        second: 3.24786305
+        second: 0
       data:
         first:
           name: _gloss_slider
-        second: .860607088
+        second: 0
       data:
         first:
           name: _cubemap_control
@@ -205,11 +205,11 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: .588, g: .588, b: .588, a: 1}
+        second: {r: 0.588, g: 0.588, b: 0.588, a: 1}
       data:
         first:
           name: _SpecColor
-        second: {r: .200000003, g: .200000003, b: .200000003, a: 1}
+        second: {r: 0.2, g: 0.2, b: 0.2, a: 1}
       data:
         first:
           name: _spec_color
@@ -217,8 +217,8 @@ Material:
       data:
         first:
           name: _diffuse_color
-        second: {r: .897058785, g: .897058785, b: .897058785, a: 1}
+        second: {r: 0.31617647, g: 0.31617647, b: 0.31617647, a: 1}
       data:
         first:
           name: _sss_color
-        second: {r: .801470578, g: 0, b: 0, a: 1}
+        second: {r: 0.8014706, g: 0, b: 0, a: 1}
