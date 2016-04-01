@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine.Networking.NetworkSystem;
+using UnityEngine.UI;
 
 public class GameManager : NetworkManager
 {
@@ -15,12 +16,11 @@ public class GameManager : NetworkManager
     [HideInInspector]
     public string localPlayerName = "";
 
-    bool pickedTeam = true;
-    bool canPickT1 = false;
-    bool canPickT2 = false;
-    bool drawMenu = false;
+    public GameObject canvas;
+    public Button yellowBtn, blueBtn;
     string status = "";
     byte pickCharacter = 6;
+	byte pickedTeam = 0;
     string timeoutText;
     #endregion
 
@@ -47,38 +47,18 @@ public class GameManager : NetworkManager
     short playerIdsGen = 0;
     #endregion
 
-    void OnGUI()
-    {
-        float y = 0;
-        Vector2 size = GUI.skin.box.CalcSize(new GUIContent(status));
-        GUI.Box(new Rect(Screen.width / 2 - size.x / 2, y, size.x, size.y), status);
-        y += size.y;
+	void Update()
+	{
+		if (Input.GetKeyDown (KeyCode.Escape)) 
+		{
+			Cursor.visible = !Cursor.visible;
+			Cursor.lockState = Cursor.visible ? CursorLockMode.None : CursorLockMode.Locked;
 
-        size = GUI.skin.box.CalcSize(new GUIContent(timeoutText));
-        GUI.Box(new Rect((Screen.width - size.x) / 2, y, size.x, size.y), timeoutText);
-        y += size.y;
-
-        if (drawMenu)
-        {
-            float indWidth = 75;
-            if(pickCharacter == 6)
-            {
-                for (int i = 0; i < 6; i++)
-                    if (GUI.Button(new Rect(Screen.width / 2 - indWidth * 3 + indWidth * i, y, indWidth, 25), characters[i].name))
-                        pickCharacter = (byte)i;
-                y += 25;
-            }
-            
-            if ((pickCharacter != 6) && !pickedTeam)
-            {
-                if (canPickT1 && GUI.Button(new Rect(Screen.width / 2 - 75, y, 75, 25), "Team Yellow"))
-                    PickedTeam(PlayerTeam.TeamYellow);
-                if (canPickT2 && GUI.Button(new Rect(Screen.width / 2, y, 75, 25), "Team Blue"))
-                    PickedTeam(PlayerTeam.TeamBlue);
-                y += 25;
-            }
-        }
-    }
+			Transform status = canvas.transform.Find("GameStatus");
+			foreach(Transform child in status)
+				child.gameObject.SetActive(!child.gameObject.activeSelf);
+		}
+	}
 
     public override void OnStartServer()
     {
@@ -99,14 +79,13 @@ public class GameManager : NetworkManager
         conn.RegisterHandler((short)MsgTypes.RoundStart, StartRoundTimer);
 
         Debug.Log("Client Connected " + localPlayerName);
-        pickedTeam = false;
         clManager.enabled = false;
 
         StringMessage msg = new StringMessage();
         msg.value = localPlayerName;
 
-        drawMenu = true;
         ClientScene.AddPlayer(conn, 0, msg);
+        canvas.SetActive(true);
     }
 
     public override void OnServerDisconnect(NetworkConnection conn)
@@ -177,7 +156,6 @@ public class GameManager : NetworkManager
             return transform.position;
 
         string spawnTag = team == attackingTeam ? "SpawnAttack" : "SpawnDefend";
-        Debug.Log("For " + team + " got " + spawnTag);
         List<Transform> spawns = startPositions.FindAll(x => x.tag == spawnTag);
         int spawnToUse = oldSpawns[(int)team - 1] + 1;
         if (spawnToUse == spawns.Count)
@@ -234,35 +212,64 @@ public class GameManager : NetworkManager
         {
             status += msg.playerNames[i] + " - " + (PlayerTeam)msg.playerTeams[i] + " (" + msg.playerLives[i] + ")\n";
 
-            if ((PlayerTeam)msg.playerTeams[i] != PlayerTeam.NotPicked)
+			//count only players which picked a team and not us (so that we don't our current choice doesn't let pick a team in case it's a N-N case)
+			if ((PlayerTeam)msg.playerTeams[i] != PlayerTeam.NotPicked && !msg.playerNames[i].Equals(localPlayerName))
                 teams[msg.playerTeams[i] - 1]++;
         }
-        canPickT1 = teams[0] <= teams[1];
-        canPickT2 = teams[0] >= teams[1];
+        yellowBtn.interactable = teams[0] <= teams[1];
+        blueBtn.interactable = teams[0] >= teams[1];
+
+		Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
+		text.text = status + timeoutText;
     }
 
-    void PickedTeam(PlayerTeam team)
+    public void PickedCharacter(int character)
     {
-        pickedTeam = true;
+        pickCharacter = (byte)character;
+        canvas.transform.Find("GameStatus/TeamHolder").gameObject.SetActive(true);
+
+		if (pickedTeam != 0)
+			PickedTeam (pickedTeam);
+    }
+
+    public void PickedTeam(int team)
+    {
         PickedTeamMsg msg = new PickedTeamMsg();
         msg.playerId = PlayerController.localInstance.id;
         msg.character = pickCharacter;
-        msg.team = (byte)team;
+		msg.team = pickedTeam = (byte)team;
         client.Send(PickedTeamMsg.type, msg);
+        Transform status = canvas.transform.Find("GameStatus");
+        foreach(Transform child in status)
+            child.gameObject.SetActive(false);
     }
 
     void StartPrepTimer(NetworkMessage netMsg)
     {
         IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
         int secs = msg.value;
-        timeoutText = string.Format("Prep Left: {0}s", secs);
+        timeoutText = string.Format("\nPrep Left: {0}s", secs);
+		if (PlayerController.localInstance)
+			PlayerController.localInstance.SetGameInfo (status + timeoutText);
+		else 
+		{
+			Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
+			text.text = status + timeoutText;
+		}
     }
 
     void StartRoundTimer(NetworkMessage netMsg)
     {
         IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
         int secs = msg.value;
-        timeoutText = string.Format("Time Left: {0}s", secs);
+        timeoutText = string.Format("\nTime Left: {0}s", secs);
+		if (PlayerController.localInstance)
+			PlayerController.localInstance.SetGameInfo (status + timeoutText);
+		else 
+		{
+			Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
+			text.text = status + timeoutText;
+		}
     }
 
     #region GameModeProgression

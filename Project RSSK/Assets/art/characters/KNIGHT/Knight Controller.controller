@@ -92,6 +92,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
+  - m_Name: wall direction
+    m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: MovementLayer
@@ -108,7 +114,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: MeleeLayer
     m_StateMachine: {fileID: 110789848}
-    m_Mask: {fileID: 0}
+    m_Mask: {fileID: 101100000, guid: 13f79622fa7e31b41b15db9ea2c6eaba, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 1
@@ -120,7 +126,7 @@ AnimatorController:
   - serializedVersion: 5
     m_Name: GunLayer
     m_StateMachine: {fileID: 110771700}
-    m_Mask: {fileID: 0}
+    m_Mask: {fileID: 101100000, guid: 13f79622fa7e31b41b15db9ea2c6eaba, type: 2}
     m_Motions: []
     m_Behaviours: []
     m_BlendingMode: 1
@@ -236,7 +242,7 @@ BlendTree:
     m_CycleOffset: 0.5
     m_DirectBlendParameter: wallrun side
     m_Mirror: 1
-  m_BlendParameter: side direction
+  m_BlendParameter: wall direction
   m_BlendParameterY: Blend
   m_MinThreshold: -1
   m_MaxThreshold: 1
@@ -350,7 +356,7 @@ BlendTree:
     m_CycleOffset: 0.5
     m_DirectBlendParameter: wallrun side
     m_Mirror: 1
-  m_BlendParameter: side direction
+  m_BlendParameter: wall direction
   m_BlendParameterY: wallrun side
   m_MinThreshold: -1
   m_MaxThreshold: 1
@@ -410,7 +416,7 @@ BlendTree:
     m_CycleOffset: 0.5
     m_DirectBlendParameter: wallrun side
     m_Mirror: 1
-  m_BlendParameter: side direction
+  m_BlendParameter: wall direction
   m_BlendParameterY: wallrun side
   m_MinThreshold: -1
   m_MaxThreshold: 1
@@ -1818,7 +1824,7 @@ AnimatorState:
   m_SpeedParameterActive: 0
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400008, guid: be0f0fb8dcc98a9418f24aba61096833, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
