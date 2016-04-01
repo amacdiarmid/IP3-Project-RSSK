@@ -650,7 +650,8 @@ ModelImporter:
     animationPositionError: 0.5
     animationScaleError: 0.5
     animationWrapMode: 0
-    extraExposedTransformPaths: []
+    extraExposedTransformPaths:
+    - all_animations_dog1:dog/all_animations_dog1:Original_Animation_Hips
     clipAnimations:
     - serializedVersion: 16
       name: dog idle
@@ -7536,7 +7537,7 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    normalImportMode: 0
+    normalImportMode: 1
     tangentImportMode: 3
   importAnimation: 1
   copyAvatar: 0
