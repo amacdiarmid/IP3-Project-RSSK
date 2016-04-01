@@ -18,6 +18,8 @@ public class PlayerCamera : NetworkBehaviour
 	// Use this for initialization
 	void Start()
 	{
+		if (!isLocalPlayer)
+			return;
 		playerTran = this.transform;
 		playerCam = transform.FindChild("camera");
 
@@ -28,9 +30,10 @@ public class PlayerCamera : NetworkBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		if (isLocalPlayer)
-			rotateCamera();
-
+		if (!isLocalPlayer)
+			return;
+			
+		rotateCamera();
 		lockMouse();
 		checkAim();
 	}
@@ -39,8 +42,6 @@ public class PlayerCamera : NetworkBehaviour
 	{
 		playerTran.Rotate(new Vector3(0, Input.GetAxis("Mouse X") * camSensativity, 0), Space.World);
 		float delta = Input.GetAxis("Mouse Y") * camSensativity;
-
-		Debug.Log((playerCam.rotation.eulerAngles.x + delta));
 
 		if (playerCam.rotation.eulerAngles.x - delta > lookUpLim || playerCam.rotation.eulerAngles.x - delta < lookDownLim)
 			playerCam.Rotate(new Vector3(-delta, 0, 0));

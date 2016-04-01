@@ -18,9 +18,9 @@ public class GameManager : NetworkManager
 
     public GameObject canvas;
     public Button yellowBtn, blueBtn;
-    bool drawMenu = false;
     string status = "";
     byte pickCharacter = 6;
+	byte pickedTeam = 0;
     string timeoutText;
     #endregion
 
@@ -47,6 +47,19 @@ public class GameManager : NetworkManager
     short playerIdsGen = 0;
     #endregion
 
+	void Update()
+	{
+		if (Input.GetKeyDown (KeyCode.Escape)) 
+		{
+			Cursor.visible = !Cursor.visible;
+			Cursor.lockState = Cursor.visible ? CursorLockMode.None : CursorLockMode.Locked;
+
+			Transform status = canvas.transform.Find("GameStatus");
+			foreach(Transform child in status)
+				child.gameObject.SetActive(!child.gameObject.activeSelf);
+		}
+	}
+
     public override void OnStartServer()
     {
         base.OnStartServer();
@@ -71,7 +84,6 @@ public class GameManager : NetworkManager
         StringMessage msg = new StringMessage();
         msg.value = localPlayerName;
 
-        drawMenu = true;
         ClientScene.AddPlayer(conn, 0, msg);
         canvas.SetActive(true);
     }
@@ -200,10 +212,10 @@ public class GameManager : NetworkManager
         {
             status += msg.playerNames[i] + " - " + (PlayerTeam)msg.playerTeams[i] + " (" + msg.playerLives[i] + ")\n";
 
-            if ((PlayerTeam)msg.playerTeams[i] != PlayerTeam.NotPicked)
+			//count only players which picked a team and not us (so that we don't our current choice doesn't let pick a team in case it's a N-N case)
+			if ((PlayerTeam)msg.playerTeams[i] != PlayerTeam.NotPicked && !msg.playerNames[i].Equals(localPlayerName))
                 teams[msg.playerTeams[i] - 1]++;
         }
-		Debug.Log (teams[0] + " vs " + teams[1]);
         yellowBtn.interactable = teams[0] <= teams[1];
         blueBtn.interactable = teams[0] >= teams[1];
 
@@ -215,15 +227,17 @@ public class GameManager : NetworkManager
     {
         pickCharacter = (byte)character;
         canvas.transform.Find("GameStatus/TeamHolder").gameObject.SetActive(true);
+
+		if (pickedTeam != 0)
+			PickedTeam (pickedTeam);
     }
 
     public void PickedTeam(int team)
     {
-        drawMenu = false;
         PickedTeamMsg msg = new PickedTeamMsg();
         msg.playerId = PlayerController.localInstance.id;
         msg.character = pickCharacter;
-        msg.team = (byte)team;
+		msg.team = pickedTeam = (byte)team;
         client.Send(PickedTeamMsg.type, msg);
         Transform status = canvas.transform.Find("GameStatus");
         foreach(Transform child in status)
