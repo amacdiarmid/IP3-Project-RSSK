@@ -160,14 +160,20 @@ public class PlayerController : NetworkBehaviour
 			if (Input.GetButton("Sprint"))
 			{
 				playerAni.animator.SetFloat("speed", 3);
+				if (playerCam.getCamFor() != camPos.sprint)
+					playerCam.changeSide(camPos.sprint);
 			}
 			else if (Input.GetButton("Walk"))
 			{
 				playerAni.animator.SetFloat("speed", 1);
+				if (playerCam.getCamFor() != camPos.run)
+					playerCam.changeSide(camPos.run);
 			}
 			else
 			{
 				playerAni.animator.SetFloat("speed", 2);
+				if(playerCam.getCamFor() != camPos.run)
+					playerCam.changeSide(camPos.run);
 			}
 		}
 		else

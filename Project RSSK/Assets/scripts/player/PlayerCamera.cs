@@ -2,6 +2,15 @@
 using UnityEngine.Networking;
 using System.Collections;
 
+public enum camPos
+{
+	left, 
+	right, 
+	sprint, 
+	run,
+}
+
+
 public class PlayerCamera : NetworkBehaviour
 {
 	private Transform playerTran;
@@ -15,6 +24,17 @@ public class PlayerCamera : NetworkBehaviour
 	public float defaultFOV = 60;
 	public float aimFOV = 30;
 
+	private Vector3 startingPos;
+	public float sprintPos;
+	private Vector3 newPos;
+	public float speed = 1;
+	private float startTime;
+	private float journeyLength;
+	private camPos curCamSide;
+	private camPos curCamFor;
+
+	private bool move;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -22,6 +42,11 @@ public class PlayerCamera : NetworkBehaviour
 			return;
 		playerTran = this.transform;
 		playerCam = transform.FindChild("camera");
+
+		curCamSide = camPos.right;
+		curCamFor = camPos.run;
+		move = false;
+		startingPos = playerCam.localPosition;
 
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
@@ -35,7 +60,9 @@ public class PlayerCamera : NetworkBehaviour
 			
 		rotateCamera();
 		lockMouse();
-		checkAim();
+		checkInput();
+		if (move)
+			moveCam();
 	}
 
 	void rotateCamera()
@@ -65,7 +92,7 @@ public class PlayerCamera : NetworkBehaviour
 		}
 	}
 
-	void checkAim()
+	void checkInput()
 	{
 		if (Input.GetButtonDown("Aim"))
 		{
@@ -75,6 +102,62 @@ public class PlayerCamera : NetworkBehaviour
 		{
 			Camera.main.fieldOfView = defaultFOV;
 		}
+
+
+		if (Input.GetButtonDown("ChangeCam"))
+		{
+			if (curCamSide == camPos.right)
+				changeSide(camPos.left);
+			else
+				changeSide(camPos.right);
+
+		}
+	}
+
+	public void changeSide(camPos pos)
+	{
+		move = true;
+		Vector3 curPos = playerCam.transform.localPosition;
+		startTime = Time.time;
+		switch (pos)
+		{
+			case camPos.left:
+				newPos = new Vector3(-startingPos.x, startingPos.y, curPos.z);
+				curCamSide = camPos.left;
+				break;
+			case camPos.right:
+				newPos = new Vector3(startingPos.x, startingPos.y, curPos.z);
+				curCamSide = camPos.right;
+				break;
+			case camPos.sprint:
+				newPos = new Vector3(startingPos.x, curPos.y, sprintPos);
+				curCamFor = camPos.sprint;
+				break;
+			case camPos.run:
+				newPos = new Vector3(startingPos.x, curPos.y, startingPos.z);
+				curCamFor = camPos.run;
+				break;
+			default:
+				break;
+		}
+		journeyLength = Vector3.Distance(curPos, newPos);
+	}
+
+	void moveCam()
+	{
+		float distCovered = (Time.time - startTime) * speed;
+		float fracJourney = distCovered / journeyLength;
+		playerCam.localPosition = Vector3.Lerp(playerCam.transform.localPosition, newPos, fracJourney);
+		Debug.Log(fracJourney);
+		if (fracJourney > 1)
+		{
+			move = false;
+		}
+	}
+
+	public camPos getCamFor()
+	{
+		return curCamFor;
 	}
 }
 
