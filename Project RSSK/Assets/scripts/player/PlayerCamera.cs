@@ -159,5 +159,10 @@ public class PlayerCamera : NetworkBehaviour
 	{
 		return curCamFor;
 	}
+
+	public camPos getCamSide()
+	{
+		return curCamSide;
+	}
 }
 

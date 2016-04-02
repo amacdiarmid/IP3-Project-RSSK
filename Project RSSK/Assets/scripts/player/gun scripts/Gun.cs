@@ -26,6 +26,9 @@ public class Gun : NetworkBehaviour
 	public float maxSpread = 3;
 	public float spreadAdv = 0.2f;
 	public float spreadDep = 0.1f;
+	public float aimMuli = 0.5f;
+	public float sprintMuli = 2;
+
 
 	//public GameObject projectile;
 
@@ -67,20 +70,25 @@ public class Gun : NetworkBehaviour
 			float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal);
 			float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal);
 
-			RaycastHit hit;
+			RaycastHit[] hits;
 			Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
-			if (Physics.Raycast(ray, out hit))
+			hits = Physics.RaycastAll(ray);
+			foreach (var hit in hits)
 			{
-				//gun to target ray
-				Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
-				GameObject trail = Instantiate(bulletTrail);
-				trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, hit.point);
-				//screen to target ray
-				Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
-				if (hit.collider.tag == "Player")
-					CmdHit (hit.transform.gameObject, damage);
+				if (hit.transform != this.transform)
+				{
+					//gun to target ray
+					Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
+					GameObject trail = Instantiate(bulletTrail);
+					trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, hit.point);
+					//screen to target ray
+					Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
+					if (hit.collider.tag == "Player")
+						CmdHit(hit.transform.gameObject, damage);
+					break;
+				}
 			}
-			else
+			if (hits.Length == 0)
 			{
 				Debug.Log("no hit");
 				//gun to target ray
@@ -95,10 +103,19 @@ public class Gun : NetworkBehaviour
 			gunAni.SetTrigger("fire");
 
 			//add spread to the next shot 
-			gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, maxSpread);
+
+			float curMaxSpread = maxSpread;
+			if (Input.GetButton("Aim"))
+				curMaxSpread = curMaxSpread * aimMuli;
+			if (Input.GetButton("Sprint"))
+				curMaxSpread = curMaxSpread * sprintMuli;
+
+
+			gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, curMaxSpread);
 		}
 		else
 		{
+			if(!reloading)
 			audioSource.PlayOneShot(outOfAmmoAudio);
 		}
 	}
