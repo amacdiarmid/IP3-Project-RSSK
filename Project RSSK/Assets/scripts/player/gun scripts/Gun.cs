@@ -104,6 +104,7 @@ public class Gun : NetworkBehaviour
 		}
 		else
 		{
+			if(!reloading)
 			audioSource.PlayOneShot(outOfAmmoAudio);
 		}
 	}
