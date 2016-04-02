@@ -26,6 +26,9 @@ public class Gun : NetworkBehaviour
 	public float maxSpread = 3;
 	public float spreadAdv = 0.2f;
 	public float spreadDep = 0.1f;
+	public float aimMuli = 0.5f;
+	public float sprintMuli = 2;
+
 
 	//public GameObject projectile;
 
@@ -100,7 +103,15 @@ public class Gun : NetworkBehaviour
 			gunAni.SetTrigger("fire");
 
 			//add spread to the next shot 
-			gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, maxSpread);
+
+			float curMaxSpread = maxSpread;
+			if (Input.GetButton("Aim"))
+				curMaxSpread = curMaxSpread * aimMuli;
+			if (Input.GetButton("Sprint"))
+				curMaxSpread = curMaxSpread * sprintMuli;
+
+
+			gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, curMaxSpread);
 		}
 		else
 		{
