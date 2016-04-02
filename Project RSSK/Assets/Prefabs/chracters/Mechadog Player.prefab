@@ -285,7 +285,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176964}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 25, z: 10}
+  m_LocalPosition: {x: 369.3569, y: 32.82, z: -242.43245}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 484534}
@@ -347,7 +347,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 169594}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.756, y: 0.8, z: -0.771}
+  m_LocalPosition: {x: 0.78, y: 0.743, z: -1.628}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451378}
@@ -782,7 +782,7 @@ MonoBehaviour:
   lookDownLim: 285
   defaultFOV: 60
   aimFOV: 30
-  sprintPos: -1.771
+  sprintPos: -2.11
   speed: 1
 --- !u!114 &11440238
 MonoBehaviour:
@@ -813,8 +813,8 @@ MonoBehaviour:
   maxAmmo: 30
   spareAmmo: 900
   rateOfFire: 0.1
-  damage: 50
-  reloadSpeed: 5
+  damage: 2
+  reloadSpeed: 2
   maxSpread: 3
   spreadAdv: 0.2
   spreadDep: 0.1

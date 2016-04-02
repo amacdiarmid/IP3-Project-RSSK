@@ -1036,7 +1036,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 102532}
   m_LocalRotation: {x: -0.006332633, y: 0.002048701, z: 0.00007183618, w: 0.9999779}
-  m_LocalPosition: {x: 0.3, y: 0.5, z: -0.9}
+  m_LocalPosition: {x: 0.51, y: 0.607, z: -1.658}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 426518}
@@ -1228,7 +1228,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 113986}
-  m_LocalRotation: {x: -0.7349946, y: -0.13765082, z: 0.059590843, w: 0.6612746}
+  m_LocalRotation: {x: -0.73499465, y: -0.13765083, z: 0.059590835, w: 0.6612747}
   m_LocalPosition: {x: 0.00036652316, y: 0.013107791, z: 0.04963219}
   m_LocalScale: {x: 0.05881505, y: 0.05881506, z: 0.058815062}
   m_Children: []
@@ -1267,7 +1267,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 160840}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 25, z: 10}
+  m_LocalPosition: {x: 367.42343, y: 32.767, z: -241.82648}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400086}
@@ -2420,7 +2420,7 @@ MonoBehaviour:
   team: 0
   id: -1
   controllable: 0
-  jumpHeight: 8
+  jumpHeight: 9
   runSpeed: 8.5
   sprintSpeed: 11.5
   airStrafe: 6
@@ -2511,7 +2511,7 @@ MonoBehaviour:
   lookDownLim: 285
   defaultFOV: 60
   aimFOV: 30
-  sprintPos: -1.9
+  sprintPos: -2.09
   speed: 1
 --- !u!114 &11462220
 MonoBehaviour:
