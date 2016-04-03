@@ -14,6 +14,7 @@ public class Gun : NetworkBehaviour
 	protected float gunSreadVal = 0;
 	public Transform barrel;
 	public GameObject bulletTrail;
+	protected PlayerCamera playCam;
 
 	public bool primWeap;
 	public float range = 100;
@@ -43,6 +44,7 @@ public class Gun : NetworkBehaviour
 	{
 		curAmmo = maxAmmo;
 		gunAni = GetComponent<NetworkAnimator>();
+		playCam = this.GetComponent<PlayerCamera>();
 		if (gunAni == null)
 			Debug.LogError ("Setup: Failed to find NetworkAnimator");
 	}
@@ -67,8 +69,9 @@ public class Gun : NetworkBehaviour
 
 			--curAmmo;
 
-			float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal);
-			float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal);
+			//set the center of the screen, add the gun spread cone, apply the screen spread offset to keep it central 
+			float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().x;
+			float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().y;
 
 			RaycastHit[] hits;
 			Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));

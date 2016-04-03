@@ -24,6 +24,19 @@ public class PlayerCamera : NetworkBehaviour
 	public float defaultFOV = 60;
 	public float aimFOV = 30;
 
+	public float shakeSpeed = 0.25f;
+	public float distanceClamp = 0.5f;
+	public float sprintSpeedMult = 3;
+	public float sprintClampMult = 1;
+	public float aimSpeedMult = 0.5f;
+	public float aimClampMult = 0.5f;
+	public bool camShake = true;
+	private Vector2 shakeVals = new Vector2(0, 0);
+	private float PerlinTime = 0;
+	private float curDamageShake = 0;
+	public float damageShaceVal = 3;
+	public float damageShakeDep = 1;
+
 	private Vector3 startingPos;
 	public float sprintPos;
 	private Vector3 newPos;
@@ -63,6 +76,9 @@ public class PlayerCamera : NetworkBehaviour
 		checkInput();
 		if (move)
 			moveCam();
+		else if (camShake)
+			shakeCam();
+
 	}
 
 	void rotateCamera()
@@ -117,24 +133,25 @@ public class PlayerCamera : NetworkBehaviour
 	public void changeSide(camPos pos)
 	{
 		move = true;
+		PerlinTime = 0;
 		Vector3 curPos = playerCam.transform.localPosition;
 		startTime = Time.time;
 		switch (pos)
 		{
 			case camPos.left:
-				newPos = new Vector3(-startingPos.x, startingPos.y, curPos.z);
+				newPos = new Vector3(-startingPos.x, curPos.y, curPos.z);
 				curCamSide = camPos.left;
 				break;
 			case camPos.right:
-				newPos = new Vector3(startingPos.x, startingPos.y, curPos.z);
+				newPos = new Vector3(startingPos.x, curPos.y, curPos.z);
 				curCamSide = camPos.right;
 				break;
 			case camPos.sprint:
-				newPos = new Vector3(startingPos.x, curPos.y, sprintPos);
+				newPos = new Vector3(curPos.x, curPos.y, sprintPos);
 				curCamFor = camPos.sprint;
 				break;
 			case camPos.run:
-				newPos = new Vector3(startingPos.x, curPos.y, startingPos.z);
+				newPos = new Vector3(curPos.x, curPos.y, startingPos.z);
 				curCamFor = camPos.run;
 				break;
 			default:
@@ -149,7 +166,7 @@ public class PlayerCamera : NetworkBehaviour
 		float fracJourney = distCovered / journeyLength;
 		playerCam.localPosition = Vector3.Lerp(playerCam.transform.localPosition, newPos, fracJourney);
 		Debug.Log(fracJourney);
-		if (fracJourney > 1)
+		if (fracJourney >= 0.2f)
 		{
 			move = false;
 		}
@@ -163,6 +180,69 @@ public class PlayerCamera : NetworkBehaviour
 	public camPos getCamSide()
 	{
 		return curCamSide;
+	}
+
+	public Vector3 getCamPos()
+	{
+		Vector3 pos = startingPos;
+
+		if(curCamFor == camPos.sprint)
+			pos = new Vector3(pos.x, pos.y, sprintPos);
+		if(curCamSide == camPos.left)
+			pos = new Vector3(-pos.x, pos.y, pos.z);
+		return pos;
+	}
+
+	public void shakeCam()
+	{
+		float curClamp = distanceClamp;
+		float curSpeed = shakeSpeed + curDamageShake;
+
+		if (Input.GetButton("Aim"))
+		{
+			curClamp = curClamp * aimClampMult;
+			curSpeed = curSpeed * aimSpeedMult;
+		}
+		if (Input.GetButton("Sprint"))
+		{
+			curClamp = curClamp * sprintClampMult;
+			curSpeed = curSpeed * sprintSpeedMult;
+		}
+
+
+		shakeVals.x = curClamp * (Mathf.PerlinNoise(PerlinTime * curSpeed, 0.0f) * 2 - 1);
+		shakeVals.y = curClamp * (Mathf.PerlinNoise(0.0f, PerlinTime * curSpeed) * 2 - 1);
+		Debug.Log("shake " + shakeVals);
+		PerlinTime = PerlinTime + Time.deltaTime;
+
+		Vector3 pos = startingPos;
+
+		if (curCamFor == camPos.sprint)
+			pos.z = sprintPos;
+		if (curCamSide == camPos.left)
+			pos.x = -pos.x;
+
+		playerCam.transform.localPosition = pos + (Vector3)shakeVals;
+
+		if (curDamageShake != 0)
+			depShakeSpeed();
+	}
+
+	public Vector2 getShakeVals()
+	{
+		return shakeVals;
+	}
+
+	public void damShake()
+	{
+		curDamageShake = damageShaceVal;
+	}
+
+	void depShakeSpeed()
+	{
+		curDamageShake = curDamageShake - (damageShakeDep * Time.deltaTime);
+		if (curDamageShake < 0)
+			curDamageShake = 0;
 	}
 }
 
