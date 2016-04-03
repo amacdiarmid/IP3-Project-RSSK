@@ -190,6 +190,8 @@ public class PlayerController : NetworkBehaviour
 		else
 		{
 			playerAni.animator.SetFloat("speed", 0);
+			if (playerCam.getCamFor() != camPos.run)
+				playerCam.changeSide(camPos.run);
 		}
 	}
 
