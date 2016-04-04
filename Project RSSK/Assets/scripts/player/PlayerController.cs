@@ -22,14 +22,6 @@ public enum PlayerTeam : byte
 	TeamBlue
 }
 
-public static class Utils
-{
-	public static PlayerTeam Enemy(this PlayerTeam team)
-	{
-		return team == PlayerTeam.TeamYellow ? PlayerTeam.TeamBlue : PlayerTeam.TeamYellow;
-	}
-}
-
 enum animationBools
 {
 	movement, 
@@ -37,7 +29,6 @@ enum animationBools
 	jump,
 	wallrun,
 }
-
 
 public class PlayerController : NetworkBehaviour
 {
