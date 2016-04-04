@@ -16,7 +16,13 @@ public class PlayerHUD : MonoBehaviour {
 	private Vector2 startCrosshairSize;
 
 	private int maxHP;
-	
+
+	private Color startDamageColour;
+	private Color damageColour;
+	private float damageTime;
+
+	private Color StartCrosshailColour;
+
 	public void Spawn(GameObject player)
 	{
 		playerStats = player.GetComponent<PlayerStats>();
@@ -43,11 +49,19 @@ public class PlayerHUD : MonoBehaviour {
 
 		startCrosshairSize = HUDComps.CrosshairImg.rectTransform.sizeDelta;
 
+		startDamageColour = HUDComps.DamageImg.color;
+		damageColour = startDamageColour;
+		damageTime = 0;
+
+		StartCrosshailColour = HUDComps.CrosshairImg.color;
 	}
 
 	// Update is called once per frame
 	void Update ()
 	{
+		if (!playerStats)
+			return;
+
 		HUDComps.HPText.text = playerStats.maxHealth + "/" + maxHP;
 		HUDComps.HPSlider.value = ((float)playerStats.maxHealth / maxHP) * 100;
 
@@ -55,6 +69,24 @@ public class PlayerHUD : MonoBehaviour {
 		{
 			HUDComps.AmmoText.text = playerGun.getCurAmmo() + "/" + playerGun.spareAmmo;
 			HUDComps.CrosshairImg.rectTransform.sizeDelta = new Vector2(startCrosshairSize.x + playerGun.getCurSpread(), startCrosshairSize.y + playerGun.getCurSpread());
+			if (playerGun.playerInRange())
+				HUDComps.CrosshairImg.color = Color.red;
+			else
+				HUDComps.CrosshairImg.color = StartCrosshailColour;
 		}
+
+		damageTime += Time.deltaTime;
+		HUDComps.DamageImg.color = Color.Lerp(damageColour, startDamageColour, damageTime);
+		Debug.Log(HUDComps.DamageImg.color);
+	}
+
+	public void Damaged(float damAmount)
+	{
+		float alpha = damAmount / maxHP;
+		Debug.Log(alpha);
+		damageColour = startDamageColour;
+		damageColour.a = alpha * 2;
+		Debug.Log(damageColour);
+		damageTime = 0;
 	}
 }

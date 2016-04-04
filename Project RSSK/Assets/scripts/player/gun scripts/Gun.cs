@@ -69,6 +69,8 @@ public class Gun : NetworkBehaviour
 
 			--curAmmo;
 
+			bool hasHit = false;
+
 			//set the center of the screen, add the gun spread cone, apply the screen spread offset to keep it central 
 			float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().x;
 			float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().y;
@@ -78,8 +80,10 @@ public class Gun : NetworkBehaviour
 			hits = Physics.RaycastAll(ray);
 			foreach (var hit in hits)
 			{
-				if (hit.transform != this.transform)
+				if (hit.transform != this.transform && Vector3.Distance(ray.origin, hit.point) < range)
 				{
+					hasHit = true;
+					Debug.Log("hit " + Vector3.Distance(ray.origin, hit.point));
 					//gun to target ray
 					Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
 					GameObject trail = Instantiate(bulletTrail);
@@ -91,7 +95,7 @@ public class Gun : NetworkBehaviour
 					break;
 				}
 			}
-			if (hits.Length == 0)
+			if (hits.Length == 0 || hasHit == false)
 			{
 				Debug.Log("no hit");
 				//gun to target ray
@@ -173,5 +177,29 @@ public class Gun : NetworkBehaviour
 	public float getCurSpread()
 	{
 		return gunSreadVal;
+	}
+
+	public bool playerInRange()
+	{
+		//really bad repeated code for the UI
+		
+		float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().x;
+		float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().y;
+
+		RaycastHit[] hits;
+		Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
+		hits = Physics.RaycastAll(ray);
+		foreach (var hit in hits)
+		{
+			if (hit.transform != this.transform && Vector3.Distance(ray.origin, hit.point) < range)
+			{
+				//gun to target ray
+				//Debug.DrawLine(ray.origin, hit.point, Color.green, 10);
+				if (hit.collider.tag == "Player")
+					return true;
+				return false;
+			}
+		}
+		return false;
 	}
 }

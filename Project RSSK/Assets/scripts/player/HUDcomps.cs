@@ -11,4 +11,6 @@ public class HUDcomps : MonoBehaviour
 	public Image AmmoImage;
 
 	public Image CrosshairImg;
+
+	public Image DamageImg;
 }
