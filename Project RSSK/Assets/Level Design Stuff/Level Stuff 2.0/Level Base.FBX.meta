@@ -1,0 +1,866 @@
+fileFormatVersion: 2
+guid: e8681946b7886424780d2d56628db449
+timeCreated: 1458638016
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: archer
+    100002: bottom_spawn_floor
+    100004: Box526
+    100006: Box660
+    100008: Box661
+    100010: Box665
+    100012: Box672
+    100014: Box673
+    100016: Box680
+    100018: Box686
+    100020: Box687
+    100022: Box688
+    100024: Box689
+    100026: Box698
+    100028: Box743
+    100030: Box744
+    100032: Box745
+    100034: Box746
+    100036: Box747
+    100038: Box748
+    100040: Box749
+    100042: Box750
+    100044: Box751
+    100046: Box754
+    100048: Box758
+    100050: Box759
+    100052: Box760
+    100054: Box761
+    100056: Box762
+    100058: Box763
+    100060: Box764
+    100062: Box765
+    100064: Box766
+    100066: Box767
+    100068: Box768
+    100070: Box769
+    100072: Box770
+    100074: Box771
+    100076: Box772
+    100078: Box778
+    100080: Box780
+    100082: Box781
+    100084: Box782
+    100086: Box783
+    100088: Box784
+    100090: Box785
+    100092: Box788
+    100094: Box789
+    100096: Box790
+    100098: Box791
+    100100: Box793
+    100102: Box794
+    100104: Box795
+    100106: Box796
+    100108: Box797
+    100110: Box798
+    100112: Box799
+    100114: Box800
+    100116: Box801
+    100118: Box802
+    100120: Box803
+    100122: Box804
+    100124: Box805
+    100126: Box806
+    100128: Box807
+    100130: Box808
+    100132: Box809
+    100134: Box810
+    100136: Box811
+    100138: Box812
+    100140: Box813
+    100142: Box814
+    100144: Box815
+    100146: Box816
+    100148: Box817
+    100150: Box818
+    100152: Box819
+    100154: Box821
+    100156: Box822
+    100158: Box823
+    100160: Box835
+    100162: Box836
+    100164: Box837
+    100166: Box838
+    100168: Box845
+    100170: Box846
+    100172: interior_wall_double_width001
+    100174: interior_wall_double_width003
+    100176: interior_wall_double_width011
+    100178: interior_wall_double_width012
+    100180: interior_wall_double_width030
+    100182: interior_wall_double_width031
+    100184: interior_wall_double_width032
+    100186: interior_wall_double_width033
+    100188: interior_wall_double_width034
+    100190: interior_wall_double_width035
+    100192: interior_wall_double_width038
+    100194: interior_wall_double_width039
+    100196: interior_wall_double_width040
+    100198: interior_wall_double_width041
+    100200: interior_wall_double_width042
+    100202: interior_wall_double_width043
+    100204: interior_wall_double_width044
+    100206: interior_wall_double_width045
+    100208: interior_wall_double_width046
+    100210: interior_wall_double_width047
+    100212: interior_wall_double_width049
+    100214: interior_wall_double_width050
+    100216: left_hand_corner_floor
+    100218: //RootNode
+    100220: outer_wall_2
+    100222: roof
+    100224: StraightStair002
+    100226: unwrapped_exterior wall
+    100228: unwrapped_exterior wall001
+    100230: unwrapped_exterior wall002
+    100232: unwrapped_exterior wall003
+    100234: unwrapped_exterior wall004
+    100236: unwrapped_exterior wall005
+    100238: unwrapped_exterior wall006
+    100240: unwrapped_exterior wall007
+    100242: unwrapped_exterior wall008
+    100244: unwrapped_exterior wall009
+    100246: unwrapped_exterior wall010
+    100248: unwrapped_exterior wall011
+    100250: unwrapped_exterior wall012
+    100252: unwrapped_exterior wall013
+    100254: unwrapped_exterior wall014
+    100256: unwrapped_exterior wall015
+    100258: unwrapped_exterior wall016
+    100260: unwrapped_exterior wall017
+    100262: unwrapped_exterior wall018
+    100264: unwrapped_exterior wall019
+    100266: unwrapped_exterior wall020
+    100268: unwrapped_exterior wall021
+    100270: unwrapped_exterior wall022
+    100272: unwrapped_exterior wall023
+    100274: unwrapped_exterior wall024
+    100276: unwrapped_exterior wall025
+    100278: unwrapped_exterior wall026
+    100280: unwrapped_exterior wall027
+    100282: unwrapped_exterior wall028
+    100284: unwrapped_exterior wall029
+    100286: unwrapped_exterior wall030
+    100288: unwrapped_exterior wall031
+    100290: unwrapped_exterior wall032
+    100292: unwrapped_exterior wall033
+    100294: unwrapped_exterior wall034
+    100296: unwrapped_exterior wall035
+    100298: unwrapped_exterior wall036
+    100300: unwrapped_exterior wall037
+    100302: unwrapped_exterior wall039
+    100304: unwrapped_exterior wall040
+    100306: unwrapped_exterior wall041
+    100308: unwrapped_exterior wall042
+    100310: unwrapped_floor_tile011
+    100312: unwrapped_floor_tile013
+    100314: unwrapped_floor_tile016
+    100316: unwrapped_floor_tile017
+    100318: unwrapped_low_poly_archway
+    400000: archer
+    400002: bottom_spawn_floor
+    400004: Box526
+    400006: Box660
+    400008: Box661
+    400010: Box665
+    400012: Box672
+    400014: Box673
+    400016: Box680
+    400018: Box686
+    400020: Box687
+    400022: Box688
+    400024: Box689
+    400026: Box698
+    400028: Box743
+    400030: Box744
+    400032: Box745
+    400034: Box746
+    400036: Box747
+    400038: Box748
+    400040: Box749
+    400042: Box750
+    400044: Box751
+    400046: Box754
+    400048: Box758
+    400050: Box759
+    400052: Box760
+    400054: Box761
+    400056: Box762
+    400058: Box763
+    400060: Box764
+    400062: Box765
+    400064: Box766
+    400066: Box767
+    400068: Box768
+    400070: Box769
+    400072: Box770
+    400074: Box771
+    400076: Box772
+    400078: Box778
+    400080: Box780
+    400082: Box781
+    400084: Box782
+    400086: Box783
+    400088: Box784
+    400090: Box785
+    400092: Box788
+    400094: Box789
+    400096: Box790
+    400098: Box791
+    400100: Box793
+    400102: Box794
+    400104: Box795
+    400106: Box796
+    400108: Box797
+    400110: Box798
+    400112: Box799
+    400114: Box800
+    400116: Box801
+    400118: Box802
+    400120: Box803
+    400122: Box804
+    400124: Box805
+    400126: Box806
+    400128: Box807
+    400130: Box808
+    400132: Box809
+    400134: Box810
+    400136: Box811
+    400138: Box812
+    400140: Box813
+    400142: Box814
+    400144: Box815
+    400146: Box816
+    400148: Box817
+    400150: Box818
+    400152: Box819
+    400154: Box821
+    400156: Box822
+    400158: Box823
+    400160: Box835
+    400162: Box836
+    400164: Box837
+    400166: Box838
+    400168: Box845
+    400170: Box846
+    400172: interior_wall_double_width001
+    400174: interior_wall_double_width003
+    400176: interior_wall_double_width011
+    400178: interior_wall_double_width012
+    400180: interior_wall_double_width030
+    400182: interior_wall_double_width031
+    400184: interior_wall_double_width032
+    400186: interior_wall_double_width033
+    400188: interior_wall_double_width034
+    400190: interior_wall_double_width035
+    400192: interior_wall_double_width038
+    400194: interior_wall_double_width039
+    400196: interior_wall_double_width040
+    400198: interior_wall_double_width041
+    400200: interior_wall_double_width042
+    400202: interior_wall_double_width043
+    400204: interior_wall_double_width044
+    400206: interior_wall_double_width045
+    400208: interior_wall_double_width046
+    400210: interior_wall_double_width047
+    400212: interior_wall_double_width049
+    400214: interior_wall_double_width050
+    400216: left_hand_corner_floor
+    400218: //RootNode
+    400220: outer_wall_2
+    400222: roof
+    400224: StraightStair002
+    400226: unwrapped_exterior wall
+    400228: unwrapped_exterior wall001
+    400230: unwrapped_exterior wall002
+    400232: unwrapped_exterior wall003
+    400234: unwrapped_exterior wall004
+    400236: unwrapped_exterior wall005
+    400238: unwrapped_exterior wall006
+    400240: unwrapped_exterior wall007
+    400242: unwrapped_exterior wall008
+    400244: unwrapped_exterior wall009
+    400246: unwrapped_exterior wall010
+    400248: unwrapped_exterior wall011
+    400250: unwrapped_exterior wall012
+    400252: unwrapped_exterior wall013
+    400254: unwrapped_exterior wall014
+    400256: unwrapped_exterior wall015
+    400258: unwrapped_exterior wall016
+    400260: unwrapped_exterior wall017
+    400262: unwrapped_exterior wall018
+    400264: unwrapped_exterior wall019
+    400266: unwrapped_exterior wall020
+    400268: unwrapped_exterior wall021
+    400270: unwrapped_exterior wall022
+    400272: unwrapped_exterior wall023
+    400274: unwrapped_exterior wall024
+    400276: unwrapped_exterior wall025
+    400278: unwrapped_exterior wall026
+    400280: unwrapped_exterior wall027
+    400282: unwrapped_exterior wall028
+    400284: unwrapped_exterior wall029
+    400286: unwrapped_exterior wall030
+    400288: unwrapped_exterior wall031
+    400290: unwrapped_exterior wall032
+    400292: unwrapped_exterior wall033
+    400294: unwrapped_exterior wall034
+    400296: unwrapped_exterior wall035
+    400298: unwrapped_exterior wall036
+    400300: unwrapped_exterior wall037
+    400302: unwrapped_exterior wall039
+    400304: unwrapped_exterior wall040
+    400306: unwrapped_exterior wall041
+    400308: unwrapped_exterior wall042
+    400310: unwrapped_floor_tile011
+    400312: unwrapped_floor_tile013
+    400314: unwrapped_floor_tile016
+    400316: unwrapped_floor_tile017
+    400318: unwrapped_low_poly_archway
+    2300000: archer
+    2300002: bottom_spawn_floor
+    2300004: Box526
+    2300006: Box660
+    2300008: Box661
+    2300010: Box665
+    2300012: Box672
+    2300014: Box673
+    2300016: Box680
+    2300018: Box686
+    2300020: Box687
+    2300022: Box688
+    2300024: Box689
+    2300026: Box698
+    2300028: Box743
+    2300030: Box744
+    2300032: Box745
+    2300034: Box746
+    2300036: Box747
+    2300038: Box748
+    2300040: Box749
+    2300042: Box750
+    2300044: Box751
+    2300046: Box754
+    2300048: Box758
+    2300050: Box759
+    2300052: Box760
+    2300054: Box761
+    2300056: Box762
+    2300058: Box763
+    2300060: Box764
+    2300062: Box765
+    2300064: Box766
+    2300066: Box767
+    2300068: Box768
+    2300070: Box769
+    2300072: Box770
+    2300074: Box771
+    2300076: Box772
+    2300078: Box778
+    2300080: Box780
+    2300082: Box781
+    2300084: Box782
+    2300086: Box783
+    2300088: Box784
+    2300090: Box785
+    2300092: Box788
+    2300094: Box789
+    2300096: Box790
+    2300098: Box791
+    2300100: Box793
+    2300102: Box794
+    2300104: Box795
+    2300106: Box796
+    2300108: Box797
+    2300110: Box798
+    2300112: Box799
+    2300114: Box800
+    2300116: Box801
+    2300118: Box802
+    2300120: Box803
+    2300122: Box804
+    2300124: Box805
+    2300126: Box806
+    2300128: Box807
+    2300130: Box808
+    2300132: Box809
+    2300134: Box810
+    2300136: Box811
+    2300138: Box812
+    2300140: Box813
+    2300142: Box814
+    2300144: Box815
+    2300146: Box816
+    2300148: Box817
+    2300150: Box818
+    2300152: Box819
+    2300154: Box821
+    2300156: Box822
+    2300158: Box823
+    2300160: Box835
+    2300162: Box836
+    2300164: Box837
+    2300166: Box838
+    2300168: Box845
+    2300170: Box846
+    2300172: interior_wall_double_width001
+    2300174: interior_wall_double_width003
+    2300176: interior_wall_double_width011
+    2300178: interior_wall_double_width012
+    2300180: interior_wall_double_width030
+    2300182: interior_wall_double_width031
+    2300184: interior_wall_double_width032
+    2300186: interior_wall_double_width033
+    2300188: interior_wall_double_width034
+    2300190: interior_wall_double_width035
+    2300192: interior_wall_double_width038
+    2300194: interior_wall_double_width039
+    2300196: interior_wall_double_width040
+    2300198: interior_wall_double_width041
+    2300200: interior_wall_double_width042
+    2300202: interior_wall_double_width043
+    2300204: interior_wall_double_width044
+    2300206: interior_wall_double_width045
+    2300208: interior_wall_double_width046
+    2300210: interior_wall_double_width047
+    2300212: interior_wall_double_width049
+    2300214: interior_wall_double_width050
+    2300216: left_hand_corner_floor
+    2300218: roof
+    2300220: StraightStair002
+    2300222: unwrapped_exterior wall
+    2300224: unwrapped_exterior wall001
+    2300226: unwrapped_exterior wall002
+    2300228: unwrapped_exterior wall003
+    2300230: unwrapped_exterior wall004
+    2300232: unwrapped_exterior wall005
+    2300234: unwrapped_exterior wall006
+    2300236: unwrapped_exterior wall007
+    2300238: unwrapped_exterior wall008
+    2300240: unwrapped_exterior wall009
+    2300242: unwrapped_exterior wall010
+    2300244: unwrapped_exterior wall011
+    2300246: unwrapped_exterior wall012
+    2300248: unwrapped_exterior wall013
+    2300250: unwrapped_exterior wall014
+    2300252: unwrapped_exterior wall015
+    2300254: unwrapped_exterior wall016
+    2300256: unwrapped_exterior wall017
+    2300258: unwrapped_exterior wall018
+    2300260: unwrapped_exterior wall019
+    2300262: unwrapped_exterior wall020
+    2300264: unwrapped_exterior wall021
+    2300266: unwrapped_exterior wall022
+    2300268: unwrapped_exterior wall023
+    2300270: unwrapped_exterior wall024
+    2300272: unwrapped_exterior wall025
+    2300274: unwrapped_exterior wall026
+    2300276: unwrapped_exterior wall027
+    2300278: unwrapped_exterior wall028
+    2300280: unwrapped_exterior wall029
+    2300282: unwrapped_exterior wall030
+    2300284: unwrapped_exterior wall031
+    2300286: unwrapped_exterior wall032
+    2300288: unwrapped_exterior wall033
+    2300290: unwrapped_exterior wall034
+    2300292: unwrapped_exterior wall035
+    2300294: unwrapped_exterior wall036
+    2300296: unwrapped_exterior wall037
+    2300298: unwrapped_exterior wall039
+    2300300: unwrapped_exterior wall040
+    2300302: unwrapped_exterior wall041
+    2300304: unwrapped_exterior wall042
+    2300306: unwrapped_floor_tile011
+    2300308: unwrapped_floor_tile013
+    2300310: unwrapped_floor_tile016
+    2300312: unwrapped_floor_tile017
+    2300314: unwrapped_low_poly_archway
+    3300000: archer
+    3300002: bottom_spawn_floor
+    3300004: Box526
+    3300006: Box660
+    3300008: Box661
+    3300010: Box665
+    3300012: Box672
+    3300014: Box673
+    3300016: Box680
+    3300018: Box686
+    3300020: Box687
+    3300022: Box688
+    3300024: Box689
+    3300026: Box698
+    3300028: Box743
+    3300030: Box744
+    3300032: Box745
+    3300034: Box746
+    3300036: Box747
+    3300038: Box748
+    3300040: Box749
+    3300042: Box750
+    3300044: Box751
+    3300046: Box754
+    3300048: Box758
+    3300050: Box759
+    3300052: Box760
+    3300054: Box761
+    3300056: Box762
+    3300058: Box763
+    3300060: Box764
+    3300062: Box765
+    3300064: Box766
+    3300066: Box767
+    3300068: Box768
+    3300070: Box769
+    3300072: Box770
+    3300074: Box771
+    3300076: Box772
+    3300078: Box778
+    3300080: Box780
+    3300082: Box781
+    3300084: Box782
+    3300086: Box783
+    3300088: Box784
+    3300090: Box785
+    3300092: Box788
+    3300094: Box789
+    3300096: Box790
+    3300098: Box791
+    3300100: Box793
+    3300102: Box794
+    3300104: Box795
+    3300106: Box796
+    3300108: Box797
+    3300110: Box798
+    3300112: Box799
+    3300114: Box800
+    3300116: Box801
+    3300118: Box802
+    3300120: Box803
+    3300122: Box804
+    3300124: Box805
+    3300126: Box806
+    3300128: Box807
+    3300130: Box808
+    3300132: Box809
+    3300134: Box810
+    3300136: Box811
+    3300138: Box812
+    3300140: Box813
+    3300142: Box814
+    3300144: Box815
+    3300146: Box816
+    3300148: Box817
+    3300150: Box818
+    3300152: Box819
+    3300154: Box821
+    3300156: Box822
+    3300158: Box823
+    3300160: Box835
+    3300162: Box836
+    3300164: Box837
+    3300166: Box838
+    3300168: Box845
+    3300170: Box846
+    3300172: interior_wall_double_width001
+    3300174: interior_wall_double_width003
+    3300176: interior_wall_double_width011
+    3300178: interior_wall_double_width012
+    3300180: interior_wall_double_width030
+    3300182: interior_wall_double_width031
+    3300184: interior_wall_double_width032
+    3300186: interior_wall_double_width033
+    3300188: interior_wall_double_width034
+    3300190: interior_wall_double_width035
+    3300192: interior_wall_double_width038
+    3300194: interior_wall_double_width039
+    3300196: interior_wall_double_width040
+    3300198: interior_wall_double_width041
+    3300200: interior_wall_double_width042
+    3300202: interior_wall_double_width043
+    3300204: interior_wall_double_width044
+    3300206: interior_wall_double_width045
+    3300208: interior_wall_double_width046
+    3300210: interior_wall_double_width047
+    3300212: interior_wall_double_width049
+    3300214: interior_wall_double_width050
+    3300216: left_hand_corner_floor
+    3300218: roof
+    3300220: StraightStair002
+    3300222: unwrapped_exterior wall
+    3300224: unwrapped_exterior wall001
+    3300226: unwrapped_exterior wall002
+    3300228: unwrapped_exterior wall003
+    3300230: unwrapped_exterior wall004
+    3300232: unwrapped_exterior wall005
+    3300234: unwrapped_exterior wall006
+    3300236: unwrapped_exterior wall007
+    3300238: unwrapped_exterior wall008
+    3300240: unwrapped_exterior wall009
+    3300242: unwrapped_exterior wall010
+    3300244: unwrapped_exterior wall011
+    3300246: unwrapped_exterior wall012
+    3300248: unwrapped_exterior wall013
+    3300250: unwrapped_exterior wall014
+    3300252: unwrapped_exterior wall015
+    3300254: unwrapped_exterior wall016
+    3300256: unwrapped_exterior wall017
+    3300258: unwrapped_exterior wall018
+    3300260: unwrapped_exterior wall019
+    3300262: unwrapped_exterior wall020
+    3300264: unwrapped_exterior wall021
+    3300266: unwrapped_exterior wall022
+    3300268: unwrapped_exterior wall023
+    3300270: unwrapped_exterior wall024
+    3300272: unwrapped_exterior wall025
+    3300274: unwrapped_exterior wall026
+    3300276: unwrapped_exterior wall027
+    3300278: unwrapped_exterior wall028
+    3300280: unwrapped_exterior wall029
+    3300282: unwrapped_exterior wall030
+    3300284: unwrapped_exterior wall031
+    3300286: unwrapped_exterior wall032
+    3300288: unwrapped_exterior wall033
+    3300290: unwrapped_exterior wall034
+    3300292: unwrapped_exterior wall035
+    3300294: unwrapped_exterior wall036
+    3300296: unwrapped_exterior wall037
+    3300298: unwrapped_exterior wall039
+    3300300: unwrapped_exterior wall040
+    3300302: unwrapped_exterior wall041
+    3300304: unwrapped_exterior wall042
+    3300306: unwrapped_floor_tile011
+    3300308: unwrapped_floor_tile013
+    3300310: unwrapped_floor_tile016
+    3300312: unwrapped_floor_tile017
+    3300314: unwrapped_low_poly_archway
+    4300000: Box526
+    4300002: unwrapped_low_poly_archway
+    4300004: interior_wall_double_width001
+    4300006: interior_wall_double_width003
+    4300008: Box665
+    4300010: StraightStair002
+    4300012: Box672
+    4300014: Box673
+    4300016: interior_wall_double_width011
+    4300018: interior_wall_double_width012
+    4300020: Box680
+    4300022: archer
+    4300024: Box686
+    4300026: Box687
+    4300028: Box688
+    4300030: Box689
+    4300032: interior_wall_double_width030
+    4300034: interior_wall_double_width031
+    4300036: interior_wall_double_width032
+    4300038: interior_wall_double_width033
+    4300040: interior_wall_double_width034
+    4300042: interior_wall_double_width035
+    4300044: interior_wall_double_width038
+    4300046: interior_wall_double_width039
+    4300048: interior_wall_double_width040
+    4300050: interior_wall_double_width041
+    4300052: interior_wall_double_width042
+    4300054: interior_wall_double_width043
+    4300056: interior_wall_double_width044
+    4300058: interior_wall_double_width045
+    4300060: interior_wall_double_width046
+    4300062: interior_wall_double_width047
+    4300064: unwrapped_floor_tile011
+    4300066: unwrapped_floor_tile013
+    4300068: unwrapped_floor_tile016
+    4300070: unwrapped_floor_tile017
+    4300072: Box743
+    4300074: Box744
+    4300076: Box745
+    4300078: Box746
+    4300080: Box747
+    4300082: Box748
+    4300084: Box749
+    4300086: Box750
+    4300088: Box751
+    4300090: Box754
+    4300092: unwrapped_exterior wall002
+    4300094: Box758
+    4300096: unwrapped_exterior wall
+    4300098: Box660
+    4300100: Box661
+    4300102: unwrapped_exterior wall003
+    4300104: Box759
+    4300106: unwrapped_exterior wall004
+    4300108: Box760
+    4300110: unwrapped_exterior wall005
+    4300112: Box761
+    4300114: unwrapped_exterior wall006
+    4300116: Box762
+    4300118: unwrapped_exterior wall007
+    4300120: Box763
+    4300122: unwrapped_exterior wall008
+    4300124: Box764
+    4300126: Box765
+    4300128: unwrapped_exterior wall009
+    4300130: Box766
+    4300132: Box767
+    4300134: unwrapped_exterior wall010
+    4300136: Box768
+    4300138: unwrapped_exterior wall011
+    4300140: Box769
+    4300142: Box770
+    4300144: unwrapped_exterior wall012
+    4300146: Box771
+    4300148: unwrapped_exterior wall013
+    4300150: Box772
+    4300152: Box778
+    4300154: Box780
+    4300156: Box781
+    4300158: Box782
+    4300160: unwrapped_exterior wall001
+    4300162: Box698
+    4300164: Box783
+    4300166: Box784
+    4300168: left_hand_corner_floor
+    4300170: bottom_spawn_floor
+    4300172: Box785
+    4300174: Box788
+    4300176: Box789
+    4300178: Box790
+    4300180: Box791
+    4300182: interior_wall_double_width049
+    4300184: Box793
+    4300186: Box794
+    4300188: Box795
+    4300190: Box796
+    4300192: unwrapped_exterior wall014
+    4300194: Box797
+    4300196: unwrapped_exterior wall015
+    4300198: Box798
+    4300200: unwrapped_exterior wall016
+    4300202: Box799
+    4300204: unwrapped_exterior wall017
+    4300206: Box800
+    4300208: unwrapped_exterior wall018
+    4300210: unwrapped_exterior wall019
+    4300212: Box801
+    4300214: unwrapped_exterior wall020
+    4300216: Box802
+    4300218: unwrapped_exterior wall021
+    4300220: Box803
+    4300222: unwrapped_exterior wall022
+    4300224: Box804
+    4300226: Box805
+    4300228: unwrapped_exterior wall023
+    4300230: Box806
+    4300232: unwrapped_exterior wall024
+    4300234: Box807
+    4300236: unwrapped_exterior wall025
+    4300238: Box808
+    4300240: unwrapped_exterior wall026
+    4300242: Box809
+    4300244: unwrapped_exterior wall027
+    4300246: Box810
+    4300248: unwrapped_exterior wall028
+    4300250: unwrapped_exterior wall029
+    4300252: Box811
+    4300254: Box812
+    4300256: unwrapped_exterior wall030
+    4300258: Box813
+    4300260: unwrapped_exterior wall031
+    4300262: unwrapped_exterior wall032
+    4300264: Box814
+    4300266: Box815
+    4300268: unwrapped_exterior wall033
+    4300270: unwrapped_exterior wall034
+    4300272: Box816
+    4300274: unwrapped_exterior wall035
+    4300276: Box817
+    4300278: unwrapped_exterior wall036
+    4300280: Box818
+    4300282: unwrapped_exterior wall037
+    4300284: Box819
+    4300286: unwrapped_exterior wall039
+    4300288: Box821
+    4300290: Box822
+    4300292: unwrapped_exterior wall040
+    4300294: Box823
+    4300296: unwrapped_exterior wall041
+    4300298: unwrapped_exterior wall042
+    4300300: Box835
+    4300302: Box836
+    4300304: Box837
+    4300306: Box838
+    4300308: Box845
+    4300310: Box846
+    4300312: roof
+    4300314: interior_wall_double_width050
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

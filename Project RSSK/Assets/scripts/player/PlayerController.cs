@@ -61,6 +61,7 @@ public class PlayerController : NetworkBehaviour
 	Vector3 curVel = Vector3.zero;
 	Vector3 curPos;
 
+
 	NetworkAnimator playerAni;
 
 	//clientside canvas display
