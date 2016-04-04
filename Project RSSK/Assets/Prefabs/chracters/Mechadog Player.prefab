@@ -683,7 +683,7 @@ MonoBehaviour:
   team: 0
   id: -1
   controllable: 0
-  jumpHeight: 4
+  jumpHeight: 5
   runSpeed: 5
   sprintSpeed: 8
   airStrafe: 4
@@ -782,6 +782,15 @@ MonoBehaviour:
   lookDownLim: 285
   defaultFOV: 60
   aimFOV: 30
+  shakeSpeed: 0.25
+  distanceClamp: 0.5
+  sprintSpeedMult: 3
+  sprintClampMult: 1
+  aimSpeedMult: 0.5
+  aimClampMult: 0.5
+  camShake: 1
+  damageShaceVal: 3
+  damageShakeDep: 1
   sprintPos: -2.11
   speed: 1
 --- !u!114 &11440238
@@ -818,6 +827,8 @@ MonoBehaviour:
   maxSpread: 3
   spreadAdv: 0.2
   spreadDep: 0.1
+  aimMuli: 0.5
+  sprintMuli: 2
   fireAudio: {fileID: 8300000, guid: ff7309d4dd64c144d890f04b8c7cf094, type: 3}
   outOfAmmoAudio: {fileID: 8300000, guid: 8175182f91a2a4241a15124f861f53e3, type: 3}
   reloadAudio: {fileID: 8300000, guid: 40b77c48c79852a43925586bd81f50b7, type: 3}
@@ -1051,7 +1062,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: jumpHeight
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxDistanceToWall

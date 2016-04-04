@@ -447,7 +447,7 @@ MonoBehaviour:
   team: 0
   id: -1
   controllable: 0
-  jumpHeight: 8
+  jumpHeight: 9
   runSpeed: 9
   sprintSpeed: 12
   airStrafe: 6
@@ -590,6 +590,15 @@ MonoBehaviour:
   lookDownLim: 285
   defaultFOV: 60
   aimFOV: 30
+  shakeSpeed: 0.25
+  distanceClamp: 0.5
+  sprintSpeedMult: 3
+  sprintClampMult: 1
+  aimSpeedMult: 0.5
+  aimClampMult: 0.5
+  camShake: 1
+  damageShaceVal: 3
+  damageShakeDep: 1
   sprintPos: -2.08
   speed: 1
 --- !u!124 &12442784
@@ -699,7 +708,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: jumpHeight
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: runSpeed
