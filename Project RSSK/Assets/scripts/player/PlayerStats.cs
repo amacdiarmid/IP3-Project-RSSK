@@ -14,7 +14,7 @@ public class PlayerStats : NetworkBehaviour
 	void Start()
 	{
 		playerAudio = GetComponent<PlayerAudioController>();
-		text = ((GameManager)NetworkManager.singleton).canvas.transform.Find("Health").GetComponent<Text>();
+		//text = ((GameManager)NetworkManager.singleton).canvas.transform.Find("Health").GetComponent<Text>();
 		playerCam = this.GetComponent<PlayerCamera>();
 		if (isLocalPlayer)
 			text.text = "Health: " + maxHealth;

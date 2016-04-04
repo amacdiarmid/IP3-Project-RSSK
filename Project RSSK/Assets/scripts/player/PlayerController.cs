@@ -125,8 +125,10 @@ public class PlayerController : NetworkBehaviour
 		if (isLocalPlayer)
 		{
 			localInstance = this;
-			GameObject canvas = ((GameManager)NetworkManager.singleton).canvas;
-			gameStatusText = canvas.transform.Find("GameStatus").GetComponent<Text>();
+			//GameObject canvas = ((GameManager)NetworkManager.singleton).canvas;
+			//gameStatusText = canvas.transform.Find("GameStatus").GetComponent<Text>();
+
+			GameObject.Find("HUD man").GetComponent<PlayerHUD>().Spawn(this.gameObject);
 		}
 	}
 

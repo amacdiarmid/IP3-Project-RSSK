@@ -164,4 +164,14 @@ public class Gun : NetworkBehaviour
 	{
 		obj.GetComponent<PlayerStats> ().Damage (damage);
 	}
+
+	public int getCurAmmo()
+	{
+		return curAmmo;
+	}
+
+	public float getCurSpread()
+	{
+		return gunSreadVal;
+	}
 }
