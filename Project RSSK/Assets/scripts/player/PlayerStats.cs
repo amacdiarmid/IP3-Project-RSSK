@@ -6,6 +6,7 @@ public class PlayerStats : NetworkBehaviour
 {
 	PlayerAudioController playerAudio;
 	Text text;
+	PlayerCamera playerCam;
 
 	[SyncVar(hook = "HealthChanged")]
 	public int maxHealth = 100;
@@ -14,6 +15,7 @@ public class PlayerStats : NetworkBehaviour
 	{
 		playerAudio = GetComponent<PlayerAudioController>();
 		text = ((GameManager)NetworkManager.singleton).canvas.transform.Find("Health").GetComponent<Text>();
+		playerCam = this.GetComponent<PlayerCamera>();
 		if (isLocalPlayer)
 			text.text = "Health: " + maxHealth;
 	}
@@ -31,6 +33,7 @@ public class PlayerStats : NetworkBehaviour
 			return;
 
 		maxHealth -= dmg;
+		playerCam.damShake();
 		if (maxHealth <= 0)
 			((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);		
 	}

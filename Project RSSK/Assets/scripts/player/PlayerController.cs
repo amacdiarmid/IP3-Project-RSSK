@@ -30,6 +30,15 @@ public static class Utils
 	}
 }
 
+enum animationBools
+{
+	movement, 
+	roll,
+	jump,
+	wallrun,
+}
+
+
 public class PlayerController : NetworkBehaviour
 {
 	public static PlayerController localInstance = null;
@@ -71,6 +80,7 @@ public class PlayerController : NetworkBehaviour
 	public float sprintSpeed = 10;
 	public float airStrafe = 10;
 	public float decelRate = 4;
+	private float startingHeight;
 
 	//rolling
 	public float rollTimer = 1;
@@ -140,6 +150,7 @@ public class PlayerController : NetworkBehaviour
 		{
 			canDoubleJump = true;
 			curVel.y = 0;
+			setAnimator(animationBools.movement);
 		}
 
 		setState(curState);
@@ -160,19 +171,27 @@ public class PlayerController : NetworkBehaviour
 			if (Input.GetButton("Sprint"))
 			{
 				playerAni.animator.SetFloat("speed", 3);
+				if (playerCam.getCamFor() != camPos.sprint)
+					playerCam.changeSide(camPos.sprint);
 			}
 			else if (Input.GetButton("Walk"))
 			{
 				playerAni.animator.SetFloat("speed", 1);
+				if (playerCam.getCamFor() != camPos.run)
+					playerCam.changeSide(camPos.run);
 			}
 			else
 			{
 				playerAni.animator.SetFloat("speed", 2);
+				if(playerCam.getCamFor() != camPos.run)
+					playerCam.changeSide(camPos.run);
 			}
 		}
 		else
 		{
 			playerAni.animator.SetFloat("speed", 0);
+			if (playerCam.getCamFor() != camPos.run)
+				playerCam.changeSide(camPos.run);
 		}
 	}
 
@@ -205,6 +224,8 @@ public class PlayerController : NetworkBehaviour
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
 			playerAni.animator.SetFloat("wall direction", 1);
+			if (playerCam.getCamSide() != camPos.left && hit.transform.tag != "Player")
+				playerCam.changeSide(camPos.left);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -214,6 +235,8 @@ public class PlayerController : NetworkBehaviour
 			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
 			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
 			playerAni.animator.SetFloat("wall direction", -1);
+			if (playerCam.getCamSide() != camPos.right && hit.transform.tag != "Player")
+				playerCam.changeSide(camPos.right);
 			wallNormal = hit.normal;
 			return true;
 		}
@@ -264,7 +287,7 @@ public class PlayerController : NetworkBehaviour
 	{
 		if (curState != PlayerState.idle)
 		{
-			playerAni.SetTrigger("movement");
+			setAnimator(animationBools.movement);
 			curState = PlayerState.idle;
 			playerAudio.setAudio(PlayerState.idle);
 		}
@@ -284,7 +307,7 @@ public class PlayerController : NetworkBehaviour
 	{
 		if(curState != PlayerState.jump)
 		{
-			playerAni.SetTrigger("jump");
+			setAnimator(animationBools.jump);
 			curVel.y = jumpHeight;
 			playerAudio.setAudio(PlayerState.jump);
 			curState = PlayerState.jump;
@@ -333,7 +356,7 @@ public class PlayerController : NetworkBehaviour
 		if(curState != PlayerState.falling)
 		{
 			//Debug.Log("falling trigger");
-			playerAni.SetTrigger("jump");
+			setAnimator(animationBools.jump);
 			curState = PlayerState.falling;
 		}
 
@@ -363,7 +386,7 @@ public class PlayerController : NetworkBehaviour
 		//transitioning in
 		if (curState != PlayerState.roll)
 		{
-			playerAni.SetTrigger("roll");
+			setAnimator(animationBools.roll);
 			curState = PlayerState.roll;
 			timer = rollTimer;
 			curVel = inputHeading * rollSpeed;
@@ -381,7 +404,7 @@ public class PlayerController : NetworkBehaviour
 	{
 		if(curState != PlayerState.wallRun)
 		{
-			playerAni.SetTrigger("wallrun");
+			setAnimator(animationBools.wallrun);
 			curState = PlayerState.wallRun;
 			if(curVel.y < 0)
 				curVel.y = 0; //lose the fall speed
@@ -418,7 +441,7 @@ public class PlayerController : NetworkBehaviour
 		if(curState != PlayerState.climb)
 		{
 			curState = PlayerState.climb;
-			playerAni.SetTrigger("wallrun");
+			setAnimator(animationBools.wallrun);
 			timer = climbTimer;
 		}
 
@@ -442,5 +465,31 @@ public class PlayerController : NetworkBehaviour
 	public void SetGameInfo(string text)
 	{
 		gameStatusText.text = text;
+	}
+
+	void setAnimator(animationBools goToState)
+	{
+		playerAni.animator.SetBool("movement", false);
+		playerAni.animator.SetBool("jump", false);
+		playerAni.animator.SetBool("roll", false);
+		playerAni.animator.SetBool("wallrun", false);
+
+		switch (goToState)
+		{
+			case animationBools.movement:
+				playerAni.animator.SetBool("movement", true);
+				break;
+			case animationBools.roll:
+				playerAni.animator.SetBool("roll", true);
+				break;
+			case animationBools.jump:
+				playerAni.animator.SetBool("jump", true);
+				break;
+			case animationBools.wallrun:
+				playerAni.animator.SetBool("wallrun", true);
+				break;
+			default:
+				break;
+		}
 	}
 }
