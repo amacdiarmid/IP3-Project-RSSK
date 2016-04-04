@@ -66,9 +66,22 @@ public class GameManager : NetworkManager
 
         NetworkServer.RegisterHandler(ChangeNameMsg.type, OnNameChanged);
         NetworkServer.RegisterHandler(PickedTeamMsg.type, OnPickedTeam);
+		Utils.SendServerUpdate (networkPort, 0, networkSceneName);
 
         StartCoroutine(PrepTimer(prepSeconds));
     }
+
+	public override void OnStopServer ()
+	{
+		base.OnStopServer ();
+
+		Utils.SendServerStop (networkPort);
+	}
+
+	void OnApplicationQuit()
+	{
+		Utils.SendServerStop (networkPort);
+	}
 
     public override void OnClientConnect(NetworkConnection conn)
     {
@@ -145,6 +158,8 @@ public class GameManager : NetworkManager
         p.conn = conn;
         p.name = playerName;
         players.Add(p);
+
+		Utils.SendServerUpdate (networkPort, players.Count, networkSceneName);
         
         SendGameState();
     }

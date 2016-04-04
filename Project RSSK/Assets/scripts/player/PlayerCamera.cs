@@ -165,7 +165,7 @@ public class PlayerCamera : NetworkBehaviour
 		float distCovered = (Time.time - startTime) * speed;
 		float fracJourney = distCovered / journeyLength;
 		playerCam.localPosition = Vector3.Lerp(playerCam.transform.localPosition, newPos, fracJourney);
-		Debug.Log(fracJourney);
+		//Debug.Log(fracJourney);
 		if (fracJourney >= 0.2f)
 		{
 			move = false;
@@ -212,7 +212,7 @@ public class PlayerCamera : NetworkBehaviour
 
 		shakeVals.x = curClamp * (Mathf.PerlinNoise(PerlinTime * curSpeed, 0.0f) * 2 - 1);
 		shakeVals.y = curClamp * (Mathf.PerlinNoise(0.0f, PerlinTime * curSpeed) * 2 - 1);
-		Debug.Log("shake " + shakeVals);
+		//Debug.Log("shake " + shakeVals);
 		PerlinTime = PerlinTime + Time.deltaTime;
 
 		Vector3 pos = startingPos;
