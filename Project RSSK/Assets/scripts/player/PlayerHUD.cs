@@ -25,6 +25,9 @@ public class PlayerHUD : MonoBehaviour {
 
 	public void Spawn(GameObject player)
 	{
+		if (HUDComps)
+			Destroy(HUDComps.gameObject);
+
 		playerStats = player.GetComponent<PlayerStats>();
 		playerCont = player.GetComponent<PlayerController>();
 
