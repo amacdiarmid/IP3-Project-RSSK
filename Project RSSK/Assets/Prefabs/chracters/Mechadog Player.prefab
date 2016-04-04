@@ -643,12 +643,12 @@ MonoBehaviour:
   controllable: 0
   jumpHeight: 5
   runSpeed: 5
-  sprintSpeed: 8
+  sprintSpeed: 7
   airStrafe: 4
   decelRate: 8
   rollTimer: 1.5
   rollSpeed: 6
-  wallrunSpeed: 7
+  wallrunSpeed: 6
   angleToWallrun: 10
   maxDistanceToWall: 2
   climbSpeed: 7
@@ -740,8 +740,8 @@ MonoBehaviour:
   lookDownLim: 285
   defaultFOV: 60
   aimFOV: 30
-  shakeSpeed: 0.25
-  distanceClamp: 0.5
+  shakeSpeed: 0.5
+  distanceClamp: 0.4
   sprintSpeedMult: 3
   sprintClampMult: 1
   aimSpeedMult: 0.5
@@ -989,7 +989,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: sprintSpeed
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: rollSpeed
@@ -1097,7 +1097,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: wallrunSpeed
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: range
@@ -1123,6 +1123,14 @@ Prefab:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 4f113479db223704bb18fb1ae1c45c7b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: shakeSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: distanceClamp
+      value: 0.4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 176964}

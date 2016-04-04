@@ -1109,8 +1109,8 @@ MonoBehaviour:
   lookDownLim: 285
   defaultFOV: 60
   aimFOV: 30
-  shakeSpeed: 0.25
-  distanceClamp: 0.5
+  shakeSpeed: 0.57
+  distanceClamp: 0.32
   sprintSpeedMult: 3
   sprintClampMult: 1
   aimSpeedMult: 0.5
@@ -1155,12 +1155,12 @@ MonoBehaviour:
   controllable: 0
   jumpHeight: 7
   runSpeed: 7
-  sprintSpeed: 10
+  sprintSpeed: 9
   airStrafe: 5
   decelRate: 8
   rollTimer: 1
   rollSpeed: 8
-  wallrunSpeed: 8
+  wallrunSpeed: 7.5
   angleToWallrun: 10
   maxDistanceToWall: 2
   climbSpeed: 8
@@ -1281,7 +1281,23 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: sprintSpeed
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shakeSpeed
+      value: 0.57
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: distanceClamp
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: wallrunSpeed
+      value: 7.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 147204}

@@ -566,8 +566,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primWeap: 1
   damage: 30
-  cooldown: 1
-  comboCoolDown: 2
+  cooldown: 0.5
+  comboCoolDown: 1
   range: 1
   knockback: 5
   weaponCol: {fileID: 11422496}
@@ -646,10 +646,12 @@ MonoBehaviour:
   spareAmmo: 50
   rateOfFire: 1
   damage: 40
-  reloadSpeed: 5
+  reloadSpeed: 4.44
   maxSpread: 1
   spreadAdv: 0.2
   spreadDep: 0.1
+  aimMuli: 0.5
+  sprintMuli: 2
   fireAudio: {fileID: 8300000, guid: a17bdeb2e603aea41b26ace65cd1bbfc, type: 3}
   outOfAmmoAudio: {fileID: 8300000, guid: 8175182f91a2a4241a15124f861f53e3, type: 3}
   reloadAudio: {fileID: 8300000, guid: a829157da272009409522e69590bcd2f, type: 3}
@@ -682,9 +684,9 @@ MonoBehaviour:
   id: -1
   controllable: 0
   jumpHeight: 6
-  runSpeed: 7.5
-  sprintSpeed: 10.5
-  airStrafe: 5
+  runSpeed: 7
+  sprintSpeed: 9
+  airStrafe: 4.72
   decelRate: 8
   rollTimer: 1
   rollSpeed: 8.5
@@ -709,6 +711,15 @@ MonoBehaviour:
   lookDownLim: 45
   defaultFOV: 60
   aimFOV: 30
+  shakeSpeed: 0.69
+  distanceClamp: 0.32
+  sprintSpeedMult: 3
+  sprintClampMult: 1
+  aimSpeedMult: 0.5
+  aimClampMult: 0.5
+  camShake: 1
+  damageShaceVal: 3
+  damageShakeDep: 1
   sprintPos: -2.07
   speed: 1
 --- !u!124 &12432026
@@ -818,11 +829,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 0}
       propertyPath: runSpeed
-      value: 7.5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: sprintSpeed
-      value: 10.5
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: rollTimer
@@ -854,7 +865,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: cooldown
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHealth
@@ -875,6 +886,26 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: lookDownLim
       value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: reloadSpeed
+      value: 4.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: airStrafe
+      value: 4.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: comboCoolDown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: shakeSpeed
+      value: 0.69
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: distanceClamp
+      value: 0.32
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
