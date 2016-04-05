@@ -26,14 +26,14 @@ Material:
         first:
           name: _SkyCubeIBL
         second:
-          m_Texture: {fileID: 8900000, guid: 7b115217a27afd546948a4c9b93ed4ea, type: 2}
+          m_Texture: {fileID: 8900000, guid: 166d712424cf3ca49bd3dbf6b57edf58, type: 2}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _SkyCubeIBL1
         second:
-          m_Texture: {fileID: 8900000, guid: 7b115217a27afd546948a4c9b93ed4ea, type: 2}
+          m_Texture: {fileID: 8900000, guid: 166d712424cf3ca49bd3dbf6b57edf58, type: 2}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats: {}

@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: No Name
-  m_Shader: {fileID: 4800000, guid: 857f47563d80247cfa79677a8d496230, type: 3}
+  m_Shader: {fileID: 4800000, guid: 6c878572b37d9444fbe97119bbf1c765, type: 3}
   m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -113,6 +113,13 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SpecTex
+        second:
+          m_Texture: {fileID: 2800000, guid: c69832bd23fdb184dbc324b636bff3ba, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -126,6 +133,10 @@ Material:
         first:
           name: _Cutoff
         second: 0.5
+      data:
+        first:
+          name: _Shininess
+        second: 3.5
       data:
         first:
           name: _Metallic
@@ -190,6 +201,14 @@ Material:
         first:
           name: _B_CM_Str
         second: 0
+      data:
+        first:
+          name: _SpecInt
+        second: 1.18
+      data:
+        first:
+          name: _Fresnel
+        second: 0.36
     m_Colors:
       data:
         first:
@@ -199,6 +218,10 @@ Material:
         first:
           name: _Color
         second: {r: 0.3921569, g: 0.3921569, b: 0.3921569, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: 0.6838235, g: 0.6838235, b: 0.6838235, a: 1}
       data:
         first:
           name: _spec_color
