@@ -1109,10 +1109,10 @@ MonoBehaviour:
   lookDownLim: 285
   defaultFOV: 60
   aimFOV: 30
-  shakeSpeed: 0.57
-  distanceClamp: 0.32
-  sprintSpeedMult: 3
-  sprintClampMult: 1
+  shakeSpeed: 0.13
+  distanceClamp: 0.19
+  sprintSpeedMult: 7.61
+  sprintClampMult: 1.15
   aimSpeedMult: 0.5
   aimClampMult: 0.5
   camShake: 1
@@ -1288,15 +1288,23 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shakeSpeed
-      value: 0.57
+      value: 0.13
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: distanceClamp
-      value: 0.32
+      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: wallrunSpeed
       value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintClampMult
+      value: 1.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintSpeedMult
+      value: 7.61
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

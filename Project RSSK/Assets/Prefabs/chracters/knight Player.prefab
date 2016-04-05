@@ -1879,10 +1879,10 @@ MonoBehaviour:
   lookDownLim: 285
   defaultFOV: 60
   aimFOV: 30
-  shakeSpeed: 0.55
-  distanceClamp: 0.4
-  sprintSpeedMult: 3
-  sprintClampMult: 1
+  shakeSpeed: 0.12
+  distanceClamp: 0.17
+  sprintSpeedMult: 7.51
+  sprintClampMult: 1.06
   aimSpeedMult: 0.5
   aimClampMult: 0.5
   camShake: 1
@@ -1906,11 +1906,11 @@ MonoBehaviour:
   controllable: 0
   jumpHeight: 6
   runSpeed: 6
-  sprintSpeed: 8
+  sprintSpeed: 7.5
   airStrafe: 4
   decelRate: 8
   rollTimer: 1.5
-  rollSpeed: 7
+  rollSpeed: 5.5
   wallrunSpeed: 6
   angleToWallrun: 10
   maxDistanceToWall: 2
@@ -2248,7 +2248,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: sprintSpeed
-      value: 8
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: airStrafe
@@ -2264,7 +2264,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: rollSpeed
-      value: 7
+      value: 5.5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: wallrunSpeed
@@ -2280,11 +2280,19 @@ Prefab:
       objectReference: {fileID: 9100000, guid: 40b50b50f149b894088ca7b01fa7ce03, type: 2}
     - target: {fileID: 0}
       propertyPath: shakeSpeed
-      value: 0.55
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: distanceClamp
-      value: 0.4
+      value: 0.17
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintSpeedMult
+      value: 7.51
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintClampMult
+      value: 1.06
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
