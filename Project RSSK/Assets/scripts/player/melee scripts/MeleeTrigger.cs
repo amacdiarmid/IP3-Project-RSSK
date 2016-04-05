@@ -6,6 +6,7 @@ public class MeleeTrigger : MonoBehaviour {
 	private GameObject self;
 	private BoxCollider wepCol;
 	private MeleeWeapon ownerWeap;
+	private PlayerTeam curTeam;
 
 	// Use this for initialization
 	public void setValues(GameObject sel, MeleeWeapon ownerWeap)
@@ -13,6 +14,7 @@ public class MeleeTrigger : MonoBehaviour {
 		self = sel;
 		wepCol = GetComponent<BoxCollider>();
 		this.ownerWeap = ownerWeap;
+		curTeam = sel.GetComponent<PlayerController>().team;
 	}
 
 	public void active(bool active)
@@ -26,8 +28,9 @@ public class MeleeTrigger : MonoBehaviour {
 		{
 			if (other.gameObject.tag == "TestPlayer")
 				other.gameObject.GetComponent<TestPlayer>().hit();
-			else if (other.gameObject.tag == "Player") //need to test with other people 
-				ownerWeap.CmdHit(other.gameObject);
+			else if (other.gameObject.tag == "Player")
+				if (other.GetComponent<PlayerController>().team != curTeam) //should work need to test with others. 
+					ownerWeap.CmdHit(other.gameObject);
 		}
 	}
 }

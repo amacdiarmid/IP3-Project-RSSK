@@ -19,7 +19,6 @@ public class Gun : NetworkBehaviour
 	public bool primWeap;
 	public float range = 100;
 	public int maxAmmo = 30;
-	public int spareAmmo = 90;
 	public float rateOfFire = 1;
 	public int damage = 50;
 	public float reloadSpeed = 5;
@@ -40,6 +39,8 @@ public class Gun : NetworkBehaviour
 	public AudioClip reloadAudio;
 	public AudioSource audioSource;
 
+	private PlayerTeam curTeam;
+
 	void Start()
 	{
 		curAmmo = maxAmmo;
@@ -47,6 +48,7 @@ public class Gun : NetworkBehaviour
 		playCam = this.GetComponent<PlayerCamera>();
 		if (gunAni == null)
 			Debug.LogError ("Setup: Failed to find NetworkAnimator");
+		curTeam = this.gameObject.GetComponent<PlayerController>().team;
 	}
 
 	void Update()
@@ -62,7 +64,7 @@ public class Gun : NetworkBehaviour
 
 	public virtual void Shoot()
 	{
-		if (curAmmo >= 0 && !reloading)
+		if (curAmmo > 0 && !reloading)
 		{
 			RoFTime = 0;
 			canFire = false;
@@ -91,7 +93,8 @@ public class Gun : NetworkBehaviour
 					//screen to target ray
 					Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
 					if (hit.collider.tag == "Player")
-						CmdHit(hit.transform.gameObject, damage);
+						if(hit.collider.GetComponent<PlayerController>().team != curTeam) //should work need to test with others. 
+							CmdHit(hit.transform.gameObject, damage);
 					break;
 				}
 			}
@@ -130,15 +133,10 @@ public class Gun : NetworkBehaviour
 	public void reload()
 	{
 		StartCoroutine(reloadWait());
-		//this could be alot better
-		if (curAmmo != maxAmmo && spareAmmo > 0)
+		if (curAmmo != maxAmmo)
 		{
 			gunAni.SetTrigger("reload");
-		}
-		while (curAmmo != maxAmmo && spareAmmo > 0)
-		{
-			++curAmmo;
-			--spareAmmo;
+			curAmmo = maxAmmo;
 			audioSource.PlayOneShot(reloadAudio);
 		}
 		gunSreadVal = 0;

@@ -67,7 +67,7 @@ public class PlayerHUD : MonoBehaviour {
 
 		if (hasGun)
 		{
-			HUDComps.AmmoText.text = playerGun.getCurAmmo() + "/" + playerGun.spareAmmo;
+			HUDComps.AmmoText.text = playerGun.getCurAmmo() + "/" + playerGun.maxAmmo;
 			HUDComps.CrosshairImg.rectTransform.sizeDelta = new Vector2(startCrosshairSize.x + playerGun.getCurSpread(), startCrosshairSize.y + playerGun.getCurSpread());
 			if (playerGun.playerInRange())
 				HUDComps.CrosshairImg.color = Color.red;
