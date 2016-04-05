@@ -114,11 +114,7 @@ public class PlayerController : NetworkBehaviour
 		}
 
 		if (isLocalPlayer)
-		{
 			localInstance = this;
-			//GameObject canvas = ((GameManager)NetworkManager.singleton).canvas;
-			//gameStatusText = canvas.transform.Find("GameStatus").GetComponent<Text>();
-		}
 	}
 
 	// Update is called once per frame
@@ -456,7 +452,7 @@ public class PlayerController : NetworkBehaviour
 
 	public void SetGameInfo(string text)
 	{
-		gameStatusText.text = text;
+		Debug.Log("SetGameInfo stub");
 	}
 
 	void setAnimator(animationBools goToState)
