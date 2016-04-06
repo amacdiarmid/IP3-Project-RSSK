@@ -9,6 +9,9 @@ public class PlayerStats : NetworkBehaviour
 	Text text;
 	PlayerCamera playerCam;
 	PlayerHUD HUD;
+	bool ragdollTest = false;
+	public GameObject Mesh;
+	public GameObject deathExplosion;
 
 	[SyncVar(hook = "HealthChanged")]
 	public int maxHealth = 100;
@@ -51,7 +54,15 @@ public class PlayerStats : NetworkBehaviour
 
 	IEnumerator RespawnTimer()
 	{
-		this.GetComponent<NetworkAnimator>().animator.enabled = false;
+		if(ragdollTest)
+			this.GetComponent<NetworkAnimator>().animator.enabled = false;
+		else
+		{
+			Mesh.SetActive(false);
+			GameObject tempExplosion = Instantiate(deathExplosion, this.transform.position, Quaternion.identity) as GameObject;
+			Destroy(tempExplosion, 5);
+		}
+
 		this.GetComponent<CharacterController>().enabled = false;
 		if(this.GetComponent<Gun>())
 			this.GetComponent<Gun>().enabled = false;

@@ -251,8 +251,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 146196}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 374.95612, y: 32.807, z: -242.40126}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
+  m_LocalPosition: {x: -41.49474, y: -13.064865, z: 12.0188875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 496634}
@@ -487,7 +487,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: ae7acd4453df54746a0156db00409277, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 0
@@ -643,7 +643,6 @@ MonoBehaviour:
   primWeap: 0
   range: 100
   maxAmmo: 1
-  spareAmmo: 50
   rateOfFire: 1
   damage: 40
   reloadSpeed: 3.02
@@ -668,6 +667,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e1ca81e8b9965409e30c9024cb10a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mesh: {fileID: 120434}
+  deathExplosion: {fileID: 114686, guid: 3f23dab04e7d8ae489e887756cddf940, type: 2}
   maxHealth: 180
 --- !u!114 &11496768
 MonoBehaviour:
@@ -695,6 +696,9 @@ MonoBehaviour:
   maxDistanceToWall: 2
   climbSpeed: 8
   climbTimer: 3
+  yellowMat: {fileID: 2100000, guid: 369b0ca2b2c7b0c40929f67dce9f97ac, type: 2}
+  blueMat: {fileID: 2100000, guid: 7066ea626cc79b14cb94766f9daaa635, type: 2}
+  charRend: {fileID: 13757724}
 --- !u!114 &11498686
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -911,6 +915,14 @@ Prefab:
       propertyPath: sprintSpeedMult
       value: 4.15
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Mesh
+      value: 
+      objectReference: {fileID: 120434}
+    - target: {fileID: 0}
+      propertyPath: deathExplosion
+      value: 
+      objectReference: {fileID: 114686, guid: 3f23dab04e7d8ae489e887756cddf940, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 146196}

@@ -80,16 +80,16 @@ public class PlayerHUD : MonoBehaviour {
 
 		damageTime += Time.deltaTime;
 		HUDComps.DamageImg.color = Color.Lerp(damageColour, startDamageColour, damageTime);
-		Debug.Log(HUDComps.DamageImg.color);
+		//Debug.Log(HUDComps.DamageImg.color);
 	}
 
 	public void Damaged(float damAmount)
 	{
 		float alpha = damAmount / maxHP;
-		Debug.Log(alpha);
+		//Debug.Log(alpha);
 		damageColour = startDamageColour;
-		damageColour.a = alpha * 2;
-		Debug.Log(damageColour);
+		damageColour.a = damageColour.a + (alpha * 2);
+		Debug.Log("damage colour " + damageColour);
 		damageTime = 0;
 	}
 }

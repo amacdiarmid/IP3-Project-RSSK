@@ -170,8 +170,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101324}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.12, y: 25, z: 10}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
+  m_LocalPosition: {x: -41.49474, y: -13.064865, z: 14.0188875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 479340}
@@ -391,7 +391,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101324}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Avatar: {fileID: 9000000, guid: 019682fcb6008a843b8c67b3df29a0a2, type: 3}
   m_Controller: {fileID: 9100000, guid: 462050e47ae6e8f4d958bf8976edb5b4, type: 2}
   m_CullingMode: 1
@@ -543,6 +543,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e1ca81e8b9965409e30c9024cb10a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mesh: {fileID: 168544}
+  deathExplosion: {fileID: 114686, guid: 3f23dab04e7d8ae489e887756cddf940, type: 2}
   maxHealth: 220
 --- !u!114 &11478300
 MonoBehaviour:
@@ -601,6 +603,9 @@ MonoBehaviour:
   maxDistanceToWall: 2
   climbSpeed: 10
   climbTimer: 3
+  yellowMat: {fileID: 2100000, guid: e4bafe1336efa7d4aa3a9ef5433fdcbf, type: 2}
+  blueMat: {fileID: 2100000, guid: 23c34eabda3b04941a3140ab71e76fdb, type: 2}
+  charRend: {fileID: 13704114}
 --- !u!124 &12448052
 Behaviour:
   m_ObjectHideFlags: 1
@@ -730,6 +735,14 @@ Prefab:
       propertyPath: sprintClampMult
       value: 1.13
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Mesh
+      value: 
+      objectReference: {fileID: 168544}
+    - target: {fileID: 0}
+      propertyPath: deathExplosion
+      value: 
+      objectReference: {fileID: 114686, guid: 3f23dab04e7d8ae489e887756cddf940, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101324}
