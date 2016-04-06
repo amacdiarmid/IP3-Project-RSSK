@@ -646,7 +646,7 @@ MonoBehaviour:
   spareAmmo: 50
   rateOfFire: 1
   damage: 40
-  reloadSpeed: 4.44
+  reloadSpeed: 3.02
   maxSpread: 1
   spreadAdv: 0.2
   spreadDep: 0.1
@@ -686,7 +686,7 @@ MonoBehaviour:
   jumpHeight: 6
   runSpeed: 7
   sprintSpeed: 9
-  airStrafe: 4.72
+  airStrafe: 5
   decelRate: 8
   rollTimer: 1
   rollSpeed: 8.5
@@ -711,9 +711,9 @@ MonoBehaviour:
   lookDownLim: 45
   defaultFOV: 60
   aimFOV: 30
-  shakeSpeed: 0.69
-  distanceClamp: 0.32
-  sprintSpeedMult: 3
+  shakeSpeed: 0.36
+  distanceClamp: 0.23
+  sprintSpeedMult: 4.15
   sprintClampMult: 1
   aimSpeedMult: 0.5
   aimClampMult: 0.5
@@ -889,11 +889,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: reloadSpeed
-      value: 4.44
+      value: 3.02
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: airStrafe
-      value: 4.72
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: comboCoolDown
@@ -901,11 +901,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: shakeSpeed
-      value: 0.69
+      value: 0.36
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: distanceClamp
-      value: 0.32
+      value: 0.23
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintSpeedMult
+      value: 4.15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
