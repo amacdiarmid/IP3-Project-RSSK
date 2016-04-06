@@ -89,6 +89,11 @@ public class PlayerController : NetworkBehaviour
 
 	bool overrideControllable;
 
+	//mats
+	public Material yellowMat;
+	public Material blueMat;
+	public Renderer charRend;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -111,6 +116,10 @@ public class PlayerController : NetworkBehaviour
 			Renderer r = GetComponent<Renderer>();
 			if(r)
 				r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+			if (team == PlayerTeam.TeamBlue)
+				charRend.material = blueMat;
+			else
+				charRend.material = yellowMat;
 		}
 
 		if (isLocalPlayer)
