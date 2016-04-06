@@ -48,6 +48,9 @@ public class PlayerCamera : NetworkBehaviour
 
 	private bool move;
 
+	private bool trackPlayer;
+	private GameObject tracking;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -70,15 +73,19 @@ public class PlayerCamera : NetworkBehaviour
 	{
 		if (!isLocalPlayer)
 			return;
-			
-		rotateCamera();
-		lockMouse();
-		checkInput();
-		if (move)
-			moveCam();
-		else if (camShake)
-			shakeCam();
 
+		if (trackPlayer)
+			trackTarg();
+		else
+		{
+			rotateCamera();
+			lockMouse();
+			checkInput();
+			if (move)
+				moveCam();
+			else if (camShake)
+				shakeCam();
+		}
 	}
 
 	void rotateCamera()
@@ -243,6 +250,17 @@ public class PlayerCamera : NetworkBehaviour
 		curDamageShake = curDamageShake - (damageShakeDep * Time.deltaTime);
 		if (curDamageShake < 0)
 			curDamageShake = 0;
+	}
+
+	public void Dead(GameObject killer)
+	{
+		trackPlayer = true;
+		tracking = killer;
+	}
+
+	void trackTarg()
+	{
+		playerCam.LookAt(tracking.transform);
 	}
 }
 

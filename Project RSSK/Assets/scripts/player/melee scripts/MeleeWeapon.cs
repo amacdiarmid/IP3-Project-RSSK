@@ -79,6 +79,6 @@ public class MeleeWeapon : NetworkBehaviour
 	[Command]
 	public void CmdHit(GameObject obj)
 	{
-		obj.GetComponent<PlayerStats>().Damage(damage);
+		obj.GetComponent<PlayerStats>().Damage(damage, this.gameObject);
 	}
 }

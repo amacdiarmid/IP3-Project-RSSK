@@ -207,35 +207,44 @@ public class PlayerController : NetworkBehaviour
 		Ray ray = new Ray(curPos, playerTran.forward);
 		if (Physics.Raycast(ray, out hit, maxDistanceToWall))
 		{
-			Debug.DrawLine(curPos, hit.point, Color.magenta, 15);
-			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
-			Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
-			playerAni.animator.SetFloat("wall direction", 0);
-			wallNormal = hit.normal;
-			return true;
+			if (hit.transform.root != this.transform)
+			{
+				Debug.DrawLine(curPos, hit.point, Color.magenta, 15);
+				Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+				Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
+				Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
+				playerAni.animator.SetFloat("wall direction", 0);
+				wallNormal = hit.normal;
+				return true;
+			}	
 		}
 		ray = new Ray(curPos, playerTran.right);
 		if (Physics.Raycast(ray, out hit, maxDistanceToWall))
 		{
-			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
-			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.animator.SetFloat("wall direction", 1);
-			if (playerCam.getCamSide() != camPos.left && hit.transform.tag != "Player")
-				playerCam.changeSide(camPos.left);
-			wallNormal = hit.normal;
-			return true;
+			if (hit.transform.root != this.transform)
+			{
+				Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
+				Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+				playerAni.animator.SetFloat("wall direction", 1);
+				if (playerCam.getCamSide() != camPos.left && hit.transform.tag != "Player")
+					playerCam.changeSide(camPos.left);
+				wallNormal = hit.normal;
+				return true;
+			}
 		}
 		ray = new Ray(curPos, -playerTran.right);
 		if (Physics.Raycast(ray, out hit, maxDistanceToWall))
 		{
-			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
-			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.animator.SetFloat("wall direction", -1);
-			if (playerCam.getCamSide() != camPos.right && hit.transform.tag != "Player")
-				playerCam.changeSide(camPos.right);
-			wallNormal = hit.normal;
-			return true;
+			if (hit.transform.root != this.transform)
+			{
+				Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
+				Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+				playerAni.animator.SetFloat("wall direction", -1);
+				if (playerCam.getCamSide() != camPos.right && hit.transform.tag != "Player")
+					playerCam.changeSide(camPos.right);
+				wallNormal = hit.normal;
+				return true;
+			}
 		}
 		wallNormal = Vector3.zero;
 		return false;

@@ -166,6 +166,17 @@ ModelImporter:
     4300020: Cylinder007
     4300022: Cylinder006
     4300024: Draw Arrow
+    6400000: Box002
+    6400002: Cylinder001
+    6400004: Cylinder004
+    6400006: Cylinder005
+    6400008: Cylinder006
+    6400010: Cylinder007
+    6400012: Cylinder008
+    6400014: Cylinder009
+    6400016: Cylinder010
+    6400018: Cylinder011
+    6400020: Draw Arrow
     7400000: archer jog
     7400002: archer sprint
     7400004: archer back

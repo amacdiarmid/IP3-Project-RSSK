@@ -164,7 +164,7 @@ public class Gun : NetworkBehaviour
 	[Command]
 	void CmdHit(GameObject obj, int damage)
 	{
-		obj.GetComponent<PlayerStats> ().Damage (damage);
+		obj.GetComponent<PlayerStats> ().Damage(damage, this.gameObject);
 	}
 
 	public int getCurAmmo()
