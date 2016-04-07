@@ -391,7 +391,7 @@ Animator:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 101324}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 019682fcb6008a843b8c67b3df29a0a2, type: 3}
   m_Controller: {fileID: 9100000, guid: 462050e47ae6e8f4d958bf8976edb5b4, type: 2}
   m_CullingMode: 1
@@ -746,6 +746,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: airStrafe
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
