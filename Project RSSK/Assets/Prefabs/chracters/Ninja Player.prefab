@@ -594,7 +594,7 @@ MonoBehaviour:
   jumpHeight: 8.5
   runSpeed: 9
   sprintSpeed: 11
-  airStrafe: 6
+  airStrafe: 8
   decelRate: 8
   rollTimer: 0.5
   rollSpeed: 10
@@ -743,6 +743,10 @@ Prefab:
       propertyPath: deathExplosion
       value: 
       objectReference: {fileID: 114686, guid: 3f23dab04e7d8ae489e887756cddf940, type: 2}
+    - target: {fileID: 0}
+      propertyPath: airStrafe
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 101324}

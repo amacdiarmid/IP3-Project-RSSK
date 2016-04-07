@@ -1909,7 +1909,7 @@ MonoBehaviour:
   jumpHeight: 6
   runSpeed: 6
   sprintSpeed: 7.5
-  airStrafe: 4
+  airStrafe: 6
   decelRate: 8
   rollTimer: 1.5
   rollSpeed: 5.5
@@ -2257,7 +2257,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: airStrafe
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: decelRate

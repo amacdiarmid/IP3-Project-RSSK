@@ -9324,8 +9324,8 @@ MonoBehaviour:
   - {fileID: 149366, guid: 96096c2b404f39d49918f3b267411486, type: 2}
   - {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
   - {fileID: 160840, guid: bf931aa8c5d01644c94f9694174820c8, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 147204, guid: 9b34db6e8f7fe4d419e46686077d4d0b, type: 2}
+  - {fileID: 101324, guid: ff17a04cfec5b2f4d905f1458d9407f6, type: 2}
   - {fileID: 146196, guid: c975c8c63f002ed4c96e1978e4a15510, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 6
@@ -9378,9 +9378,9 @@ MonoBehaviour:
   - {fileID: 149366, guid: 96096c2b404f39d49918f3b267411486, type: 2}
   - {fileID: 146196, guid: c975c8c63f002ed4c96e1978e4a15510, type: 2}
   - {fileID: 176964, guid: ea4f5ed1aa03d834e9114a66d187af96, type: 2}
-  - {fileID: 0}
+  - {fileID: 101324, guid: ff17a04cfec5b2f4d905f1458d9407f6, type: 2}
   - {fileID: 160840, guid: bf931aa8c5d01644c94f9694174820c8, type: 2}
-  - {fileID: 0}
+  - {fileID: 147204, guid: 9b34db6e8f7fe4d419e46686077d4d0b, type: 2}
 --- !u!114 &798507142
 MonoBehaviour:
   m_ObjectHideFlags: 0
