@@ -160,8 +160,11 @@ public class PlayerController : NetworkBehaviour
 		charContr.Move(curVel * Time.deltaTime);
 
 		playerAni.animator.SetFloat("height", curVel.y);
-		playerAni.animator.SetFloat("forward direction", Input.GetAxisRaw("Vertical"));
-		playerAni.animator.SetFloat("side direction", Input.GetAxisRaw("Horizontal"));
+		if (curState != PlayerState.roll)
+		{
+			playerAni.animator.SetFloat("forward direction", Input.GetAxisRaw("Vertical"));
+			playerAni.animator.SetFloat("side direction", Input.GetAxisRaw("Horizontal"));
+		}		
 
 		if (Input.GetButton("Vertical"))
 		{
@@ -259,6 +262,7 @@ public class PlayerController : NetworkBehaviour
 			else
 				return;
 		}
+
 		
 		switch (tempState)
 		{
@@ -304,8 +308,8 @@ public class PlayerController : NetworkBehaviour
 			setState(PlayerState.run);
 		if (Input.GetButtonDown("Jump"))
 			setState(PlayerState.jump);
-		if (Input.GetButtonDown("Slide"))
-			setState(PlayerState.roll);
+		//if (Input.GetButtonDown("Slide"))
+			//setState(PlayerState.roll);
 	}
 
 	//one off jumps that add instant force - transitionary state
