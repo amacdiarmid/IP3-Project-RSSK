@@ -7,10 +7,10 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: low_poly_double_wall_window_unwrapped_window wall_color
-  m_Shader: {fileID: 4800000, guid: 857f47563d80247cfa79677a8d496230, type: 3}
-  m_ShaderKeywords: 
+  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _NORMALMAP
   m_LightmapFlags: 5
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -80,6 +80,13 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _SpecGlossMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _diffuse
         second:
           m_Texture: {fileID: 2800000, guid: 5837914fd43ee204fbe11bc7b4107562, type: 3}
@@ -141,7 +148,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0.5
+        second: 0.77
       data:
         first:
           name: _BumpScale
@@ -199,6 +206,10 @@ Material:
         first:
           name: _Color
         second: {r: 0.5514706, g: 0.5514706, b: 0.5514706, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: 0.2, g: 0.2, b: 0.2, a: 1}
       data:
         first:
           name: _spec_color

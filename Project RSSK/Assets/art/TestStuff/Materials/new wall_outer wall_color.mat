@@ -7,8 +7,8 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: new wall_outer wall_color
-  m_Shader: {fileID: 4800000, guid: 6c878572b37d9444fbe97119bbf1c765, type: 3}
-  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP _SPECGLOSSMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
   stringTagMap: {}
@@ -26,7 +26,7 @@ Material:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: c5a5f0fd179e0894ab7f6b9e8e59bccd, type: 3}
+          m_Texture: {fileID: 2800000, guid: 67bbd371c9eb8624dbe08549aa14fdc1, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -80,6 +80,20 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
+          name: _SpecGlossMap
+        second:
+          m_Texture: {fileID: 2800000, guid: 560c4f2a2472466489a1baf231f64cb5, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SpecTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 6ccd4e14bed89dd4b980e5c1f487b0c8, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
           name: _diffuse
         second:
           m_Texture: {fileID: 2800000, guid: 14b4ffe29ba9c294ab5d426b63b63941, type: 3}
@@ -111,13 +125,6 @@ Material:
           name: _RGBMASK
         second:
           m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _SpecTex
-        second:
-          m_Texture: {fileID: 2800000, guid: 6ccd4e14bed89dd4b980e5c1f487b0c8, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -160,7 +167,7 @@ Material:
       data:
         first:
           name: _OcclusionStrength
-        second: 1
+        second: 0.5
       data:
         first:
           name: _DetailNormalMapScale
@@ -172,6 +179,14 @@ Material:
       data:
         first:
           name: _Mode
+        second: 0
+      data:
+        first:
+          name: _SpecInt
+        second: 1
+      data:
+        first:
+          name: _Fresnel
         second: 0
       data:
         first:
@@ -201,14 +216,6 @@ Material:
         first:
           name: _B_CM_Str
         second: 0
-      data:
-        first:
-          name: _SpecInt
-        second: 1
-      data:
-        first:
-          name: _Fresnel
-        second: 0
     m_Colors:
       data:
         first:
@@ -217,7 +224,7 @@ Material:
       data:
         first:
           name: _Color
-        second: {r: 0.31617647, g: 0.31617647, b: 0.31617647, a: 1}
+        second: {r: 0.36764705, g: 0.36764705, b: 0.36764705, a: 1}
       data:
         first:
           name: _SpecColor
