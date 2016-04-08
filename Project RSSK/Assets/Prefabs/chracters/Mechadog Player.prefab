@@ -610,24 +610,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpAudio:
-  - {fileID: 8300000, guid: 9a1cc1805e74d5c42b22488356e35429, type: 3}
-  - {fileID: 8300000, guid: 868dd032147148e479ce1837461c63cc, type: 3}
-  - {fileID: 8300000, guid: 20ece5b4c6f9e06438767e0a2e91e54e, type: 3}
-  - {fileID: 8300000, guid: 316de6ba21028de4e9a612f7771b6eaa, type: 3}
-  - {fileID: 8300000, guid: aa5d855dfb2b93646853c5bdff0e4786, type: 3}
+  - {fileID: 8300000, guid: 3dbabf924859ee04d81bd13942d7b4f7, type: 3}
+  - {fileID: 8300000, guid: 127ac9325e64045408c22e79a767e99d, type: 3}
+  - {fileID: 8300000, guid: 6e2e7695f2503da4da90c9a8f810aeaa, type: 3}
+  - {fileID: 8300000, guid: 979243758a1b17546b6d6bf82b68ee07, type: 3}
   movingAudio:
-  - {fileID: 8300000, guid: 5ad7445171a09744a89f31c03c85457f, type: 3}
-  - {fileID: 8300000, guid: e704bc67e885e3c4d887363c8dfbecfd, type: 3}
-  - {fileID: 8300000, guid: c19d27972e8f4ac41a17b1697f58b6a7, type: 3}
-  - {fileID: 8300000, guid: 48cecc0b26ad3d14faa589f0bbd7c164, type: 3}
+  - {fileID: 8300000, guid: 0835438bf19738d418d75b830b6146b1, type: 3}
+  - {fileID: 8300000, guid: 2b5b2d7438a37824c8bd05bb0a4c6124, type: 3}
+  - {fileID: 8300000, guid: 38452021c2e785341bfe84c7032414b7, type: 3}
+  - {fileID: 8300000, guid: 5b1097385cbae3c4c8f461b43a64414d, type: 3}
   damageAudio:
-  - {fileID: 8300000, guid: b2447a43e4bc476449444cbe1af84d4f, type: 3}
-  - {fileID: 8300000, guid: 9c375696cb867f44d87c05294864c677, type: 3}
-  - {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
-  - {fileID: 8300000, guid: 8422a27fae4a40545afc775fc8eb7a85, type: 3}
+  - {fileID: 8300000, guid: 99f2a582806f51047a60eea98fc34cdc, type: 3}
+  - {fileID: 8300000, guid: 0cf33a878eb3bd24998c014dc59cfbf5, type: 3}
+  - {fileID: 8300000, guid: 2c6d2c1d554f3d14db9c3a9203b4b063, type: 3}
+  - {fileID: 8300000, guid: 127f8c2187345334f8f04859b94144ff, type: 3}
   deathAudio:
-  - {fileID: 8300000, guid: 8343cf754c65cfe43a5108e79f9b24b6, type: 3}
-  - {fileID: 8300000, guid: 013a016c41095ab4a9d39574bfe7eaf7, type: 3}
+  - {fileID: 8300000, guid: 2c9ec015b03ff3b4190cf5b60ab2b1ed, type: 3}
+  - {fileID: 8300000, guid: 59c2a5726de72dd4d84bfdab02857263, type: 3}
   spawnAudio: {fileID: 8300000, guid: 2477044abccc63d4ebc3be362c38029e, type: 3}
 --- !u!114 &11411808
 MonoBehaviour:
@@ -791,9 +790,9 @@ MonoBehaviour:
   spreadDep: 9.49
   aimMuli: 0.5
   sprintMuli: 2.54
-  fireAudio: {fileID: 8300000, guid: ff7309d4dd64c144d890f04b8c7cf094, type: 3}
-  outOfAmmoAudio: {fileID: 8300000, guid: 8175182f91a2a4241a15124f861f53e3, type: 3}
-  reloadAudio: {fileID: 8300000, guid: 40b77c48c79852a43925586bd81f50b7, type: 3}
+  fireAudio: {fileID: 8300000, guid: d0fce3bfe3c70234baeb76b46b202f77, type: 3}
+  outOfAmmoAudio: {fileID: 8300000, guid: 0ae0891defe63444eab40a54aedc7b69, type: 3}
+  reloadAudio: {fileID: 8300000, guid: 45b719c1e7b02bb48b085d63925c25ae, type: 3}
   audioSource: {fileID: 8231052}
 --- !u!114 &11493518
 MonoBehaviour:
@@ -814,8 +813,8 @@ MonoBehaviour:
   knockback: 5
   weaponCol: {fileID: 11440238}
   attackAudio:
-  - {fileID: 8300000, guid: e714254659e00d74fa5fbbb5a2b2eab8, type: 3}
-  - {fileID: 8300000, guid: 7a0fdc42e4813c14283018ab483c9f3c, type: 3}
+  - {fileID: 8300000, guid: bddc1df20ab9f1444bebfa94aeca5306, type: 3}
+  - {fileID: 8300000, guid: 81942093d761440409d75f0d37fa7d65, type: 3}
   audioSource: {fileID: 8231052}
 --- !u!124 &12410820
 Behaviour:
@@ -959,6 +958,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalRotation.y
       value: 0
@@ -1167,6 +1170,86 @@ Prefab:
       propertyPath: deathExplosion
       value: 
       objectReference: {fileID: 114686, guid: 3f23dab04e7d8ae489e887756cddf940, type: 2}
+    - target: {fileID: 0}
+      propertyPath: movingAudio.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0835438bf19738d418d75b830b6146b1, type: 3}
+    - target: {fileID: 0}
+      propertyPath: movingAudio.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2b5b2d7438a37824c8bd05bb0a4c6124, type: 3}
+    - target: {fileID: 0}
+      propertyPath: movingAudio.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 38452021c2e785341bfe84c7032414b7, type: 3}
+    - target: {fileID: 0}
+      propertyPath: movingAudio.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5b1097385cbae3c4c8f461b43a64414d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: deathAudio.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c9ec015b03ff3b4190cf5b60ab2b1ed, type: 3}
+    - target: {fileID: 0}
+      propertyPath: damageAudio.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 99f2a582806f51047a60eea98fc34cdc, type: 3}
+    - target: {fileID: 0}
+      propertyPath: damageAudio.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0cf33a878eb3bd24998c014dc59cfbf5, type: 3}
+    - target: {fileID: 0}
+      propertyPath: damageAudio.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 2c6d2c1d554f3d14db9c3a9203b4b063, type: 3}
+    - target: {fileID: 0}
+      propertyPath: damageAudio.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 127f8c2187345334f8f04859b94144ff, type: 3}
+    - target: {fileID: 0}
+      propertyPath: deathAudio.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 59c2a5726de72dd4d84bfdab02857263, type: 3}
+    - target: {fileID: 0}
+      propertyPath: fireAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: d0fce3bfe3c70234baeb76b46b202f77, type: 3}
+    - target: {fileID: 0}
+      propertyPath: outOfAmmoAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 0ae0891defe63444eab40a54aedc7b69, type: 3}
+    - target: {fileID: 0}
+      propertyPath: reloadAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 45b719c1e7b02bb48b085d63925c25ae, type: 3}
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 3dbabf924859ee04d81bd13942d7b4f7, type: 3}
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 127ac9325e64045408c22e79a767e99d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 6e2e7695f2503da4da90c9a8f810aeaa, type: 3}
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 979243758a1b17546b6d6bf82b68ee07, type: 3}
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 04f46e7095d6b0542baf39244c5e52a4, type: 3}
+    - target: {fileID: 0}
+      propertyPath: attackAudio.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: bddc1df20ab9f1444bebfa94aeca5306, type: 3}
+    - target: {fileID: 0}
+      propertyPath: attackAudio.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 81942093d761440409d75f0d37fa7d65, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 176964}
