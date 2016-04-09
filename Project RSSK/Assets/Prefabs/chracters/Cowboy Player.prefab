@@ -323,7 +323,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 147204}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: -41.49474, y: -13.064865, z: 15.0188875}
+  m_LocalPosition: {x: -47.74286, y: 1.68, z: 0.09836435}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 459598}
@@ -1013,21 +1013,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpAudio:
-  - {fileID: 8300000, guid: 9df5f9f557e80494da045f24b6d7cbc9, type: 3}
-  - {fileID: 8300000, guid: d5111dc07754dcb4c96b311cb3bbb0de, type: 3}
-  - {fileID: 8300000, guid: 79de256383fc3d54499e16a90fedd7e7, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   movingAudio:
-  - {fileID: 8300000, guid: 5b1097385cbae3c4c8f461b43a64414d, type: 3}
-  - {fileID: 8300000, guid: 022ed23e905140448b981c50746d0a65, type: 3}
-  - {fileID: 8300000, guid: 72665cea5a195114893e2dafa11e309a, type: 3}
-  - {fileID: 8300000, guid: 2b5b2d7438a37824c8bd05bb0a4c6124, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   damageAudio:
-  - {fileID: 8300000, guid: c76dd501d310ca944a0b6a663de87007, type: 3}
-  - {fileID: 8300000, guid: da951bd07e603c844b3d59f8580ce2ca, type: 3}
-  - {fileID: 8300000, guid: 5624ebbb9e0ee1444b6ced508af447a6, type: 3}
-  - {fileID: 8300000, guid: 0260006e09adeee41b189134a1673138, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   deathAudio:
-  - {fileID: 8300000, guid: 27e118d54aa58304780a5f6bb96cb64c, type: 3}
+  - {fileID: 0}
   - {fileID: 8300000, guid: 013a016c41095ab4a9d39574bfe7eaf7, type: 3}
   spawnAudio: {fileID: 8300000, guid: d45a457e0e8810a4393f8f69afbcaeba, type: 3}
 --- !u!114 &11441648
@@ -1162,9 +1162,21 @@ MonoBehaviour:
   maxDistanceToWall: 2
   climbSpeed: 8
   climbTimer: 3
-  yellowMat: {fileID: 2100000, guid: b0058d9a7eac94a4eb20a4535583a646, type: 2}
-  blueMat: {fileID: 2100000, guid: 6d9112a41bd0dd94ba2814a189212120, type: 2}
-  charRend: {fileID: 13736382}
+  yellowMat:
+  - {fileID: 2100000, guid: b0058d9a7eac94a4eb20a4535583a646, type: 2}
+  - {fileID: 2100000, guid: 8568e2a83d6a2fe44a38e01cb6e80d51, type: 2}
+  - {fileID: 2100000, guid: 7bdc5f2a2210ee840b27f5a19849b56b, type: 2}
+  - {fileID: 2100000, guid: 7bdc5f2a2210ee840b27f5a19849b56b, type: 2}
+  blueMat:
+  - {fileID: 2100000, guid: 26b28b83fa23a304d82793bb8abf27d1, type: 2}
+  - {fileID: 2100000, guid: d6bfa268a073a3f47a37bb78981d03ec, type: 2}
+  - {fileID: 2100000, guid: b8ab1c66cf445db45ac5bd3dbc49bf8b, type: 2}
+  - {fileID: 2100000, guid: b8ab1c66cf445db45ac5bd3dbc49bf8b, type: 2}
+  charRend:
+  - {fileID: 13736382}
+  - {fileID: 13709182}
+  - {fileID: 2344734}
+  - {fileID: 2355480}
 --- !u!114 &11497522
 MonoBehaviour:
   m_ObjectHideFlags: 1

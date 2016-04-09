@@ -219,7 +219,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 171342}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 420.262, y: 56.356, z: -284.74}
+  m_LocalPosition: {x: -49.437477, y: 1.515, z: 4.2299957}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 453168}
@@ -319,7 +319,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: bf74cc684dae32044adb0b969546e470, type: 2}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -345,7 +345,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: bf74cc684dae32044adb0b969546e470, type: 2}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -660,9 +660,21 @@ MonoBehaviour:
   maxDistanceToWall: 2
   climbSpeed: 8
   climbTimer: 3
-  yellowMat: {fileID: 2100000, guid: 369b0ca2b2c7b0c40929f67dce9f97ac, type: 2}
-  blueMat: {fileID: 2100000, guid: 7066ea626cc79b14cb94766f9daaa635, type: 2}
-  charRend: {fileID: 13723270}
+  yellowMat:
+  - {fileID: 2100000, guid: 369b0ca2b2c7b0c40929f67dce9f97ac, type: 2}
+  - {fileID: 2100000, guid: 42db8511e6dc412469a223525d1e054e, type: 2}
+  - {fileID: 2100000, guid: 015149b8d687e13479b1064eb845e4a0, type: 2}
+  - {fileID: 2100000, guid: 8fdd6e9f4e7c20744bef6f215f3fd75f, type: 2}
+  blueMat:
+  - {fileID: 2100000, guid: 252ef92797f0b4848a8b53a006a6f0bd, type: 2}
+  - {fileID: 2100000, guid: 4407a03013d8df948950cfce1bf9f0b9, type: 2}
+  - {fileID: 2100000, guid: 3ed3b0fbd9157c6459eb31f0879102db, type: 2}
+  - {fileID: 2100000, guid: 45be60522daab124095c1f9fd09fc632, type: 2}
+  charRend:
+  - {fileID: 13723270}
+  - {fileID: 13791040}
+  - {fileID: 2397858}
+  - {fileID: 2319178}
 --- !u!114 &11463738
 MonoBehaviour:
   m_ObjectHideFlags: 1

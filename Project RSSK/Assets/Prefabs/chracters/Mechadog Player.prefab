@@ -255,7 +255,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176964}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: -41.49474, y: -13.064865, z: 11.0188875}
+  m_LocalPosition: {x: -49.0841, y: 1.573, z: 2.0180678}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 484534}
@@ -610,23 +610,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpAudio:
-  - {fileID: 8300000, guid: 3dbabf924859ee04d81bd13942d7b4f7, type: 3}
-  - {fileID: 8300000, guid: 127ac9325e64045408c22e79a767e99d, type: 3}
-  - {fileID: 8300000, guid: 6e2e7695f2503da4da90c9a8f810aeaa, type: 3}
-  - {fileID: 8300000, guid: 979243758a1b17546b6d6bf82b68ee07, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   movingAudio:
-  - {fileID: 8300000, guid: 0835438bf19738d418d75b830b6146b1, type: 3}
-  - {fileID: 8300000, guid: 2b5b2d7438a37824c8bd05bb0a4c6124, type: 3}
-  - {fileID: 8300000, guid: 38452021c2e785341bfe84c7032414b7, type: 3}
-  - {fileID: 8300000, guid: 5b1097385cbae3c4c8f461b43a64414d, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   damageAudio:
-  - {fileID: 8300000, guid: 99f2a582806f51047a60eea98fc34cdc, type: 3}
-  - {fileID: 8300000, guid: 0cf33a878eb3bd24998c014dc59cfbf5, type: 3}
-  - {fileID: 8300000, guid: 2c6d2c1d554f3d14db9c3a9203b4b063, type: 3}
-  - {fileID: 8300000, guid: 127f8c2187345334f8f04859b94144ff, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   deathAudio:
-  - {fileID: 8300000, guid: 2c9ec015b03ff3b4190cf5b60ab2b1ed, type: 3}
-  - {fileID: 8300000, guid: 59c2a5726de72dd4d84bfdab02857263, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   spawnAudio: {fileID: 8300000, guid: 2477044abccc63d4ebc3be362c38029e, type: 3}
 --- !u!114 &11411808
 MonoBehaviour:
@@ -654,9 +654,15 @@ MonoBehaviour:
   maxDistanceToWall: 2
   climbSpeed: 7
   climbTimer: 3
-  yellowMat: {fileID: 2100000, guid: ceecdb24e0dccdf4e8803050a3adc384, type: 2}
-  blueMat: {fileID: 2100000, guid: 899fa0644b8db384a838e64d843ab087, type: 2}
-  charRend: {fileID: 13758578}
+  yellowMat:
+  - {fileID: 2100000, guid: ceecdb24e0dccdf4e8803050a3adc384, type: 2}
+  - {fileID: 2100000, guid: 73517f3c52f11fc488e9022f73448d58, type: 2}
+  blueMat:
+  - {fileID: 2100000, guid: 6fb59889b400f8e4094388b594128f26, type: 2}
+  - {fileID: 2100000, guid: 73517f3c52f11fc488e9022f73448d58, type: 2}
+  charRend:
+  - {fileID: 13758578}
+  - {fileID: 2355316}
 --- !u!114 &11423464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -813,8 +819,8 @@ MonoBehaviour:
   knockback: 5
   weaponCol: {fileID: 11440238}
   attackAudio:
-  - {fileID: 8300000, guid: bddc1df20ab9f1444bebfa94aeca5306, type: 3}
-  - {fileID: 8300000, guid: 81942093d761440409d75f0d37fa7d65, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   audioSource: {fileID: 8231052}
 --- !u!124 &12410820
 Behaviour:

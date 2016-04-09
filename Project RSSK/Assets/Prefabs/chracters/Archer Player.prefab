@@ -1308,7 +1308,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 175422}
-  m_LocalRotation: {x: -0.7349946, y: -0.13765082, z: 0.059590835, w: 0.6612746}
+  m_LocalRotation: {x: -0.73499465, y: -0.13765083, z: 0.059590835, w: 0.6612747}
   m_LocalPosition: {x: 0.00036652316, y: 0.013107791, z: 0.04963219}
   m_LocalScale: {x: 0.05881505, y: 0.05881506, z: 0.058815062}
   m_Children: []
@@ -1420,7 +1420,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 121594}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: 416.873, y: 56.586452, z: -284.701}
+  m_LocalPosition: {x: -43.50833, y: 2.9476285, z: -2.267528}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 416554}
@@ -2501,9 +2501,18 @@ MonoBehaviour:
   maxDistanceToWall: 2
   climbSpeed: 9
   climbTimer: 3
-  yellowMat: {fileID: 2100000, guid: a50c3e9530708a54f834f5603518a65c, type: 2}
-  blueMat: {fileID: 2100000, guid: 0b13934aaa3fee14b98af8f8013f1af7, type: 2}
-  charRend: {fileID: 13721828}
+  yellowMat:
+  - {fileID: 2100000, guid: a50c3e9530708a54f834f5603518a65c, type: 2}
+  - {fileID: 2100000, guid: 707a7765aee49064182c071d1f53730a, type: 2}
+  - {fileID: 2100000, guid: c14c36dad4b92ef49bbed6c285421792, type: 2}
+  blueMat:
+  - {fileID: 2100000, guid: 62de335607825da4983a715a04c7ba83, type: 2}
+  - {fileID: 2100000, guid: 993d8397c0989ff43baa7dcfb3a6825e, type: 2}
+  - {fileID: 2100000, guid: c01490c12558e1b44b28f56baaa0312e, type: 2}
+  charRend:
+  - {fileID: 13721828}
+  - {fileID: 13783766}
+  - {fileID: 2309706}
 --- !u!114 &11447338
 MonoBehaviour:
   m_ObjectHideFlags: 1
