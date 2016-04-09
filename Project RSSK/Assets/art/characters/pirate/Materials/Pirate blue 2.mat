@@ -6,11 +6,11 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: dog blue
-  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+  m_Name: Pirate blue 2
+  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _NORMALMAP
   m_LightmapFlags: 5
-  m_CustomRenderQueue: -1
+  m_CustomRenderQueue: 2000
   stringTagMap: {}
   m_SavedProperties:
     serializedVersion: 2
@@ -19,14 +19,14 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 25ce4a27bfdbd3244ba1e9451fd23161, type: 3}
+          m_Texture: {fileID: 2800000, guid: b94c7bfcde142d0448a76a08f26e7a7f, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: 84556c919136d9e4db7eda8bd619f4a9, type: 3}
+          m_Texture: {fileID: 2800000, guid: 3d828980ca421824399712a1ac3a7a8f, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -78,6 +78,13 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SpecGlossMap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -102,7 +109,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0.7
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -126,7 +133,7 @@ Material:
       data:
         first:
           name: _Metallic
-        second: 0.25
+        second: 0
     m_Colors:
       data:
         first:
@@ -136,3 +143,7 @@ Material:
         first:
           name: _Color
         second: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+      data:
+        first:
+          name: _SpecColor
+        second: {r: 0.2, g: 0.2, b: 0.2, a: 1}
