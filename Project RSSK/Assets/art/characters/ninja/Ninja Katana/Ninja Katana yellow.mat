@@ -6,9 +6,9 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Knight Shield
+  m_Name: Ninja Katana yellow
   m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _NORMALMAP
+  m_ShaderKeywords: _NORMALMAP _SPECGLOSSMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: -1
   stringTagMap: {}
@@ -19,14 +19,14 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 811db32f33db551408aaca1405942ce8, type: 3}
+          m_Texture: {fileID: 2800000, guid: e4616dc6ca824b8478dae0443dbb64f9, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 2800000, guid: 45e4bd8ce0cc6ef4882a7c43992a1303, type: 3}
+          m_Texture: {fileID: 2800000, guid: 3efeb8afc1d51f04eb4d4f0e5c636cf6, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -47,7 +47,7 @@ Material:
         first:
           name: _OcclusionMap
         second:
-          m_Texture: {fileID: 2800000, guid: 502d699ceaa9a4440a7f83a152f339da, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -82,7 +82,7 @@ Material:
         first:
           name: _SpecGlossMap
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: 2db5a5b3a693d184c8dcafe206b32125, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -100,10 +100,6 @@ Material:
         second: 0.5
       data:
         first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
           name: _Parallax
         second: 0.02
       data:
@@ -113,7 +109,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: 0.21
+        second: 0.5
       data:
         first:
           name: _BumpScale
@@ -121,7 +117,7 @@ Material:
       data:
         first:
           name: _OcclusionStrength
-        second: 0.83
+        second: 1
       data:
         first:
           name: _DetailNormalMapScale
@@ -133,6 +129,10 @@ Material:
       data:
         first:
           name: _Mode
+        second: 0
+      data:
+        first:
+          name: _Metallic
         second: 0
     m_Colors:
       data:
