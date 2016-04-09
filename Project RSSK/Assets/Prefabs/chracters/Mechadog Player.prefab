@@ -255,7 +255,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176964}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: -41.49474, y: -13.064865, z: 11.0188875}
+  m_LocalPosition: {x: 403.3478, y: 32.998, z: -184.09544}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 484534}
@@ -317,7 +317,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 169594}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.78, y: 0.743, z: -1.628}
+  m_LocalPosition: {x: 0.78, y: 0.743, z: -2.004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451378}
@@ -753,7 +753,7 @@ MonoBehaviour:
   camShake: 1
   damageShaceVal: 3
   damageShakeDep: 1
-  sprintPos: -2.11
+  sprintPos: -2.4
   speed: 1
 --- !u!114 &11440238
 MonoBehaviour:
