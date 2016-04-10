@@ -48,6 +48,9 @@ public class PlayerCamera : NetworkBehaviour
 
 	private bool move;
 
+	private bool trackPlayer;
+	private GameObject tracking;
+
 	// Use this for initialization
 	void Start()
 	{
@@ -70,15 +73,19 @@ public class PlayerCamera : NetworkBehaviour
 	{
 		if (!isLocalPlayer)
 			return;
-			
-		rotateCamera();
-		lockMouse();
-		checkInput();
-		if (move)
-			moveCam();
-		else if (camShake)
-			shakeCam();
 
+		if (trackPlayer)
+			trackTarg();
+		else
+		{
+			rotateCamera();
+			lockMouse();
+			checkInput();
+			if (move)
+				moveCam();
+			else if (camShake)
+				shakeCam();
+		}
 	}
 
 	void rotateCamera()
@@ -165,7 +172,7 @@ public class PlayerCamera : NetworkBehaviour
 		float distCovered = (Time.time - startTime) * speed;
 		float fracJourney = distCovered / journeyLength;
 		playerCam.localPosition = Vector3.Lerp(playerCam.transform.localPosition, newPos, fracJourney);
-		Debug.Log(fracJourney);
+		//Debug.Log(fracJourney);
 		if (fracJourney >= 0.2f)
 		{
 			move = false;
@@ -212,7 +219,7 @@ public class PlayerCamera : NetworkBehaviour
 
 		shakeVals.x = curClamp * (Mathf.PerlinNoise(PerlinTime * curSpeed, 0.0f) * 2 - 1);
 		shakeVals.y = curClamp * (Mathf.PerlinNoise(0.0f, PerlinTime * curSpeed) * 2 - 1);
-		Debug.Log("shake " + shakeVals);
+		//Debug.Log("shake " + shakeVals);
 		PerlinTime = PerlinTime + Time.deltaTime;
 
 		Vector3 pos = startingPos;
@@ -243,6 +250,17 @@ public class PlayerCamera : NetworkBehaviour
 		curDamageShake = curDamageShake - (damageShakeDep * Time.deltaTime);
 		if (curDamageShake < 0)
 			curDamageShake = 0;
+	}
+
+	public void Dead(GameObject killer)
+	{
+		trackPlayer = true;
+		tracking = killer;
+	}
+
+	void trackTarg()
+	{
+		playerCam.LookAt(tracking.transform);
 	}
 }
 

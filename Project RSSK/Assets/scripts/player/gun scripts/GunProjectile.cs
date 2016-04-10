@@ -7,7 +7,7 @@ public class GunProjectile : MonoBehaviour
 
 	void Start ()
 	{
-		Destroy(gameObject, Time.time + lifeSpan);
+		Destroy(gameObject, lifeSpan);
 	}
 
 	public void setUpLine(Vector3 start, Vector3 finish)

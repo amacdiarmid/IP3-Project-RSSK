@@ -52,6 +52,7 @@ public class PlayerController : NetworkBehaviour
 	Vector3 curVel = Vector3.zero;
 	Vector3 curPos;
 
+
 	NetworkAnimator playerAni;
 
 	//clientside canvas display
@@ -88,6 +89,11 @@ public class PlayerController : NetworkBehaviour
 
 	bool overrideControllable;
 
+	//mats
+	public List<Material> yellowMat;
+	public List<Material> blueMat;
+	public List<Renderer> charRend;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -110,14 +116,21 @@ public class PlayerController : NetworkBehaviour
 			Renderer r = GetComponent<Renderer>();
 			if(r)
 				r.material.color = team == PlayerTeam.TeamYellow ? Color.yellow : Color.blue;
+			if (team == PlayerTeam.TeamBlue)
+				for (int i = 0; i < charRend.Count; i++)
+				{
+					charRend[i].material = blueMat[i];
+				}
+				
+			else
+				for (int i = 0; i < charRend.Count; i++)
+				{
+					charRend[i].material = yellowMat[i];
+				}
 		}
 
 		if (isLocalPlayer)
-		{
 			localInstance = this;
-			GameObject canvas = ((GameManager)NetworkManager.singleton).canvas;
-			gameStatusText = canvas.transform.Find("GameStatus").GetComponent<Text>();
-		}
 	}
 
 	// Update is called once per frame
@@ -154,8 +167,11 @@ public class PlayerController : NetworkBehaviour
 		charContr.Move(curVel * Time.deltaTime);
 
 		playerAni.animator.SetFloat("height", curVel.y);
-		playerAni.animator.SetFloat("forward direction", Input.GetAxisRaw("Vertical"));
-		playerAni.animator.SetFloat("side direction", Input.GetAxisRaw("Horizontal"));
+		if (curState != PlayerState.roll)
+		{
+			playerAni.animator.SetFloat("forward direction", Input.GetAxisRaw("Vertical"));
+			playerAni.animator.SetFloat("side direction", Input.GetAxisRaw("Horizontal"));
+		}		
 
 		if (Input.GetButton("Vertical"))
 		{
@@ -201,35 +217,44 @@ public class PlayerController : NetworkBehaviour
 		Ray ray = new Ray(curPos, playerTran.forward);
 		if (Physics.Raycast(ray, out hit, maxDistanceToWall))
 		{
-			Debug.DrawLine(curPos, hit.point, Color.magenta, 15);
-			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
-			Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
-			playerAni.animator.SetFloat("wall direction", 0);
-			wallNormal = hit.normal;
-			return true;
+			if (hit.transform.root != this.transform)
+			{
+				Debug.DrawLine(curPos, hit.point, Color.magenta, 15);
+				Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+				Debug.DrawLine(hit.point, hit.point + hit.normal, Color.red, 15);
+				Debug.DrawLine(hit.point + hit.normal, hit.point + hit.normal * 0.9f, Color.blue, 15);
+				playerAni.animator.SetFloat("wall direction", 0);
+				wallNormal = hit.normal;
+				return true;
+			}	
 		}
 		ray = new Ray(curPos, playerTran.right);
 		if (Physics.Raycast(ray, out hit, maxDistanceToWall))
 		{
-			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
-			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.animator.SetFloat("wall direction", 1);
-			if (playerCam.getCamSide() != camPos.left && hit.transform.tag != "Player")
-				playerCam.changeSide(camPos.left);
-			wallNormal = hit.normal;
-			return true;
+			if (hit.transform.root != this.transform)
+			{
+				Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
+				Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+				playerAni.animator.SetFloat("wall direction", 1);
+				if (playerCam.getCamSide() != camPos.left && hit.transform.tag != "Player")
+					playerCam.changeSide(camPos.left);
+				wallNormal = hit.normal;
+				return true;
+			}
 		}
 		ray = new Ray(curPos, -playerTran.right);
 		if (Physics.Raycast(ray, out hit, maxDistanceToWall))
 		{
-			Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
-			Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
-			playerAni.animator.SetFloat("wall direction", -1);
-			if (playerCam.getCamSide() != camPos.right && hit.transform.tag != "Player")
-				playerCam.changeSide(camPos.right);
-			wallNormal = hit.normal;
-			return true;
+			if (hit.transform.root != this.transform)
+			{
+				Debug.DrawLine(curPos, hit.point, Color.cyan, 15);
+				Debug.DrawLine(curPos + (hit.point - curPos) * 0.9f, hit.point, Color.blue, 15);
+				playerAni.animator.SetFloat("wall direction", -1);
+				if (playerCam.getCamSide() != camPos.right && hit.transform.tag != "Player")
+					playerCam.changeSide(camPos.right);
+				wallNormal = hit.normal;
+				return true;
+			}
 		}
 		wallNormal = Vector3.zero;
 		return false;
@@ -244,6 +269,7 @@ public class PlayerController : NetworkBehaviour
 			else
 				return;
 		}
+
 		
 		switch (tempState)
 		{
@@ -289,8 +315,8 @@ public class PlayerController : NetworkBehaviour
 			setState(PlayerState.run);
 		if (Input.GetButtonDown("Jump"))
 			setState(PlayerState.jump);
-		if (Input.GetButtonDown("Slide"))
-			setState(PlayerState.roll);
+		//if (Input.GetButtonDown("Slide"))
+			//setState(PlayerState.roll);
 	}
 
 	//one off jumps that add instant force - transitionary state
@@ -455,7 +481,7 @@ public class PlayerController : NetworkBehaviour
 
 	public void SetGameInfo(string text)
 	{
-		gameStatusText.text = text;
+		Debug.Log("SetGameInfo stub");
 	}
 
 	void setAnimator(animationBools goToState)

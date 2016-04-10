@@ -19,7 +19,6 @@ public class Gun : NetworkBehaviour
 	public bool primWeap;
 	public float range = 100;
 	public int maxAmmo = 30;
-	public int spareAmmo = 90;
 	public float rateOfFire = 1;
 	public int damage = 50;
 	public float reloadSpeed = 5;
@@ -40,6 +39,8 @@ public class Gun : NetworkBehaviour
 	public AudioClip reloadAudio;
 	public AudioSource audioSource;
 
+	private PlayerTeam curTeam;
+
 	void Start()
 	{
 		curAmmo = maxAmmo;
@@ -47,6 +48,7 @@ public class Gun : NetworkBehaviour
 		playCam = this.GetComponent<PlayerCamera>();
 		if (gunAni == null)
 			Debug.LogError ("Setup: Failed to find NetworkAnimator");
+		curTeam = this.gameObject.GetComponent<PlayerController>().team;
 	}
 
 	void Update()
@@ -62,12 +64,14 @@ public class Gun : NetworkBehaviour
 
 	public virtual void Shoot()
 	{
-		if (curAmmo >= 0 && !reloading)
+		if (curAmmo > 0 && !reloading)
 		{
 			RoFTime = 0;
 			canFire = false;
 
 			--curAmmo;
+
+			bool hasHit = false;
 
 			//set the center of the screen, add the gun spread cone, apply the screen spread offset to keep it central 
 			float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().x;
@@ -78,8 +82,10 @@ public class Gun : NetworkBehaviour
 			hits = Physics.RaycastAll(ray);
 			foreach (var hit in hits)
 			{
-				if (hit.transform != this.transform)
+				if (hit.transform != this.transform && Vector3.Distance(ray.origin, hit.point) < range)
 				{
+					hasHit = true;
+					Debug.Log("hit " + Vector3.Distance(ray.origin, hit.point));
 					//gun to target ray
 					Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
 					GameObject trail = Instantiate(bulletTrail);
@@ -87,11 +93,12 @@ public class Gun : NetworkBehaviour
 					//screen to target ray
 					Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
 					if (hit.collider.tag == "Player")
-						CmdHit(hit.transform.gameObject, damage);
+						if(hit.collider.GetComponent<PlayerController>().team != curTeam) //should work need to test with others. 
+							CmdHit(hit.transform.gameObject, damage);
 					break;
 				}
 			}
-			if (hits.Length == 0)
+			if (hits.Length == 0 || hasHit == false)
 			{
 				Debug.Log("no hit");
 				//gun to target ray
@@ -126,15 +133,10 @@ public class Gun : NetworkBehaviour
 	public void reload()
 	{
 		StartCoroutine(reloadWait());
-		//this could be alot better
-		if (curAmmo != maxAmmo && spareAmmo > 0)
+		if (curAmmo != maxAmmo)
 		{
 			gunAni.SetTrigger("reload");
-		}
-		while (curAmmo != maxAmmo && spareAmmo > 0)
-		{
-			++curAmmo;
-			--spareAmmo;
+			curAmmo = maxAmmo;
 			audioSource.PlayOneShot(reloadAudio);
 		}
 		gunSreadVal = 0;
@@ -162,6 +164,40 @@ public class Gun : NetworkBehaviour
 	[Command]
 	void CmdHit(GameObject obj, int damage)
 	{
-		obj.GetComponent<PlayerStats> ().Damage (damage);
+		obj.GetComponent<PlayerStats> ().Damage(damage, this.gameObject);
+	}
+
+	public int getCurAmmo()
+	{
+		return curAmmo;
+	}
+
+	public float getCurSpread()
+	{
+		return gunSreadVal;
+	}
+
+	public bool playerInRange()
+	{
+		//really bad repeated code for the UI
+		
+		float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().x;
+		float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().y;
+
+		RaycastHit[] hits;
+		Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
+		hits = Physics.RaycastAll(ray);
+		foreach (var hit in hits)
+		{
+			if (hit.transform != this.transform && Vector3.Distance(ray.origin, hit.point) < range)
+			{
+				//gun to target ray
+				//Debug.DrawLine(ray.origin, hit.point, Color.green, 10);
+				if (hit.collider.tag == "Player")
+					return true;
+				return false;
+			}
+		}
+		return false;
 	}
 }

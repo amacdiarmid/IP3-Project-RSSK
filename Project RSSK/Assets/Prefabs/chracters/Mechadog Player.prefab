@@ -254,8 +254,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 176964}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4, y: 25, z: 10}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
+  m_LocalPosition: {x: -41.49474, y: -13.064865, z: 11.0188875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 484534}
@@ -317,7 +317,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 169594}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.18, y: 0.8, z: -2.37}
+  m_LocalPosition: {x: 0.78, y: 0.743, z: -1.628}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 451378}
@@ -595,6 +595,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76e1ca81e8b9965409e30c9024cb10a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Mesh: {fileID: 154712}
+  deathExplosion: {fileID: 114686, guid: 3f23dab04e7d8ae489e887756cddf940, type: 2}
   maxHealth: 220
 --- !u!114 &11410320
 MonoBehaviour:
@@ -641,18 +643,21 @@ MonoBehaviour:
   team: 0
   id: -1
   controllable: 0
-  jumpHeight: 4
+  jumpHeight: 5
   runSpeed: 5
-  sprintSpeed: 8
-  airStrafe: 4
+  sprintSpeed: 7
+  airStrafe: 5
   decelRate: 8
   rollTimer: 1.5
-  rollSpeed: 6
-  wallrunSpeed: 7
+  rollSpeed: 5
+  wallrunSpeed: 6
   angleToWallrun: 10
   maxDistanceToWall: 2
   climbSpeed: 7
   climbTimer: 3
+  yellowMat: {fileID: 2100000, guid: ceecdb24e0dccdf4e8803050a3adc384, type: 2}
+  blueMat: {fileID: 2100000, guid: 899fa0644b8db384a838e64d843ab087, type: 2}
+  charRend: {fileID: 13758578}
 --- !u!114 &11423464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -740,7 +745,16 @@ MonoBehaviour:
   lookDownLim: 285
   defaultFOV: 60
   aimFOV: 30
-  sprintPos: -3.37
+  shakeSpeed: 0.18
+  distanceClamp: 0.25
+  sprintSpeedMult: 7.4
+  sprintClampMult: 1.19
+  aimSpeedMult: 0.5
+  aimClampMult: 0.5
+  camShake: 1
+  damageShaceVal: 3
+  damageShakeDep: 1
+  sprintPos: -2.11
   speed: 1
 --- !u!114 &11440238
 MonoBehaviour:
@@ -769,13 +783,14 @@ MonoBehaviour:
   primWeap: 1
   range: 100
   maxAmmo: 30
-  spareAmmo: 900
   rateOfFire: 0.1
-  damage: 50
-  reloadSpeed: 5
-  maxSpread: 3
-  spreadAdv: 0.2
-  spreadDep: 0.1
+  damage: 2
+  reloadSpeed: 2
+  maxSpread: 7743.01
+  spreadAdv: 3.77
+  spreadDep: 9.49
+  aimMuli: 0.5
+  sprintMuli: 2.54
   fireAudio: {fileID: 8300000, guid: ff7309d4dd64c144d890f04b8c7cf094, type: 3}
   outOfAmmoAudio: {fileID: 8300000, guid: 8175182f91a2a4241a15124f861f53e3, type: 3}
   reloadAudio: {fileID: 8300000, guid: 40b77c48c79852a43925586bd81f50b7, type: 3}
@@ -970,7 +985,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: airStrafe
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: runSpeed
@@ -978,11 +993,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: sprintSpeed
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: rollSpeed
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: rollTimer
@@ -998,7 +1013,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: jumpHeight
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxDistanceToWall
@@ -1078,7 +1093,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxSpread
-      value: 3
+      value: 7743.01
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: decelRate
@@ -1086,7 +1101,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: wallrunSpeed
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: range
@@ -1112,6 +1127,46 @@ Prefab:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 4f113479db223704bb18fb1ae1c45c7b, type: 2}
+    - target: {fileID: 0}
+      propertyPath: shakeSpeed
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: distanceClamp
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintSpeedMult
+      value: 7.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: speed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintClampMult
+      value: 1.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spreadAdv
+      value: 3.77
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: spreadDep
+      value: 9.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: sprintMuli
+      value: 2.54
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Mesh
+      value: 
+      objectReference: {fileID: 154712}
+    - target: {fileID: 0}
+      propertyPath: deathExplosion
+      value: 
+      objectReference: {fileID: 114686, guid: 3f23dab04e7d8ae489e887756cddf940, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 176964}

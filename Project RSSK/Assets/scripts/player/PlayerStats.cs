@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
@@ -7,6 +8,10 @@ public class PlayerStats : NetworkBehaviour
 	PlayerAudioController playerAudio;
 	Text text;
 	PlayerCamera playerCam;
+	PlayerHUD HUD;
+	bool ragdollTest = false;
+	public GameObject Mesh;
+	public GameObject deathExplosion;
 
 	[SyncVar(hook = "HealthChanged")]
 	public int maxHealth = 100;
@@ -14,35 +19,66 @@ public class PlayerStats : NetworkBehaviour
 	void Start()
 	{
 		playerAudio = GetComponent<PlayerAudioController>();
-		text = ((GameManager)NetworkManager.singleton).canvas.transform.Find("Health").GetComponent<Text>();
+		//text = ((GameManager)NetworkManager.singleton).canvas.transform.Find("Health").GetComponent<Text>();
 		playerCam = this.GetComponent<PlayerCamera>();
 		if (isLocalPlayer)
-			text.text = "Health: " + maxHealth;
+		{
+			//text.text = "Health: " + maxHealth;
+			HUD = GameObject.Find("HUD man").GetComponent<PlayerHUD>();
+			HUD.Spawn(this.gameObject);
+		}
 	}
 
 	void Update()
 	{
 		if (isLocalPlayer)
 			if (Input.GetKeyDown(KeyCode.K))
-				Damage(1000);
+				Damage(1000, this.gameObject);
 	}
 
-	public void Damage(int dmg)
+	public void Damage(int dmg, GameObject personWhoHit)
 	{
 		if (maxHealth <= 0) //just a safety check
 			return;
 
+		HUD.Damaged(dmg);
+
 		maxHealth -= dmg;
 		playerCam.damShake();
 		if (maxHealth <= 0)
-			((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);		
+		{
+			StartCoroutine(RespawnTimer());
+			playerCam.Dead(personWhoHit);
+		}		
+	}
+
+	IEnumerator RespawnTimer()
+	{
+		if(ragdollTest)
+			this.GetComponent<NetworkAnimator>().animator.enabled = false;
+		else
+		{
+			Mesh.SetActive(false);
+			GameObject tempExplosion = Instantiate(deathExplosion, this.transform.position, Quaternion.identity) as GameObject;
+			Destroy(tempExplosion, 5);
+		}
+
+		this.GetComponent<CharacterController>().enabled = false;
+		if(this.GetComponent<Gun>())
+			this.GetComponent<Gun>().enabled = false;
+		if(this.GetComponent<MeleeWeapon>())
+			this.GetComponent<MeleeWeapon>().enabled = false;
+
+
+		yield return new WaitForSeconds(5); // respawn timer
+		((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);
 	}
 
 	void HealthChanged(int newHealth)
 	{
 		maxHealth = newHealth;
-		if(isLocalPlayer)
-			text.text = "Health: " + maxHealth;
+		//if(isLocalPlayer)
+			//text.text = "Health: " + maxHealth;
 		if (maxHealth <= 0)
 			playerAudio.dead();
 		else

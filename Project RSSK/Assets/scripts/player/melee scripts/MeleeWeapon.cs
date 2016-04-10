@@ -30,7 +30,7 @@ public class MeleeWeapon : NetworkBehaviour
 		swordAni = GetComponent<NetworkAnimator>();
 		if (swordAni == null)
 			Debug.LogError ("Setup: Failed to find NetworkAnimator");
-		meleeHash = swordAni.animator.GetLayerIndex("MeleeLayer");
+		meleeHash = swordAni.animator.GetLayerIndex("WeaponLayer");
 	}
 
 	// Update is called once per frame
@@ -79,6 +79,6 @@ public class MeleeWeapon : NetworkBehaviour
 	[Command]
 	public void CmdHit(GameObject obj)
 	{
-		obj.GetComponent<PlayerStats> ().Damage (damage);
+		obj.GetComponent<PlayerStats>().Damage(damage, this.gameObject);
 	}
 }
