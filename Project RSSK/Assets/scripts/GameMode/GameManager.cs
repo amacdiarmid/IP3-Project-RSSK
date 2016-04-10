@@ -12,6 +12,7 @@ public class GameManager : NetworkManager
 	public CapturePoint capturePoint;
 	public int prepSeconds = 10;
 	public int roundSeconds = 180;
+	private int CurTime = 300;
 
 	[HideInInspector]
 	public string localPlayerName = "";
@@ -271,6 +272,7 @@ public class GameManager : NetworkManager
 	{
 		IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
 		int secs = msg.value;
+		CurTime = secs;
 		timeoutText = string.Format("\nPrep Left: {0}s", secs);
 		if (PlayerController.localInstance)
 			PlayerController.localInstance.SetGameInfo (status + timeoutText);
@@ -285,6 +287,7 @@ public class GameManager : NetworkManager
 	{
 		IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
 		int secs = msg.value;
+		CurTime = secs;
 		timeoutText = string.Format("\nTime Left: {0}s", secs);
 		if (PlayerController.localInstance)
 			PlayerController.localInstance.SetGameInfo (status + timeoutText);
@@ -393,4 +396,15 @@ public class GameManager : NetworkManager
 			StartCoroutine(PrepTimer(prepSeconds));
 	}
 	#endregion
+
+	public byte getScore(int i)
+	{
+		return score[i];
+	}
+
+	public int getCurTime()
+	{
+		//Debug.Log("grab time " + CurTime);
+		return CurTime;
+	}
 }

@@ -867,6 +867,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 32
       objectReference: {fileID: 0}
+    - target: {fileID: 11494924, guid: 0d914b0948e76d24993c98aa139f0985, type: 2}
+      propertyPath: gameMan
+      value: 
+      objectReference: {fileID: 1596796636}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0d914b0948e76d24993c98aa139f0985, type: 2}
   m_IsPrefabParent: 0

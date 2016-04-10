@@ -23,6 +23,8 @@ public class PlayerHUD : MonoBehaviour {
 
 	private Color StartCrosshailColour;
 
+	public GameManager gameMan; 
+
 	public void Spawn(GameObject player)
 	{
 		if (HUDComps)
@@ -81,6 +83,11 @@ public class PlayerHUD : MonoBehaviour {
 		damageTime += Time.deltaTime;
 		HUDComps.DamageImg.color = Color.Lerp(damageColour, startDamageColour, damageTime);
 		//Debug.Log(HUDComps.DamageImg.color);
+
+		//might be the wrong way round
+		HUDComps.YellowScore.text = gameMan.getScore(0).ToString();
+		HUDComps.BlueScore.text = gameMan.getScore(1).ToString();
+		HUDComps.TimeLim.text = gameMan.getCurTime().ToString();
 	}
 
 	public void Damaged(float damAmount)
