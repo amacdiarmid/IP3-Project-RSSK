@@ -13,4 +13,6 @@ public class HUDcomps : MonoBehaviour
 	public Image CrosshairImg;
 
 	public Image DamageImg;
+
+	public Text YellowScore, BlueScore, TimeLim;
 }

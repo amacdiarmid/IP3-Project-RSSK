@@ -12,6 +12,7 @@ public class GameManager : NetworkManager
 	public CapturePoint capturePoint;
 	public int prepSeconds = 10;
 	public int roundSeconds = 180;
+	private int CurTime = 300;
 
 	[HideInInspector]
 	public string localPlayerName = "";
@@ -57,6 +58,10 @@ public class GameManager : NetworkManager
 			Transform status = canvas.transform.Find("GameStatus");
 			foreach(Transform child in status)
 				child.gameObject.SetActive(!child.gameObject.activeSelf);
+
+			//hide/show game status info 
+			Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
+			text.enabled = !text.enabled;
 		}
 	}
 
@@ -257,12 +262,17 @@ public class GameManager : NetworkManager
 		Transform status = canvas.transform.Find("GameStatus");
 		foreach(Transform child in status)
 			child.gameObject.SetActive(false);
+
+		//show game infobox
+		Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
+		text.enabled = true;
 	}
 
 	void StartPrepTimer(NetworkMessage netMsg)
 	{
 		IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
 		int secs = msg.value;
+		CurTime = secs;
 		timeoutText = string.Format("\nPrep Left: {0}s", secs);
 		if (PlayerController.localInstance)
 			PlayerController.localInstance.SetGameInfo (status + timeoutText);
@@ -277,6 +287,7 @@ public class GameManager : NetworkManager
 	{
 		IntegerMessage msg = netMsg.ReadMessage<IntegerMessage>();
 		int secs = msg.value;
+		CurTime = secs;
 		timeoutText = string.Format("\nTime Left: {0}s", secs);
 		if (PlayerController.localInstance)
 			PlayerController.localInstance.SetGameInfo (status + timeoutText);
@@ -385,4 +396,15 @@ public class GameManager : NetworkManager
 			StartCoroutine(PrepTimer(prepSeconds));
 	}
 	#endregion
+
+	public byte getScore(int i)
+	{
+		return score[i];
+	}
+
+	public int getCurTime()
+	{
+		//Debug.Log("grab time " + CurTime);
+		return CurTime;
+	}
 }
