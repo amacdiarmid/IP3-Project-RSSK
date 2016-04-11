@@ -23,7 +23,13 @@ public class PlayerHUD : MonoBehaviour {
 
 	private Color StartCrosshailColour;
 
-	public GameManager gameMan; 
+	public GameManager gameMan;
+
+	public Transform objective;
+
+	public Canvas objectCanvas;
+
+	public float ObjectMarkerScaleValue = 0.01f;
 
 	public void Spawn(GameObject player)
 	{
@@ -88,6 +94,10 @@ public class PlayerHUD : MonoBehaviour {
 		HUDComps.YellowScore.text = gameMan.getScore(0).ToString();
 		HUDComps.BlueScore.text = gameMan.getScore(1).ToString();
 		HUDComps.TimeLim.text = gameMan.getCurTime().ToString();
+
+		objectCanvas.transform.LookAt(playerStats.transform);
+
+		objectCanvas.transform.localScale = Vector3.one * (Vector3.Distance(objectCanvas.transform.position, playerStats.transform.position) * ObjectMarkerScaleValue);
 	}
 
 	public void Damaged(float damAmount)
