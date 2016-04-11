@@ -19,13 +19,11 @@ public class PlayerStats : NetworkBehaviour
 	void Start()
 	{
 		playerAudio = GetComponent<PlayerAudioController>();
-		//text = ((GameManager)NetworkManager.singleton).canvas.transform.Find("Health").GetComponent<Text>();
-		playerCam = this.GetComponent<PlayerCamera>();
 		if (isLocalPlayer)
 		{
-			//text.text = "Health: " + maxHealth;
+			playerCam = this.GetComponent<PlayerCamera>();
 			HUD = GameObject.Find("HUD man").GetComponent<PlayerHUD>();
-			HUD.Spawn(this.gameObject);
+			HUD.Spawn(gameObject);
 		}
 	}
 
@@ -36,52 +34,62 @@ public class PlayerStats : NetworkBehaviour
 				Damage(1000, this.gameObject);
 	}
 
+	//SERVER-SIDE ONLY STUFF
 	public void Damage(int dmg, GameObject personWhoHit)
 	{
 		if (maxHealth <= 0) //just a safety check
 			return;
 
-		HUD.Damaged(dmg);
-
 		maxHealth -= dmg;
-		playerCam.damShake();
+
 		if (maxHealth <= 0)
-		{
 			StartCoroutine(RespawnTimer());
-			playerCam.Dead(personWhoHit);
-		}		
 	}
 
 	IEnumerator RespawnTimer()
 	{
-		if(ragdollTest)
-			this.GetComponent<NetworkAnimator>().animator.enabled = false;
-		else
-		{
-			Mesh.SetActive(false);
-			GameObject tempExplosion = Instantiate(deathExplosion, this.transform.position, Quaternion.identity) as GameObject;
-			Destroy(tempExplosion, 5);
-		}
-
-		this.GetComponent<CharacterController>().enabled = false;
-		if(this.GetComponent<Gun>())
-			this.GetComponent<Gun>().enabled = false;
-		if(this.GetComponent<MeleeWeapon>())
-			this.GetComponent<MeleeWeapon>().enabled = false;
-
-
 		yield return new WaitForSeconds(5); // respawn timer
 		((GameManager)NetworkManager.singleton).OnPlayerDied(gameObject);
 	}
 
+	//CLIENT-SIDE ONLY
 	void HealthChanged(int newHealth)
 	{
+		int dmg = maxHealth - newHealth;
 		maxHealth = newHealth;
-		//if(isLocalPlayer)
-			//text.text = "Health: " + maxHealth;
-		if (maxHealth <= 0)
-			playerAudio.dead();
-		else
-			playerAudio.damaged();
+		if(isLocalPlayer)
+			HUD.Damaged(dmg);
+
+		if (maxHealth <= 0) 
+		{
+			//playerCam.Dead (personWhoHit);
+			playerAudio.dead ();
+
+			if (isLocalPlayer) 
+			{
+				if (ragdollTest)
+					GetComponent<NetworkAnimator> ().animator.enabled = false;
+				else 
+				{
+					Mesh.SetActive (false);
+					GameObject tempExplosion = Instantiate (deathExplosion, this.transform.position, Quaternion.identity) as GameObject;
+					Destroy (tempExplosion, 5);
+				}
+
+				GetComponent<CharacterController> ().enabled = false;
+				Gun g = GetComponent<Gun> ();
+				if (g)
+					g.enabled = false;
+				MeleeWeapon m = GetComponent<MeleeWeapon> ();
+				if (m)
+					m.enabled = false;
+			}
+		} 
+		else 
+		{
+			playerAudio.damaged ();
+			if(isLocalPlayer)
+				playerCam.damShake();
+		}
 	}
 }
