@@ -1472,7 +1472,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 149366}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: -41.49474, y: -13.064865, z: 16.018887}
+  m_LocalPosition: {x: -49.32261, y: 1.532, z: 1.3374299}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 444290}
@@ -1663,11 +1663,11 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 2a3a4cbdf5f235048944595825dbc9bd, type: 2}
-  - {fileID: 2100000, guid: bab4e2382b0237741855ae7a469cc92e, type: 2}
-  - {fileID: 2100000, guid: 51fc95ce10e122d4d9d03b671483c0c0, type: 2}
-  - {fileID: 2100000, guid: 38676ec48c639f9439a72b77618409f8, type: 2}
-  - {fileID: 2100000, guid: 080f6ac71d2518e468f1f149a2981630, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -1693,7 +1693,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: dc1f193c6ef0e594c9913e8313605775, type: 2}
+  - {fileID: 0}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -1918,9 +1918,21 @@ MonoBehaviour:
   maxDistanceToWall: 2
   climbSpeed: 7
   climbTimer: 3
-  yellowMat: {fileID: 2100000, guid: 1801d89d0d0ba4a4cab2e96120265cd1, type: 2}
-  blueMat: {fileID: 2100000, guid: 14543d5f03213904f9a2188ce75ec8ae, type: 2}
-  charRend: {fileID: 13710014}
+  yellowMat:
+  - {fileID: 2100000, guid: 1801d89d0d0ba4a4cab2e96120265cd1, type: 2}
+  - {fileID: 2100000, guid: 65dda9f0abdddff4fa3f858ed0ff6828, type: 2}
+  - {fileID: 2100000, guid: bd5668e917610ba43b94bb983d9c1e5c, type: 2}
+  - {fileID: 2100000, guid: 7395e602152b8884bbe717c44cb99f79, type: 2}
+  blueMat:
+  - {fileID: 2100000, guid: cfc830c793e195142bf6ee7ed9a72016, type: 2}
+  - {fileID: 2100000, guid: 3cc2c891a38bbf6478eb39a44ca88389, type: 2}
+  - {fileID: 2100000, guid: d503965e0be7e5449bc65bf6a15cf5d5, type: 2}
+  - {fileID: 2100000, guid: 0d09471df6a52934da886e37a681b60c, type: 2}
+  charRend:
+  - {fileID: 13710014}
+  - {fileID: 13771492}
+  - {fileID: 2368016}
+  - {fileID: 2343674}
 --- !u!114 &11422934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1954,14 +1966,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   primWeap: 1
   damage: 30
-  cooldown: 1
+  cooldown: 0.73
   comboCoolDown: 2
   range: 1.5
   knockback: 1
   weaponCol: {fileID: 11401582}
   attackAudio:
-  - {fileID: 8300000, guid: e714254659e00d74fa5fbbb5a2b2eab8, type: 3}
-  - {fileID: 8300000, guid: 7a0fdc42e4813c14283018ab483c9f3c, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   audioSource: {fileID: 8254110, guid: 3e3279028f24c104db8cd986805c9389, type: 2}
 --- !u!114 &11458318
 MonoBehaviour:
@@ -2026,25 +2038,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpAudio:
-  - {fileID: 8300000, guid: 9a1cc1805e74d5c42b22488356e35429, type: 3}
-  - {fileID: 8300000, guid: 868dd032147148e479ce1837461c63cc, type: 3}
-  - {fileID: 8300000, guid: 20ece5b4c6f9e06438767e0a2e91e54e, type: 3}
-  - {fileID: 8300000, guid: 316de6ba21028de4e9a612f7771b6eaa, type: 3}
-  - {fileID: 8300000, guid: aa5d855dfb2b93646853c5bdff0e4786, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   movingAudio:
-  - {fileID: 8300000, guid: 5ad7445171a09744a89f31c03c85457f, type: 3}
-  - {fileID: 8300000, guid: e704bc67e885e3c4d887363c8dfbecfd, type: 3}
-  - {fileID: 8300000, guid: c19d27972e8f4ac41a17b1697f58b6a7, type: 3}
-  - {fileID: 8300000, guid: 48cecc0b26ad3d14faa589f0bbd7c164, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   damageAudio:
-  - {fileID: 8300000, guid: b2447a43e4bc476449444cbe1af84d4f, type: 3}
-  - {fileID: 8300000, guid: 9c375696cb867f44d87c05294864c677, type: 3}
-  - {fileID: 8300000, guid: 46f6771e1887ebc4bb4be96bca83a74b, type: 3}
-  - {fileID: 8300000, guid: 8422a27fae4a40545afc775fc8eb7a85, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   deathAudio:
-  - {fileID: 8300000, guid: 8343cf754c65cfe43a5108e79f9b24b6, type: 3}
-  - {fileID: 8300000, guid: 013a016c41095ab4a9d39574bfe7eaf7, type: 3}
-  spawnAudio: {fileID: 8300000, guid: 2477044abccc63d4ebc3be362c38029e, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  spawnAudio: {fileID: 8300000, guid: d45a457e0e8810a4393f8f69afbcaeba, type: 3}
 --- !u!114 &11485782
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2204,6 +2214,10 @@ Prefab:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
       propertyPath: primWeap
       value: 1
       objectReference: {fileID: 0}
@@ -2307,6 +2321,82 @@ Prefab:
       propertyPath: deathExplosion
       value: 
       objectReference: {fileID: 114686, guid: 3f23dab04e7d8ae489e887756cddf940, type: 2}
+    - target: {fileID: 0}
+      propertyPath: cooldown
+      value: 0.73
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: attackAudio.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 17f999b22b23aa04ebeffe2a716f9f7e, type: 3}
+    - target: {fileID: 0}
+      propertyPath: attackAudio.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 04f46e7095d6b0542baf39244c5e52a4, type: 3}
+    - target: {fileID: 0}
+      propertyPath: movingAudio.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 0835438bf19738d418d75b830b6146b1, type: 3}
+    - target: {fileID: 0}
+      propertyPath: movingAudio.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 5b1097385cbae3c4c8f461b43a64414d, type: 3}
+    - target: {fileID: 0}
+      propertyPath: movingAudio.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 38452021c2e785341bfe84c7032414b7, type: 3}
+    - target: {fileID: 0}
+      propertyPath: movingAudio.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: fc70b17b256a87540acb20c1496af425, type: 3}
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9df5f9f557e80494da045f24b6d7cbc9, type: 3}
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 79de256383fc3d54499e16a90fedd7e7, type: 3}
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: d5111dc07754dcb4c96b311cb3bbb0de, type: 3}
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 316de6ba21028de4e9a612f7771b6eaa, type: 3}
+    - target: {fileID: 0}
+      propertyPath: jumpAudio.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: aa5d855dfb2b93646853c5bdff0e4786, type: 3}
+    - target: {fileID: 0}
+      propertyPath: damageAudio.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: e5310b64773876947b92f0111047a25b, type: 3}
+    - target: {fileID: 0}
+      propertyPath: damageAudio.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 56c42a4900b79d84d9ab496da0a7f9cb, type: 3}
+    - target: {fileID: 0}
+      propertyPath: damageAudio.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: f9d522516902f3a46a9debcfab98f1f0, type: 3}
+    - target: {fileID: 0}
+      propertyPath: damageAudio.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 90e9be51ce7d6f5489565096fd381c3e, type: 3}
+    - target: {fileID: 0}
+      propertyPath: deathAudio.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: ec8b33873b27d89459aeeb7b569f7b91, type: 3}
+    - target: {fileID: 0}
+      propertyPath: deathAudio.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: ef5ff571a5ca2134a96079b18d44d31c, type: 3}
+    - target: {fileID: 0}
+      propertyPath: spawnAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: d45a457e0e8810a4393f8f69afbcaeba, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 149366}

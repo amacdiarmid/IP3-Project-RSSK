@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: _LowPoly_OpenedDoorsdefault
-  m_Shader: {fileID: 4800000, guid: b860b088cb38ddd4fbd9dcba877ddcb6, type: 3}
+  m_Shader: {fileID: 4800000, guid: eb0f35430b3dbda4e846e32f8520c2b5, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -26,7 +26,7 @@ Material:
         first:
           name: _BumpMap
         second:
-          m_Texture: {fileID: 0}
+          m_Texture: {fileID: 2800000, guid: 8b0edd3fbf9493b4b8ff93cb84bab036, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
