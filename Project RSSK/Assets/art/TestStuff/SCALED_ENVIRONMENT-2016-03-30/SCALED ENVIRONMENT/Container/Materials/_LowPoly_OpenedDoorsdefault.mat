@@ -135,10 +135,6 @@ Material:
         second: 0.5
       data:
         first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
           name: _Parallax
         second: 0.02
       data:
@@ -171,8 +167,12 @@ Material:
         second: 0
       data:
         first:
-          name: _spec_intens
+          name: _Metallic
         second: 0
+      data:
+        first:
+          name: _spec_intens
+        second: 0.73
       data:
         first:
           name: _gloss_slider
@@ -217,8 +217,8 @@ Material:
       data:
         first:
           name: _diffuse_color
-        second: {r: 0, g: 0, b: 0, a: 1}
+        second: {r: 0.53676474, g: 0, b: 0, a: 1}
       data:
         first:
           name: _sss_color
-        second: {r: 0.8014706, g: 0, b: 0, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}

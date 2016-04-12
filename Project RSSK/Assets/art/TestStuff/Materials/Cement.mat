@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: Cement
-  m_Shader: {fileID: 4800000, guid: 857f47563d80247cfa79677a8d496230, type: 3}
+  m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
   m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
   m_LightmapFlags: 5
   m_CustomRenderQueue: 2000
@@ -19,7 +19,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 45af673fa45370a4eb56c0fb6d85c383, type: 3}
+          m_Texture: {fileID: 2800000, guid: e9893d3c3cdf321418d4d416d9e7937a, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -32,41 +32,6 @@ Material:
       data:
         first:
           name: _DetailNormalMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _diffuse
-        second:
-          m_Texture: {fileID: 2800000, guid: 494125a8b2312e74e9650151e4ca66c7, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _normal
-        second:
-          m_Texture: {fileID: 2800000, guid: 68be2ef0d992be546ba14a900edf9470, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _spec
-        second:
-          m_Texture: {fileID: 2800000, guid: d6dbe0ff0aab86841bae97f8a6ad1763, type: 3}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _cubemap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
-          name: _RGBMASK
         second:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
@@ -113,6 +78,41 @@ Material:
           m_Texture: {fileID: 2800000, guid: 89f58691f0b2222449cccbd504572c1c, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _diffuse
+        second:
+          m_Texture: {fileID: 2800000, guid: 494125a8b2312e74e9650151e4ca66c7, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _normal
+        second:
+          m_Texture: {fileID: 2800000, guid: 68be2ef0d992be546ba14a900edf9470, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _spec
+        second:
+          m_Texture: {fileID: 2800000, guid: d6dbe0ff0aab86841bae97f8a6ad1763, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _cubemap
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _RGBMASK
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
@@ -126,38 +126,6 @@ Material:
         first:
           name: _Cutoff
         second: 0.5
-      data:
-        first:
-          name: _Metallic
-        second: 0
-      data:
-        first:
-          name: _spec_intens
-        second: 3.247863
-      data:
-        first:
-          name: _gloss_slider
-        second: 0.8606071
-      data:
-        first:
-          name: _cubemap_control
-        second: 0
-      data:
-        first:
-          name: _sss_str
-        second: 0
-      data:
-        first:
-          name: _sss_coverage
-        second: 1
-      data:
-        first:
-          name: _R_CM_Str
-        second: 0
-      data:
-        first:
-          name: _B_CM_Str
-        second: 0
       data:
         first:
           name: _Parallax
@@ -189,6 +157,38 @@ Material:
       data:
         first:
           name: _Mode
+        second: 0
+      data:
+        first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _spec_intens
+        second: 3.247863
+      data:
+        first:
+          name: _gloss_slider
+        second: 0.8606071
+      data:
+        first:
+          name: _cubemap_control
+        second: 0
+      data:
+        first:
+          name: _sss_str
+        second: 0
+      data:
+        first:
+          name: _sss_coverage
+        second: 1
+      data:
+        first:
+          name: _R_CM_Str
+        second: 0
+      data:
+        first:
+          name: _B_CM_Str
         second: 0
     m_Colors:
       data:
