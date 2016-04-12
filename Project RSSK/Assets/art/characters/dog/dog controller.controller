@@ -1063,6 +1063,44 @@ BlendTree:
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!206 &20671640
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_Name: BlendTree
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400016, guid: 182b1fe5ee035334693bfcf8416f915d, type: 3}
+    m_Threshold: -1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: gun side
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400000, guid: 6a85bc92fb3154440871d0bab1c25e8f, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: gun side
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7400016, guid: 182b1fe5ee035334693bfcf8416f915d, type: 3}
+    m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0.5
+    m_DirectBlendParameter: gun side
+    m_Mirror: 1
+  m_BlendParameter: side direction
+  m_BlendParameterY: Blend
+  m_MinThreshold: -1
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 0
+  m_NormalizedBlendValues: 0
+  m_BlendType: 0
 --- !u!206 &20671724
 BlendTree:
   m_ObjectHideFlags: 3
@@ -1147,7 +1185,7 @@ BlendTree:
     m_DirectBlendParameter: side direction
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 7400000, guid: 6a85bc92fb3154440871d0bab1c25e8f, type: 3}
+    m_Motion: {fileID: 20612056}
     m_Threshold: 0
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
@@ -1155,12 +1193,12 @@ BlendTree:
     m_DirectBlendParameter: side direction
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: 20612056}
+    m_Motion: {fileID: 20671640}
     m_Threshold: 1
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
-    m_DirectBlendParameter: side direction
+    m_DirectBlendParameter: gun side
     m_Mirror: 0
   m_BlendParameter: forward direction
   m_BlendParameterY: speed
