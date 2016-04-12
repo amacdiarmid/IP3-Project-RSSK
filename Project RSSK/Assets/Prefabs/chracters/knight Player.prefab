@@ -1472,7 +1472,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 149366}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071067}
-  m_LocalPosition: {x: -49.32261, y: 1.532, z: 1.3374299}
+  m_LocalPosition: {x: 370.25272, y: 32.784, z: -283.42456}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 444290}
@@ -1663,11 +1663,11 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 0d09471df6a52934da886e37a681b60c, type: 2}
+  - {fileID: 2100000, guid: 0d09471df6a52934da886e37a681b60c, type: 2}
+  - {fileID: 2100000, guid: 0d09471df6a52934da886e37a681b60c, type: 2}
+  - {fileID: 2100000, guid: 0d09471df6a52934da886e37a681b60c, type: 2}
+  - {fileID: 2100000, guid: 0d09471df6a52934da886e37a681b60c, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -1693,7 +1693,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: d503965e0be7e5449bc65bf6a15cf5d5, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -1922,17 +1922,14 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 1801d89d0d0ba4a4cab2e96120265cd1, type: 2}
   - {fileID: 2100000, guid: 65dda9f0abdddff4fa3f858ed0ff6828, type: 2}
   - {fileID: 2100000, guid: bd5668e917610ba43b94bb983d9c1e5c, type: 2}
-  - {fileID: 2100000, guid: 7395e602152b8884bbe717c44cb99f79, type: 2}
   blueMat:
   - {fileID: 2100000, guid: cfc830c793e195142bf6ee7ed9a72016, type: 2}
   - {fileID: 2100000, guid: 3cc2c891a38bbf6478eb39a44ca88389, type: 2}
   - {fileID: 2100000, guid: d503965e0be7e5449bc65bf6a15cf5d5, type: 2}
-  - {fileID: 2100000, guid: 0d09471df6a52934da886e37a681b60c, type: 2}
   charRend:
   - {fileID: 13710014}
   - {fileID: 13771492}
   - {fileID: 2368016}
-  - {fileID: 2343674}
 --- !u!114 &11422934
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2083,7 +2080,7 @@ SkinnedMeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 1801d89d0d0ba4a4cab2e96120265cd1, type: 2}
+  - {fileID: 2100000, guid: 14543d5f03213904f9a2188ce75ec8ae, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
@@ -2159,7 +2156,7 @@ SkinnedMeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_Materials:
-  - {fileID: 2100000, guid: 65dda9f0abdddff4fa3f858ed0ff6828, type: 2}
+  - {fileID: 2100000, guid: 3cc2c891a38bbf6478eb39a44ca88389, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 1
