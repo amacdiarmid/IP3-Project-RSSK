@@ -186,17 +186,12 @@ public class Gun : NetworkBehaviour
 
 		RaycastHit[] hits;
 		Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
-		hits = Physics.RaycastAll(ray);
+		hits = Physics.RaycastAll(ray, range);
+		Debug.DrawLine(ray.origin, ray.direction * range, Color.green, 1);
 		foreach (var hit in hits)
 		{
-			if (hit.transform != this.transform && Vector3.Distance(ray.origin, hit.point) < range)
-			{
-				//gun to target ray
-				//Debug.DrawLine(ray.origin, hit.point, Color.green, 10);
-				if (hit.collider.tag == "Player")
-					return true;
-				return false;
-			}
+			if (hit.transform != transform && hit.collider.tag == "Player")
+				return true;
 		}
 		return false;
 	}
