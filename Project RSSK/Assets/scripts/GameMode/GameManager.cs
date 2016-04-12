@@ -353,7 +353,7 @@ public class GameManager : NetworkManager
 		//updating the score and switching the teams
 		score[(byte)winners - 1]++;
 		capturePoint.owner = attackingTeam;
-		attackingTeam = attackingTeam == PlayerTeam.TeamBlue ? PlayerTeam.TeamYellow : PlayerTeam.TeamBlue;
+		attackingTeam = attackingTeam.Enemy();
 		roundsToPlay--;
 
 		//respawning everyone

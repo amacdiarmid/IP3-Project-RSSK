@@ -70,10 +70,7 @@ public class PlayerStats : NetworkBehaviour
 				if (ragdollTest)
 					GetComponent<NetworkAnimator> ().animator.enabled = false;
 				else 
-				{
-					Mesh.SetActive (false);
 					CmdSpawnExplosion();
-				}
 
 				GetComponent<CharacterController> ().enabled = false;
 				Gun g = GetComponent<Gun> ();
@@ -95,8 +92,15 @@ public class PlayerStats : NetworkBehaviour
 	[Command]
 	void CmdSpawnExplosion()
 	{
+		RpcTurnOffObj();
 		GameObject tempExplosion = Instantiate(deathExplosion, this.transform.position, Quaternion.identity) as GameObject;
 		NetworkServer.Spawn(tempExplosion);
 		Destroy(tempExplosion, 5);
+	}
+
+	[ClientRpc]
+	void RpcTurnOffObj()
+	{
+		Mesh.SetActive(false);
 	}
 }
