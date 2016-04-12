@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 403498}
   - 120: {fileID: 12068676}
   - 114: {fileID: 11426148}
+  - 114: {fileID: 11430128}
   m_Layer: 0
   m_Name: bulletTrail
   m_TagString: Untagged
@@ -41,6 +42,38 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifeSpan: 1
+--- !u!114 &11430128
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 110
+    i1: 107
+    i2: 99
+    i3: 108
+    i4: 143
+    i5: 2
+    i6: 93
+    i7: 20
+    i8: 218
+    i9: 149
+    i10: 165
+    i11: 67
+    i12: 10
+    i13: 9
+    i14: 135
+    i15: 180
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!120 &12068676
 LineRenderer:
   m_ObjectHideFlags: 1

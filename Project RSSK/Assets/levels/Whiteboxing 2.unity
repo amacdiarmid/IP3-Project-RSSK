@@ -11133,6 +11133,8 @@ MonoBehaviour:
   - {fileID: 147204, guid: 9b34db6e8f7fe4d419e46686077d4d0b, type: 2}
   - {fileID: 101324, guid: ff17a04cfec5b2f4d905f1458d9407f6, type: 2}
   - {fileID: 171342, guid: c975c8c63f002ed4c96e1978e4a15510, type: 2}
+  - {fileID: 114686, guid: 3f23dab04e7d8ae489e887756cddf940, type: 2}
+  - {fileID: 148282, guid: 6e6b636c8f025d14da95a5430a0987b4, type: 2}
   m_CustomConfig: 1
   m_MaxConnections: 6
   m_ConnectionConfig:
@@ -19967,10 +19969,6 @@ Prefab:
       propertyPath: objectCanvas
       value: 
       objectReference: {fileID: 1162265669}
-    - target: {fileID: 158990, guid: 0d914b0948e76d24993c98aa139f0985, type: 2}
-      propertyPath: m_StaticEditorFlags
-      value: 4294967295
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0d914b0948e76d24993c98aa139f0985, type: 2}
   m_IsPrefabParent: 0

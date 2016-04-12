@@ -1,6 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum retHightlight
+{
+	friendly,
+	foe,
+	no,
+}
+
+
 public class PlayerHUD : MonoBehaviour {
 
 	public GameObject yellowHud;
@@ -80,8 +88,10 @@ public class PlayerHUD : MonoBehaviour {
 		{
 			HUDComps.AmmoText.text = playerGun.getCurAmmo() + "/" + playerGun.maxAmmo;
 			HUDComps.CrosshairImg.rectTransform.sizeDelta = new Vector2(startCrosshairSize.x + playerGun.getCurSpread(), startCrosshairSize.y + playerGun.getCurSpread());
-			if (playerGun.playerInRange())
+			if (playerGun.playerInRange() == retHightlight.foe)
 				HUDComps.CrosshairImg.color = Color.red;
+			else if (playerGun.playerInRange() == retHightlight.friendly)
+				HUDComps.CrosshairImg.color = Color.green;
 			else
 				HUDComps.CrosshairImg.color = StartCrosshailColour;
 		}

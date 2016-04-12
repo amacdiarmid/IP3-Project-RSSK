@@ -72,8 +72,7 @@ public class PlayerStats : NetworkBehaviour
 				else 
 				{
 					Mesh.SetActive (false);
-					GameObject tempExplosion = Instantiate (deathExplosion, this.transform.position, Quaternion.identity) as GameObject;
-					Destroy (tempExplosion, 5);
+					CmdSpawnExplosion();
 				}
 
 				GetComponent<CharacterController> ().enabled = false;
@@ -91,5 +90,13 @@ public class PlayerStats : NetworkBehaviour
 			if(isLocalPlayer)
 				playerCam.damShake();
 		}
+	}
+
+	[Command]
+	void CmdSpawnExplosion()
+	{
+		GameObject tempExplosion = Instantiate(deathExplosion, this.transform.position, Quaternion.identity) as GameObject;
+		NetworkServer.Spawn(tempExplosion);
+		Destroy(tempExplosion, 5);
 	}
 }

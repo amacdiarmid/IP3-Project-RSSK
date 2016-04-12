@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &473318
 Transform:
@@ -44,7 +44,7 @@ MonoBehaviour:
   gameMan: {fileID: 0}
   objective: {fileID: 0}
   objectCanvas: {fileID: 0}
-  ObjectMarkerScaleValue: 0.04
+  ObjectMarkerScaleValue: 0.01
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
