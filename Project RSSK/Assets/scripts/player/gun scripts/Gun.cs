@@ -28,7 +28,7 @@ public class Gun : NetworkBehaviour
 	public float spreadDep = 0.1f;
 	public float aimMuli = 0.5f;
 	public float sprintMuli = 2;
-
+	public float sphereCastRadius = 0.1f;
 
 	//public GameObject projectile;
 
@@ -83,10 +83,10 @@ public class Gun : NetworkBehaviour
 
 			RaycastHit[] hits;
 			Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
-			hits = Physics.RaycastAll(ray);
+			hits = Physics.SphereCastAll(ray, sphereCastRadius, range);
 			foreach (var hit in hits)
 			{
-				if (hit.transform != this.transform && Vector3.Distance(ray.origin, hit.point) < range)
+				if (hit.transform != this.transform)
 				{
 					hasHit = true;
 					Debug.Log("hit " + Vector3.Distance(ray.origin, hit.point));
@@ -95,9 +95,9 @@ public class Gun : NetworkBehaviour
 					CmdTrail(hit.point);
 					//screen to target ray
 					Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
-					if (hit.collider.tag == "Player")
-						if (hit.collider.GetComponent<PlayerController>().team != curTeam) //should work need to test with others. 
-							CmdHit(hit.transform.gameObject, damage);
+					Transform rootTran = hit.transform.root;
+					if (rootTran.tag == "Player" && rootTran.GetComponent<PlayerController>().team != curTeam)
+						CmdHit(rootTran.gameObject, damage);
 					break;
 				}
 			}
