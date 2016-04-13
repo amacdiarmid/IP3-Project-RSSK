@@ -14,7 +14,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &473318
 Transform:
@@ -41,6 +41,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   yellowHud: {fileID: 165020, guid: 715dc5deb212cc6439e8b13550bb04ac, type: 2}
   blueHud: {fileID: 137798, guid: c817b07260359e64ab6b3f9089389c9f, type: 2}
+  gameMan: {fileID: 0}
+  objective: {fileID: 0}
+  objectCanvas: {fileID: 0}
+  ObjectMarkerScaleValue: 0.01
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 445602}
   - 198: {fileID: 19873654}
   - 199: {fileID: 19938208}
+  - 114: {fileID: 11434528}
   m_Layer: 0
   m_Name: death explosion
   m_TagString: Untagged
@@ -29,6 +30,38 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11434528
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 114686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 63
+    i1: 35
+    i2: 218
+    i3: 176
+    i4: 78
+    i5: 125
+    i6: 138
+    i7: 228
+    i8: 137
+    i9: 232
+    i10: 135
+    i11: 117
+    i12: 108
+    i13: 221
+    i14: 249
+    i15: 64
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!198 &19873654
 ParticleSystem:
   m_ObjectHideFlags: 1

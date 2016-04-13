@@ -41,6 +41,7 @@ public class Gun : NetworkBehaviour
 
 	private PlayerTeam curTeam;
 
+
 	void Start()
 	{
 		curAmmo = maxAmmo;
@@ -91,12 +92,11 @@ public class Gun : NetworkBehaviour
 					Debug.Log("hit " + Vector3.Distance(ray.origin, hit.point));
 					//gun to target ray
 					Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
-					GameObject trail = Instantiate(bulletTrail);
-					trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, hit.point);
+					CmdTrail(hit.point);
 					//screen to target ray
 					Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
 					if (hit.collider.tag == "Player")
-						if(hit.collider.GetComponent<PlayerController>().team != curTeam) //should work need to test with others. 
+						if (hit.collider.GetComponent<PlayerController>().team != curTeam) //should work need to test with others. 
 							CmdHit(hit.transform.gameObject, damage);
 					break;
 				}
@@ -106,8 +106,7 @@ public class Gun : NetworkBehaviour
 				Debug.Log("no hit");
 				//gun to target ray
 				Debug.DrawLine(barrel.transform.position, ray.GetPoint(range), Color.blue, 10);
-				GameObject trail = Instantiate(bulletTrail);
-				trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, ray.GetPoint(range));
+				CmdTrail(ray.GetPoint(range));
 				//screen to target ray
 				Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.red, 10);
 			}
@@ -126,11 +125,8 @@ public class Gun : NetworkBehaviour
 
 			gunSreadVal = Mathf.Clamp(gunSreadVal + spreadAdv, 0, curMaxSpread);
 		}
-		else
-		{
-			if(!reloading)
-			audioSource.PlayOneShot(outOfAmmoAudio);
-		}
+		else if (!reloading)
+			reload();
 	}
 
 	public void reload()
@@ -170,6 +166,14 @@ public class Gun : NetworkBehaviour
 		obj.GetComponent<PlayerStats> ().Damage(damage, gameObject);
 	}
 
+	[Command]
+	void CmdTrail(Vector3 target)
+	{
+		GameObject trail = Instantiate(bulletTrail);
+		trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, target);
+		NetworkServer.Spawn(trail);
+	}
+
 	public int getCurAmmo()
 	{
 		return curAmmo;
@@ -180,27 +184,29 @@ public class Gun : NetworkBehaviour
 		return gunSreadVal;
 	}
 
-	public bool playerInRange()
+	public retHightlight playerInRange()
 	{
 		//really bad repeated code for the UI
 		
-		float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().x;
-		float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().y;
+		float targetX = Screen.width / 2 - playCam.getShakeVals().x;
+		float targetY = Screen.height / 2 - playCam.getShakeVals().y;
+
+		
 
 		RaycastHit[] hits;
 		Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
-		hits = Physics.RaycastAll(ray);
+		hits = Physics.RaycastAll(ray, range);
+		Debug.DrawLine(ray.origin, ray.direction * range, Color.green, 1);
 		foreach (var hit in hits)
 		{
-			if (hit.transform != this.transform && Vector3.Distance(ray.origin, hit.point) < range)
+			if (hit.transform != transform && hit.transform.tag == "Player")
 			{
-				//gun to target ray
-				//Debug.DrawLine(ray.origin, hit.point, Color.green, 10);
-				if (hit.collider.tag == "Player")
-					return true;
-				return false;
+				if(curTeam != hit.collider.GetComponent<PlayerController>().team)
+					return retHightlight.foe;
+				else if (curTeam == hit.collider.GetComponent<PlayerController>().team)
+					return retHightlight.friendly;
 			}
 		}
-		return false;
+		return retHightlight.no;
 	}
 }

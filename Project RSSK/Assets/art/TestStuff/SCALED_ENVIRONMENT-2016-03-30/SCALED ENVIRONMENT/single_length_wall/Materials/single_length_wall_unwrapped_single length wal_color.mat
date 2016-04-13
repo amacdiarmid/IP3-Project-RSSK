@@ -8,8 +8,8 @@ Material:
   m_PrefabInternal: {fileID: 0}
   m_Name: single_length_wall_unwrapped_single length wal_color
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
-  m_ShaderKeywords: _NORMALMAP
-  m_LightmapFlags: 5
+  m_ShaderKeywords: _METALLICGLOSSMAP _NORMALMAP
+  m_LightmapFlags: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   m_SavedProperties:
@@ -19,7 +19,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: d631f768885d09a43977da066eca44d6, type: 3}
+          m_Texture: {fileID: 2800000, guid: 26c38f380757484408b0bd34f522636e, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -47,7 +47,7 @@ Material:
         first:
           name: _OcclusionMap
         second:
-          m_Texture: {fileID: 2800000, guid: 211e60919d062864f998100594a457f1, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -75,7 +75,28 @@ Material:
         first:
           name: _MetallicGlossMap
         second:
+          m_Texture: {fileID: 2800000, guid: 1c4df72399618bb428a1a64fadce5dd4, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SpecGlossMap
+        second:
           m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _OccTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 211e60919d062864f998100594a457f1, type: 3}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _SpecTex
+        second:
+          m_Texture: {fileID: 2800000, guid: 1c4df72399618bb428a1a64fadce5dd4, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -90,15 +111,15 @@ Material:
       data:
         first:
           name: _Cutoff
-        second: .5
+        second: 0.5
       data:
         first:
-          name: _Metallic
-        second: 0
+          name: _Shininess
+        second: 8
       data:
         first:
           name: _Parallax
-        second: .0199999996
+        second: 0.02
       data:
         first:
           name: _ZWrite
@@ -106,7 +127,7 @@ Material:
       data:
         first:
           name: _Glossiness
-        second: .5
+        second: 0.77
       data:
         first:
           name: _BumpScale
@@ -127,6 +148,22 @@ Material:
         first:
           name: _Mode
         second: 0
+      data:
+        first:
+          name: _Metallic
+        second: 0
+      data:
+        first:
+          name: _SpecInt
+        second: 1
+      data:
+        first:
+          name: _Fresnel
+        second: 0
+      data:
+        first:
+          name: _OccStrength
+        second: 1
     m_Colors:
       data:
         first:
@@ -135,4 +172,8 @@ Material:
       data:
         first:
           name: _Color
+        second: {r: 0.5808823, g: 0.5808823, b: 0.5808823, a: 1}
+      data:
+        first:
+          name: _SpecColor
         second: {r: 1, g: 1, b: 1, a: 1}

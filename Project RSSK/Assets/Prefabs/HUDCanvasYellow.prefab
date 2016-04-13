@@ -452,6 +452,7 @@ MonoBehaviour:
   YellowScore: {fileID: 11424186}
   BlueScore: {fileID: 11412816}
   TimeLim: {fileID: 11472106}
+  objectMark: {fileID: 0}
 --- !u!114 &11423294
 MonoBehaviour:
   m_ObjectHideFlags: 1

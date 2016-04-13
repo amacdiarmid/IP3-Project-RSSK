@@ -238,9 +238,6 @@ public class GameManager : NetworkManager
 		}
 		yellowBtn.interactable = teams[0] <= teams[1];
 		blueBtn.interactable = teams[0] >= teams[1];
-
-		Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
-		text.text = status + timeoutText;
 	}
 
 	public void PickedCharacter(int character)
@@ -262,10 +259,6 @@ public class GameManager : NetworkManager
 		Transform status = canvas.transform.Find("GameStatus");
 		foreach(Transform child in status)
 			child.gameObject.SetActive(false);
-
-		//show game infobox
-		Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
-		text.enabled = true;
 	}
 
 	void StartPrepTimer(NetworkMessage netMsg)
@@ -276,11 +269,6 @@ public class GameManager : NetworkManager
 		timeoutText = string.Format("\nPrep Left: {0}s", secs);
 		if (PlayerController.localInstance)
 			PlayerController.localInstance.SetGameInfo (status + timeoutText);
-		else 
-		{
-			Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
-			text.text = status + timeoutText;
-		}
 	}
 
 	void StartRoundTimer(NetworkMessage netMsg)
@@ -291,11 +279,6 @@ public class GameManager : NetworkManager
 		timeoutText = string.Format("\nTime Left: {0}s", secs);
 		if (PlayerController.localInstance)
 			PlayerController.localInstance.SetGameInfo (status + timeoutText);
-		else 
-		{
-			Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
-			text.text = status + timeoutText;
-		}
 	}
 
 	#region GameModeProgression
@@ -370,7 +353,7 @@ public class GameManager : NetworkManager
 		//updating the score and switching the teams
 		score[(byte)winners - 1]++;
 		capturePoint.owner = attackingTeam;
-		attackingTeam = attackingTeam == PlayerTeam.TeamBlue ? PlayerTeam.TeamYellow : PlayerTeam.TeamBlue;
+		attackingTeam = attackingTeam.Enemy();
 		roundsToPlay--;
 
 		//respawning everyone

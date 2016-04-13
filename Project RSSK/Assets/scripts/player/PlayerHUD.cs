@@ -1,6 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum retHightlight
+{
+	friendly,
+	foe,
+	no,
+}
+
+
 public class PlayerHUD : MonoBehaviour {
 
 	public GameObject yellowHud;
@@ -23,7 +31,13 @@ public class PlayerHUD : MonoBehaviour {
 
 	private Color StartCrosshailColour;
 
-	public GameManager gameMan; 
+	public GameManager gameMan;
+
+	public Transform objective;
+
+	public Canvas objectCanvas;
+
+	public float ObjectMarkerScaleValue = 0.01f;
 
 	public void Spawn(GameObject player)
 	{
@@ -74,8 +88,10 @@ public class PlayerHUD : MonoBehaviour {
 		{
 			HUDComps.AmmoText.text = playerGun.getCurAmmo() + "/" + playerGun.maxAmmo;
 			HUDComps.CrosshairImg.rectTransform.sizeDelta = new Vector2(startCrosshairSize.x + playerGun.getCurSpread(), startCrosshairSize.y + playerGun.getCurSpread());
-			if (playerGun.playerInRange())
+			if (playerGun.playerInRange() == retHightlight.foe)
 				HUDComps.CrosshairImg.color = Color.red;
+			else if (playerGun.playerInRange() == retHightlight.friendly)
+				HUDComps.CrosshairImg.color = Color.green;
 			else
 				HUDComps.CrosshairImg.color = StartCrosshailColour;
 		}
@@ -88,6 +104,10 @@ public class PlayerHUD : MonoBehaviour {
 		HUDComps.YellowScore.text = gameMan.getScore(0).ToString();
 		HUDComps.BlueScore.text = gameMan.getScore(1).ToString();
 		HUDComps.TimeLim.text = gameMan.getCurTime().ToString();
+
+		objectCanvas.transform.LookAt(playerStats.transform);
+
+		objectCanvas.transform.localScale = Vector3.one * (Vector3.Distance(objectCanvas.transform.position, playerStats.transform.position) * ObjectMarkerScaleValue);
 	}
 
 	public void Damaged(float damAmount)
