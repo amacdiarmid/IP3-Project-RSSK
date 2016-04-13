@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class HUDcomps : MonoBehaviour
 {
@@ -15,4 +16,6 @@ public class HUDcomps : MonoBehaviour
 	public Image DamageImg;
 
 	public Text YellowScore, BlueScore, TimeLim;
+
+	public List<Image> yellowTeam, blueTeam;
 }

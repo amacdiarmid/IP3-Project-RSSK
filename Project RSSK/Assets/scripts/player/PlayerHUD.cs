@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public enum retHightlight
 {
@@ -39,6 +41,8 @@ public class PlayerHUD : MonoBehaviour {
 
 	public float ObjectMarkerScaleValue = 0.01f;
 
+	public List<Sprite> characters;
+
 	public void Spawn(GameObject player)
 	{
 		if (HUDComps)
@@ -73,6 +77,8 @@ public class PlayerHUD : MonoBehaviour {
 		damageTime = 0;
 
 		StartCrosshailColour = HUDComps.CrosshairImg.color;
+		
+		setTeam();
 	}
 
 	// Update is called once per frame
@@ -118,5 +124,31 @@ public class PlayerHUD : MonoBehaviour {
 		damageColour.a = damageColour.a + (alpha * 2);
 		Debug.Log("damage colour " + damageColour);
 		damageTime = 0;
+	}
+
+	public void setTeam()
+	{
+		if (!HUDComps)
+			return;
+		int blueI = 0, yellowI = 0;
+		Image curImg;
+
+		foreach (var player in gameMan.getPlayers())
+		{
+			if (player.team == PlayerTeam.TeamYellow)
+			{
+				curImg = HUDComps.yellowTeam[yellowI];
+				curImg.sprite = characters[player.character];
+				yellowI++;
+			}
+			else if (player.team == PlayerTeam.TeamBlue)
+			{
+				curImg = HUDComps.blueTeam[blueI];
+				curImg.sprite = characters[player.character];
+				blueI++;
+			}
+			else
+				Debug.Log("no team");
+		}
 	}
 }

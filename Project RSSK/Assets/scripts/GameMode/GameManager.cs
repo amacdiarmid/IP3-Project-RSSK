@@ -58,10 +58,6 @@ public class GameManager : NetworkManager
 			Transform status = canvas.transform.Find("GameStatus");
 			foreach(Transform child in status)
 				child.gameObject.SetActive(!child.gameObject.activeSelf);
-
-			//hide/show game status info 
-			Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
-			text.enabled = !text.enabled;
 		}
 	}
 
@@ -112,6 +108,9 @@ public class GameManager : NetworkManager
 		Debug.Log("OnServerDisconnect: " + conn.address);
 		players.RemoveAll(x => x.conn == conn);
 		NetworkServer.DestroyPlayersForConnection(conn);
+
+		GameObject.Find("HUD man").GetComponent<PlayerHUD>().setTeam();
+
 		SendGameState();
 	}
 
@@ -143,6 +142,8 @@ public class GameManager : NetworkManager
 		NetworkServer.ReplacePlayerForConnection(netMsg.conn, newPlayer, msg.playerId);
 		p.controller.RpcLockCursor(true);
 
+		//GameObject.Find("HUD man").GetComponent<PlayerHUD>().setTeam();
+
 		SendGameState();
 	}
 
@@ -165,7 +166,9 @@ public class GameManager : NetworkManager
 		players.Add(p);
 
 		Utils.SendServerUpdate (networkPort, players.Count, networkSceneName);
-		
+
+		GameObject.Find("HUD man").GetComponent<PlayerHUD>().setTeam();
+
 		SendGameState();
 	}
 
@@ -389,5 +392,10 @@ public class GameManager : NetworkManager
 	{
 		//Debug.Log("grab time " + CurTime);
 		return CurTime;
+	}
+
+	public List<Player> getPlayers()
+	{
+		return players;
 	}
 }

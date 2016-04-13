@@ -45,6 +45,13 @@ MonoBehaviour:
   objective: {fileID: 0}
   objectCanvas: {fileID: 0}
   ObjectMarkerScaleValue: 0.01
+  characters:
+  - {fileID: 21300000, guid: acc97417423f42d4889021a675a09191, type: 3}
+  - {fileID: 21300000, guid: 973bff660e5b2394c9cabb5b767c4b81, type: 3}
+  - {fileID: 21300000, guid: 1ecc43e576da1464ea8648ecac7399b0, type: 3}
+  - {fileID: 21300000, guid: 9d2962e70f71af24ab78392136a91d93, type: 3}
+  - {fileID: 21300000, guid: 767bcf33abd5671488070dcca67767cf, type: 3}
+  - {fileID: 21300000, guid: 16774e32b74c9244dbbe02d269bfb839, type: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
