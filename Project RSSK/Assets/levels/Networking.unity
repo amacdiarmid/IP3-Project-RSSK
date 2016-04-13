@@ -379,6 +379,10 @@ Prefab:
       propertyPath: gameMan
       value: 
       objectReference: {fileID: 639476960}
+    - target: {fileID: 11494924, guid: 0d914b0948e76d24993c98aa139f0985, type: 2}
+      propertyPath: objective
+      value: 
+      objectReference: {fileID: 1760250285}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0d914b0948e76d24993c98aa139f0985, type: 2}
   m_IsPrefabParent: 0

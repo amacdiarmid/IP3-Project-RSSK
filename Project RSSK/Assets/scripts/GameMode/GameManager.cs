@@ -58,10 +58,6 @@ public class GameManager : NetworkManager
 			Transform status = canvas.transform.Find("GameStatus");
 			foreach(Transform child in status)
 				child.gameObject.SetActive(!child.gameObject.activeSelf);
-
-			//hide/show game status info 
-			Text text = canvas.transform.Find("GameStatus").GetComponent<Text>();
-			text.enabled = !text.enabled;
 		}
 	}
 

@@ -105,9 +105,12 @@ public class PlayerHUD : MonoBehaviour {
 		HUDComps.BlueScore.text = gameMan.getScore(1).ToString();
 		HUDComps.TimeLim.text = gameMan.getCurTime().ToString();
 
-		objectCanvas.transform.LookAt(playerStats.transform);
+		if (objectCanvas) 
+		{
+			objectCanvas.transform.LookAt (playerStats.transform);
 
-		objectCanvas.transform.localScale = Vector3.one * (Vector3.Distance(objectCanvas.transform.position, playerStats.transform.position) * ObjectMarkerScaleValue);
+			objectCanvas.transform.localScale = Vector3.one * (Vector3.Distance (objectCanvas.transform.position, playerStats.transform.position) * ObjectMarkerScaleValue);
+		}
 	}
 
 	public void Damaged(float damAmount)
