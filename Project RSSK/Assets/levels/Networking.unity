@@ -479,7 +479,7 @@ MonoBehaviour:
   m_OfflineScene: 
   m_OnlineScene: 
   m_SpawnPrefabs:
-  - {fileID: 187148, guid: 91824b58cd486b746ad86014e62ff2e6, type: 2}
+  - {fileID: 148282, guid: 6e6b636c8f025d14da95a5430a0987b4, type: 2}
   - {fileID: 121594, guid: bf931aa8c5d01644c94f9694174820c8, type: 2}
   - {fileID: 147204, guid: 9b34db6e8f7fe4d419e46686077d4d0b, type: 2}
   - {fileID: 149366, guid: 96096c2b404f39d49918f3b267411486, type: 2}
@@ -527,6 +527,7 @@ MonoBehaviour:
   matchSize: 4
   clManager: {fileID: 639476959}
   capturePoint: {fileID: 1760250286}
+  playerHud: {fileID: 732105918}
   prepSeconds: 10
   roundSeconds: 180
   localPlayerName: 
@@ -556,6 +557,12 @@ Transform:
 GameObject:
   m_PrefabParentObject: {fileID: 167274, guid: 1cd7c1a79a131a54787e1b5d7260bc66, type: 2}
   m_PrefabInternal: {fileID: 1841740866}
+--- !u!114 &732105918 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11494924, guid: 0d914b0948e76d24993c98aa139f0985,
+    type: 2}
+  m_PrefabInternal: {fileID: 443687396}
+  m_Script: {fileID: 11500000, guid: 968e2a63732febb439792d887b63ac94, type: 3}
 --- !u!1 &782854283 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 129444, guid: 1cd7c1a79a131a54787e1b5d7260bc66, type: 2}

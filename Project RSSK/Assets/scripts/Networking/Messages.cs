@@ -41,4 +41,5 @@ public class GameStateMsg : MessageBase
     public byte[] playerTeams;
     public byte[] playerLives;
     public short[] playerIds;
+	public byte[] playerChars;
 }

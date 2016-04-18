@@ -10,6 +10,7 @@ public class GameManager : NetworkManager
 	#region ClientVars
 	public ClientManager clManager;
 	public CapturePoint capturePoint;
+	public PlayerHUD playerHud;
 	public int prepSeconds = 10;
 	public int roundSeconds = 180;
 	private int CurTime = 300;
@@ -46,6 +47,7 @@ public class GameManager : NetworkManager
 	public List<GameObject> characters;
 	List<Player> players = new List<Player>();
 	short playerIdsGen = 0;
+	bool isServer = false;
 	#endregion
 
 	void Update()
@@ -69,6 +71,7 @@ public class GameManager : NetworkManager
 		NetworkServer.RegisterHandler(PickedTeamMsg.type, OnPickedTeam);
 		Utils.SendServerUpdate (networkPort, 0, networkSceneName);
 
+		isServer = true;
 		StartCoroutine(PrepTimer(prepSeconds));
 	}
 
@@ -81,7 +84,8 @@ public class GameManager : NetworkManager
 
 	void OnApplicationQuit()
 	{
-		Utils.SendServerStop (networkPort);
+		if(isServer)
+			Utils.SendServerStop (networkPort);
 	}
 
 	public override void OnClientConnect(NetworkConnection conn)
@@ -108,8 +112,6 @@ public class GameManager : NetworkManager
 		Debug.Log("OnServerDisconnect: " + conn.address);
 		players.RemoveAll(x => x.conn == conn);
 		NetworkServer.DestroyPlayersForConnection(conn);
-
-		GameObject.Find("HUD man").GetComponent<PlayerHUD>().setTeam();
 
 		SendGameState();
 	}
@@ -142,8 +144,6 @@ public class GameManager : NetworkManager
 		NetworkServer.ReplacePlayerForConnection(netMsg.conn, newPlayer, msg.playerId);
 		p.controller.RpcLockCursor(true);
 
-		//GameObject.Find("HUD man").GetComponent<PlayerHUD>().setTeam();
-
 		SendGameState();
 	}
 
@@ -166,8 +166,6 @@ public class GameManager : NetworkManager
 		players.Add(p);
 
 		Utils.SendServerUpdate (networkPort, players.Count, networkSceneName);
-
-		GameObject.Find("HUD man").GetComponent<PlayerHUD>().setTeam();
 
 		SendGameState();
 	}
@@ -214,12 +212,14 @@ public class GameManager : NetworkManager
 		stateMsg.playerNames = new string[players.Count];
 		stateMsg.playerLives = new byte[players.Count];
 		stateMsg.playerTeams = new byte[players.Count];
+		stateMsg.playerChars = new byte[players.Count];
 		for(int i=0; i< players.Count; i++)
 		{
 			stateMsg.playerIds[i] = players[i].controller.id;
 			stateMsg.playerNames[i] = players[i].name;
 			stateMsg.playerLives[i] = players[i].lives;
 			stateMsg.playerTeams[i] = (byte)players[i].team;
+			stateMsg.playerChars [i] = players [i].character;
 		}
 		NetworkServer.SendToAll(GameStateMsg.type, stateMsg);
 	}
@@ -241,6 +241,8 @@ public class GameManager : NetworkManager
 		}
 		yellowBtn.interactable = teams[0] <= teams[1];
 		blueBtn.interactable = teams[0] >= teams[1];
+
+		playerHud.setTeam (msg.playerTeams, msg.playerChars);
 	}
 
 	public void PickedCharacter(int character)

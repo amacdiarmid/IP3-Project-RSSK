@@ -11203,6 +11203,7 @@ MonoBehaviour:
   matchSize: 4
   clManager: {fileID: 798507142}
   capturePoint: {fileID: 229482632}
+  playerHud: {fileID: 1429688030}
   prepSeconds: 10
   roundSeconds: 180
   localPlayerName: 
@@ -20131,6 +20132,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0d914b0948e76d24993c98aa139f0985, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1429688030 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 11494924, guid: 0d914b0948e76d24993c98aa139f0985,
+    type: 2}
+  m_PrefabInternal: {fileID: 1429688029}
+  m_Script: {fileID: 11500000, guid: 968e2a63732febb439792d887b63ac94, type: 3}
 --- !u!1 &1430415145 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100000, guid: 9ebe2aae8bff02a4faf61d4d96a64d91, type: 3}

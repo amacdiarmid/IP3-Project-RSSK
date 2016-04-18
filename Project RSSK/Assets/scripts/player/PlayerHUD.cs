@@ -34,14 +34,12 @@ public class PlayerHUD : MonoBehaviour {
 	private Color StartCrosshailColour;
 
 	public GameManager gameMan;
-
 	public Transform objective;
-
 	public Canvas objectCanvas;
-
 	public float ObjectMarkerScaleValue = 0.01f;
-
 	public List<Sprite> characters;
+
+	byte[] playerTeams, playerChars;
 
 	public void Spawn(GameObject player)
 	{
@@ -77,8 +75,6 @@ public class PlayerHUD : MonoBehaviour {
 		damageTime = 0;
 
 		StartCrosshailColour = HUDComps.CrosshairImg.color;
-		
-		setTeam();
 	}
 
 	// Update is called once per frame
@@ -111,6 +107,31 @@ public class PlayerHUD : MonoBehaviour {
 		HUDComps.BlueScore.text = gameMan.getScore(1).ToString();
 		HUDComps.TimeLim.text = gameMan.getCurTime().ToString();
 
+		//setting game state
+		if (playerTeams != null) 
+		{
+			int blueI = 0, yellowI = 0;
+			Image curImg;
+			for (int i = 0; i < playerTeams.Length; i++) 
+			{
+				byte team = playerTeams [i];
+				byte character = playerChars [i];
+				if ((PlayerTeam)team == PlayerTeam.TeamYellow) 
+				{
+					curImg = HUDComps.yellowTeam [yellowI];
+					curImg.sprite = characters [character];
+					yellowI++;
+				} 
+				else if ((PlayerTeam)team == PlayerTeam.TeamBlue) 
+				{
+					curImg = HUDComps.blueTeam [blueI];
+					curImg.sprite = characters [character];
+					blueI++;
+				} else
+					Debug.Log ("no team");
+			}
+		}
+
 		if (objectCanvas) 
 		{
 			objectCanvas.transform.LookAt (playerStats.transform);
@@ -129,29 +150,9 @@ public class PlayerHUD : MonoBehaviour {
 		damageTime = 0;
 	}
 
-	public void setTeam()
+	public void setTeam(byte[] teams, byte[] chars)
 	{
-		if (!HUDComps)
-			return;
-		int blueI = 0, yellowI = 0;
-		Image curImg;
-
-		foreach (var player in gameMan.getPlayers())
-		{
-			if (player.team == PlayerTeam.TeamYellow)
-			{
-				curImg = HUDComps.yellowTeam[yellowI];
-				curImg.sprite = characters[player.character];
-				yellowI++;
-			}
-			else if (player.team == PlayerTeam.TeamBlue)
-			{
-				curImg = HUDComps.blueTeam[blueI];
-				curImg.sprite = characters[player.character];
-				blueI++;
-			}
-			else
-				Debug.Log("no team");
-		}
+		playerTeams = teams;
+		playerChars = chars;
 	}
 }

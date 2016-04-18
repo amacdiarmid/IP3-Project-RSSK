@@ -75,47 +75,34 @@ public class Gun : NetworkBehaviour
 
 			--curAmmo;
 
-			bool hasHit = false;
-
 			//set the center of the screen, add the gun spread cone, apply the screen spread offset to keep it central 
 			float targetX = Screen.width / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().x;
 			float targetY = Screen.height / 2 + Random.Range(-gunSreadVal, gunSreadVal) - playCam.getShakeVals().y;
 
-			RaycastHit[] hits;
 			Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
-			hits = Physics.SphereCastAll(ray, sphereCastRadius, range);
-			foreach (var hit in hits)
+			RaycastHit hit;
+			if (Physics.SphereCast (ray, sphereCastRadius, out hit, range)) 
 			{
-				if (hit.transform != this.transform)
-				{
-					hasHit = true;
-					Debug.Log("hit " + Vector3.Distance(ray.origin, hit.point));
-					//gun to target ray
-					Debug.DrawLine(barrel.transform.position, hit.point, Color.blue, 10);
-					CmdTrail(hit.point);
-					//screen to target ray
-					Debug.DrawLine(ray.origin, hit.point, Color.red, 10);
-					Transform rootTran = hit.transform.root;
-					if (rootTran.tag == "Player" && rootTran.GetComponent<PlayerController>().team != curTeam)
-						CmdHit(rootTran.gameObject, damage);
-					break;
-				}
+				Debug.DrawLine (ray.origin, hit.point, Color.red, 10);
+				CmdTrail (barrel.transform.position, hit.point);
+
+				Transform rootTran = hit.transform.root;
+				if (rootTran.tag == "Player" && rootTran.GetComponent<PlayerController> ().team != curTeam)
+					CmdHit (rootTran.gameObject, damage);
 			}
-			if (hits.Length == 0 || hasHit == false)
+			else
 			{
 				Debug.Log("no hit");
-				//gun to target ray
-				Debug.DrawLine(barrel.transform.position, ray.GetPoint(range), Color.blue, 10);
-				CmdTrail(ray.GetPoint(range));
+				//gun to target ray;
+				CmdTrail(barrel.transform.position, ray.GetPoint(range));
 				//screen to target ray
-				Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.red, 10);
+				Debug.DrawLine(ray.origin, ray.GetPoint(range), Color.blue, 10);
 			}
 
 			audioSource.PlayOneShot(fireAudio);
 			gunAni.SetTrigger("fire");
 
 			//add spread to the next shot 
-
 			float curMaxSpread = maxSpread;
 			if (Input.GetButton("Aim"))
 				curMaxSpread = curMaxSpread * aimMuli;
@@ -167,11 +154,11 @@ public class Gun : NetworkBehaviour
 	}
 
 	[Command]
-	void CmdTrail(Vector3 target)
+	void CmdTrail(Vector3 from, Vector3 to)
 	{
 		GameObject trail = Instantiate(bulletTrail);
-		trail.GetComponent<GunProjectile>().setUpLine(barrel.transform.position, target);
 		NetworkServer.Spawn(trail);
+		trail.GetComponent<GunProjectile>().RpcSetUpLine(from, to);
 	}
 
 	public int getCurAmmo()
@@ -190,8 +177,6 @@ public class Gun : NetworkBehaviour
 		
 		float targetX = Screen.width / 2 - playCam.getShakeVals().x;
 		float targetY = Screen.height / 2 - playCam.getShakeVals().y;
-
-		
 
 		RaycastHit[] hits;
 		Ray ray = Camera.main.ScreenPointToRay(new Vector2(targetX, targetY));
